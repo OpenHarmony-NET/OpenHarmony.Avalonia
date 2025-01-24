@@ -10,23 +10,33 @@ public class napi_init
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)], EntryPoint = "RegisterEntryModule")]
     public unsafe static void RegisterEntryModule()
     {
-        var moduleName = "avalonianative";
-        var moduleNamePtr = Marshal.StringToHGlobalAnsi(moduleName);
-        napi_module demoModule = new napi_module
+        try
         {
-            nm_version = 1,
-            nm_flags = 0,
-            nm_filename = null,
-            nm_modname = (sbyte*)moduleNamePtr,
-            nm_priv = null,
-            napi_addon_register_func = &Init,
-            reserved_0 = null,
-            reserved_1 = null,
-            reserved_2 = null,
-            reserved_3 = null,
-        };
 
-        ace_napi.napi_module_register(&demoModule);
+            var moduleName = "avalonianative";
+            var moduleNamePtr = Marshal.StringToHGlobalAnsi(moduleName);
+            napi_module demoModule = new napi_module
+            {
+                nm_version = 1,
+                nm_flags = 0,
+                nm_filename = null,
+                nm_modname = (sbyte*)moduleNamePtr,
+                nm_priv = null,
+                napi_addon_register_func = &Init,
+                reserved_0 = null,
+                reserved_1 = null,
+                reserved_2 = null,
+                reserved_3 = null,
+            };
+
+            ace_napi.napi_module_register(&demoModule);
+        }
+        catch (Exception e)
+        {
+            Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", e.Message);
+            Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", e.StackTrace);
+        }
+
     }
 
 

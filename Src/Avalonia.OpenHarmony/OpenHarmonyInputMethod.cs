@@ -28,6 +28,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
     {
         var options = input_method.OH_AttachOptions_Create(true);
 
+        /*
         textEditorProxy = input_method.OH_TextEditorProxy_Create();
         Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "CSharp", "OpenHarmonyInputMethod.SetClient textEditorProxy == nullptr " + (textEditorProxy == null));
         input_method.OH_TextEditorProxy_SetGetTextConfigFunc(textEditorProxy, &input_method_harmony_get_text_config);
@@ -51,9 +52,10 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
         InputMethod_InputMethodProxy* ptr;
         var code = input_method.OH_InputMethodController_Attach(textEditorProxy, options, &ptr);
         inputMethodProxy = ptr;
-
+        
         Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "CSharp", "OpenHarmonyInputMethod.SetClient inputMethodProxy == null " + (inputMethodProxy == null));
         Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "CSharp", "OpenHarmonyInputMethod.SetClient code = " + code);
+        */
     }
 
     public void SetCursorRect(Rect rect)
@@ -88,7 +90,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
     {
     }
 
-
+    /*
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     static void input_method_harmony_send_keyboard_status(InputMethod_TextEditorProxy* textEditorProxy, InputMethod_KeyboardStatus keyboardStatus)
     {
@@ -130,5 +132,6 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     static void input_method_harmony_finish_text_preview(InputMethod_TextEditorProxy* textEditorProxy) { }
+    */
 
 }
