@@ -4,3 +4,6 @@
 [submodule "PublishAotCross"]
 	path = PublishAotCross
 	url = https://github.com/CeSun/PublishAotCross.git
+[submodule "OpenHarmonyRuntime.Net"]
+	path = OpenHarmonyRuntime.Net
+	url = https://github.com/CeSun/OpenHarmonyRuntime.Net.git
