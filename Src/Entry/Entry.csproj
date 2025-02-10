@@ -10,7 +10,7 @@
 
   <ItemGroup>
 	<PrivateSdkAssemblies Include="$(IlcSdkPath)*.dll" />
-    <ProjectReference Include="..\..\OpenHarmony.Net\OpenHarmony.Sdk\OpenHarmony.Sdk.csproj" />
+    <ProjectReference Include="..\..\ThridParty\OpenHarmony.Net\OpenHarmony.Sdk\OpenHarmony.Sdk.csproj" />
     <ProjectReference Include="..\Avalonia.OpenHarmony\Avalonia.OpenHarmony.csproj" />
     <ProjectReference Include="..\Example\AvaloniaExample\AvaloniaExample\AvaloniaExample.csproj" />
   </ItemGroup>
@@ -18,6 +18,6 @@
 		<RdXmlFile Include="rd.xml" />
 	</ItemGroup>
 
-	<Import Project="../../PublishAotCross/src/PublishAotCross.targets" />
-	<Import Project="../../OpenHarmonyRuntime.Net/runtime.targets" />
+	<Import Project="../../ThridParty/PublishAotCross/src/PublishAotCross.targets" />
+	<Import Project="../../ThridParty/OpenHarmonyRuntime.Net/runtime.targets" />
 </Project>

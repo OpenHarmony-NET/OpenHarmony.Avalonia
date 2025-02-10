@@ -5,7 +5,7 @@ VisualStudioVersion = 17.12.35410.144
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entry", "Src\Entry\Entry.csproj", "{956C344F-D951-4676-A07E-10A75ACDB433}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenHarmony.Sdk", "OpenHarmony.Net\OpenHarmony.Sdk\OpenHarmony.Sdk.csproj", "{F3F81658-A7D7-47B5-9D02-8200193FE40E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenHarmony.Sdk", "ThridParty\OpenHarmony.Net\OpenHarmony.Sdk\OpenHarmony.Sdk.csproj", "{F3F81658-A7D7-47B5-9D02-8200193FE40E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.OpenHarmony", "Src\Avalonia.OpenHarmony\Avalonia.OpenHarmony.csproj", "{CC9E4CDF-637E-43FC-999C-5717F97CFE43}"
 EndProject

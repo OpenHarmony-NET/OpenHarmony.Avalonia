@@ -138,8 +138,7 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
     {
         if (gl == null)
             return;
-        var VertShaderSource = @"
-#version 300 es
+        var VertShaderSource = @"#version 300 es
 precision highp float;
 
 layout (location = 0) in vec3 Position;
@@ -154,8 +153,7 @@ void main()
 	gl_Position = vec4(Position, 1.0f);
 }
 ";
-        var FragShaderSource = @"
-#version 300 es
+        var FragShaderSource = @"#version 300 es
 precision highp float;
 layout (location = 0) out vec4 Color;
 
