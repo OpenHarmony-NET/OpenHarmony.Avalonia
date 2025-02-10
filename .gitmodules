@@ -1,9 +1,9 @@
 [submodule "OpenHarmony.Net"]
-	path = OpenHarmony.Net
+	path = ThridParty/OpenHarmony.Net
 	url = https://github.com/CeSun/OpenHarmony.Net.git
 [submodule "PublishAotCross"]
-	path = PublishAotCross
+	path = ThridParty/PublishAotCross
 	url = https://github.com/CeSun/PublishAotCross.git
 [submodule "OpenHarmonyRuntime.Net"]
-	path = OpenHarmonyRuntime.Net
+	path = ThridParty/OpenHarmonyRuntime.Net
 	url = https://github.com/CeSun/OpenHarmonyRuntime.Net.git
