@@ -1,3 +1,5 @@
+## 喜报
+运行时问题已解决，有一定限制，禁止使用Marshal.GetDelegateForFunctionPointer相关API，请使用函数指针(delegate* unmanaged)
+
 ## 已知问题
-1. 真机.NET GC初始化时发生崩溃，可能与鸿蒙内核或者selinux有关，正在联系华为内核开发人员协助，dotnet仓库相关issue: https://github.com/dotnet/runtime/issues/110074
-2. 默认CPU渲染，模拟器上很卡，GPU渲染仅支持不带输入的控件。
+1. 默认CPU渲染，模拟器上很卡，GPU渲染仅支持不带输入的控件。
