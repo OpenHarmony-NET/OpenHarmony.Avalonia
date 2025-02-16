@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Skia" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia" Version="11.2.2" />
 	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
 	<PackageReference Include="Silk.NET.OpenGLES" Version="2.22.0" />
 	<PackageReference Include="StbImageWriteSharp" Version="1.16.7" />
@@ -21,6 +21,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ThridParty\OpenHarmony.Net\OpenHarmony.Sdk\OpenHarmony.Sdk.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Avalonia.Skia">
+      <HintPath>lib\Avalonia.Skia\Avalonia.Skia.dll</HintPath>
+    </Reference>
+    <Reference Include="HarfBuzzSharp">
+      <HintPath>lib\HarfBuzzSharp\HarfBuzzSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SkiaSharp">
+      <HintPath>lib\SkiaSharp\SkiaSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 

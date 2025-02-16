@@ -134,6 +134,21 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapT, (int)GLEnum.ClampToEdge);
     }
 
+    public unsafe void Resize()
+    {
+        ulong width = 0, height = 0;
+        ace_ndk.OH_NativeXComponent_GetXComponentSize((OH_NativeXComponent*)XComponent, (void*)Window, &width, &height);
+        float density = 1;
+        display_manager.OH_NativeDisplayManager_GetDefaultDisplayScaledDensity(&density);
+        Size = new PixelSize((int)width, (int)height);
+        Scaling = density;
+        if (gl != null)
+        {
+            InitOrUpdateTexture();
+        }
+        Resized(Size.ToSize(Scaling), WindowResizeReason.User);
+
+    }
     public unsafe void InitShader()
     {
         if (gl == null)

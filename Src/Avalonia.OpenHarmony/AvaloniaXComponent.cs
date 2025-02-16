@@ -4,8 +4,6 @@ using Avalonia.Input.Raw;
 using Avalonia.OpenGL.Egl;
 using OpenHarmony.Sdk.Native;
 using Silk.NET.OpenGLES;
-using System.Diagnostics;
-using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace Avalonia.OpenHarmony;
@@ -34,9 +32,6 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
 
     public unsafe void InitOpenGlEnv()
     {
-        Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", "InitOpenGlEnv PrivateMemorySize64 1: " + Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024 + "MB");
-        Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", "InitOpenGlEnv VirtualMemorySize64 1: " + Process.GetCurrentProcess().VirtualMemorySize64 / 1024 / 1024 + "MB");
-
         egl = new EglInterface("libEGL.so");
 
         display = egl.GetDisplay(0);
@@ -46,8 +41,6 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
             return;
         }
 
-        Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", "InitOpenGlEnv PrivateMemorySize64 2: " + Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024 + "MB");
-        Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", "InitOpenGlEnv VirtualMemorySize64 2: " + Process.GetCurrentProcess().VirtualMemorySize64 / 1024 / 1024 + "MB");
         Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "CSharp", "egl init success");
 
         int[] attributes = [0x3033, 0x0004, 0x3024, 8, 0x3023, 8, 0x3022, 8, 0x3021, 8, 0x3040, 0x0004, 0x3038];
@@ -57,9 +50,6 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
             return;
         }
 
-        Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", "InitOpenGlEnv memory 2: " + Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024 + "MB");
-        Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "CSharp", "egl init success");
-
         int[] winAttribs = [0x309D, 0x3089, 0x3038];
         surface = egl.CreateWindowSurface(display, configs, WindowHandle, winAttribs);
         if (surface == 0)
@@ -68,8 +58,6 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
             return;
         }
 
-        Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", "InitOpenGlEnv memory 2: " + Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024 + "MB");
-        Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "CSharp", "egl init success");
 
         int[] attrib3_list = [0x3098, 2, 0x3038];
         int sharedEglContext = 0;
@@ -79,9 +67,6 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
             Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "CSharp", "egl.MakeCurrent fail");
             return;
         }
-
-        Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", "InitOpenGlEnv memory 2: " + Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024 + "MB");
-        Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "CSharp", "egl init success");
 
 
         gl = GL.GetApi(name =>
@@ -95,54 +80,27 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
 
     public override void OnSurfaceCreated()
     {
-        Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", "OnSurfaceCreated memory 1: " + Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024 + "MB");
-        try
+        if (UseSoftRenderer == true)
         {
-            if (UseSoftRenderer == true)
-            {
-                InitOpenGlEnv();
-            }
-            var builder = CreateAppBuilder();
-            if (UseSoftRenderer)
-            {
-                builder.UseSoftwareRenderer();
-                if (gl != null)
-                {
-                    AvaloniaLocator.CurrentMutable.Bind<GL>().ToConstant(gl);
-                }
-            }
-            Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", "OnSurfaceCreated memory 2: " + Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024 + "MB");
-
-            SingleViewLifetime = new SingleViewLifetime();
-            builder.AfterApplicationSetup(CreateView).SetupWithLifetime(SingleViewLifetime);
-
-            Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", "OnSurfaceCreated memory 3: " + Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024 + "MB");
-
-            Root?.StartRendering();
-
-            Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", "OnSurfaceCreated memory 4: " + Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024 + "MB");
-
-        } 
-        catch (Exception e)
-        {
-            Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", "PrivateMemorySize64: " + Process.GetCurrentProcess().PrivateMemorySize64 / 1024 /1024 + "MB");
-            Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", "VirtualMemorySize64: " + Process.GetCurrentProcess().VirtualMemorySize64 / 1024 / 1024 + "MB");
-            Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", e.Message);
-            if (e.StackTrace != null)
-            {
-                Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", e.StackTrace);
-            }
-            if (e.InnerException != null)
-            {
-                Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", e.InnerException.Message);
-                if (e.InnerException.StackTrace != null)
-                {
-                    Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", e.InnerException.StackTrace);
-                }
-            }
-
-
+            InitOpenGlEnv();
         }
+        var builder = CreateAppBuilder();
+        if (UseSoftRenderer)
+        {
+            builder.UseSoftwareRenderer();
+            if (gl != null)
+            {
+                AvaloniaLocator.CurrentMutable.Bind<GL>().ToConstant(gl);
+            }
+        }
+
+        SingleViewLifetime = new SingleViewLifetime();
+        builder.AfterApplicationSetup(CreateView).SetupWithLifetime(SingleViewLifetime);
+
+
+        Root?.StartRendering();
+
+
     }
 
     public override void OnSurfaceRendered(ulong timestamp, ulong targetTimestamp)
@@ -209,7 +167,7 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
                     modifiers |= RawInputModifiers.LeftMouseButton;
                 }
                 var args = new RawTouchEventArgs(_touchDevice, (ulong)touchEvent.touchPoints[(int)i].timeStamp, TopLevelImpl.InputRoot, type, position, RawInputModifiers.LeftMouseButton, id);
-                
+
                 TopLevelImpl.Input?.Invoke(args);
             }
         }
@@ -217,9 +175,20 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
         {
             Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", "OH_NativeXComponent_GetTouchEvent fail");
         }
-        
+
     }
 
+    public unsafe override void OnSurfaceChanged()
+    {
+        base.OnSurfaceChanged();
+        ulong width = 0, height = 0;
+        TopLevelImpl.Resize();
+        ace_ndk.OH_NativeXComponent_GetXComponentSize((OH_NativeXComponent*)XComponentHandle, (void*)WindowHandle, &width, &height);
+        if (UseSoftRenderer == true && gl != null)
+        {
+            gl.Viewport(0, 0, (uint)width, (uint)height);
+        }
+    }
     private AppBuilder CreateAppBuilder() => AppBuilder.Configure<TApp>().UseOpenHarmony();
 
 }

@@ -9,8 +9,9 @@ namespace Avalonia.OpenHarmony;
 
 public class OpenHarmonyRuntimePlatform : StandardRuntimePlatform
 {
-    private static readonly Lazy<RuntimePlatformInfo> Info = new(() =>
+    public override RuntimePlatformInfo GetRuntimeInfo()
     {
+
         var isMobile = true;
         var isTv = false;
         var result = new RuntimePlatformInfo
@@ -21,7 +22,5 @@ public class OpenHarmonyRuntimePlatform : StandardRuntimePlatform
         };
 
         return result;
-    });
-
-    public override RuntimePlatformInfo GetRuntimeInfo() => Info.Value;
+    }
 }
