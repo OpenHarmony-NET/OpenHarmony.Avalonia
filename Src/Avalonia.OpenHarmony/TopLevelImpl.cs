@@ -178,7 +178,9 @@ in vec2 texCoord;
 void main()
 {
 
- Color = texture(Texture_Buffer, texCoord);
+    vec4 color = texture(Texture_Buffer, texCoord);
+    float gamma = 2.2;
+    Color = vec4(pow(color.xyz, vec3(gamma)), 1.0f);
 }
 ";
 
