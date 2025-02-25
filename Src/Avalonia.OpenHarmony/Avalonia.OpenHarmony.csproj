@@ -25,13 +25,13 @@
 
   <ItemGroup>
     <Reference Include="Avalonia.Skia">
-      <HintPath>lib\Avalonia.Skia\Avalonia.Skia.dll</HintPath>
+      <HintPath>libs\Avalonia.Skia\Avalonia.Skia.dll</HintPath>
     </Reference>
     <Reference Include="HarfBuzzSharp">
-      <HintPath>lib\HarfBuzzSharp\HarfBuzzSharp.dll</HintPath>
+      <HintPath>libs\HarfBuzzSharp\HarfBuzzSharp.dll</HintPath>
     </Reference>
     <Reference Include="SkiaSharp">
-      <HintPath>lib\SkiaSharp\SkiaSharp.dll</HintPath>
+      <HintPath>libs\SkiaSharp\SkiaSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -42,4 +42,7 @@
       <ResolvedCompileFileDefinitions Remove="@(ResolvedCompileFileDefinitions)" Condition="$([System.String]::new('%(PathInPackage)').StartsWith('ref/$(TargetFramework)/Avalonia'))" />
     </ItemGroup>
   </Target>
+
+	
 </Project>
+

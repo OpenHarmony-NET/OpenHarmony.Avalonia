@@ -361,5 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/OHOS_Project/entry/libs/arm64-v8a/libavalonia.so
-/OHOS_Project/entry/libs/x86_64/libavalonia.so
+/OHOS_Project/entry/libs/arm64-v8a/*
+/OHOS_Project/entry/libs/x86_64/*

@@ -20,4 +20,14 @@
 
 	<Import Project="../../ThridParty/PublishAotCross/src/PublishAotCross.targets" />
 	<Import Project="../../ThridParty/OpenHarmonyRuntime.Net/runtime.targets" />
+
+	<ItemGroup>
+		<NativeLibrary Include="runtimes/x86_64/*" Condition="'$(RuntimeIdentifier)' == 'linux-musl-x64'"/>
+		<NativeLibrary Include="runtimes/arm64/*" Condition="'$(RuntimeIdentifier)' == 'linux-musl-arm64'"/>
+	</ItemGroup>
+
+	<Target Name="CopyNativeLibs" BeforeTargets="Build">
+		<Copy SourceFiles="@(NativeLibrary)" DestinationFolder="$(PublishDir)"/>
+	</Target>
+	
 </Project>
