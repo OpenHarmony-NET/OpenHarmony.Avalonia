@@ -4,7 +4,7 @@ using Avalonia.Platform;
 using SkiaSharp;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using OpenHarmony.Sdk.Native;
+using OpenHarmony.NDK.Bindings.Native;
 using System.Runtime.Loader;
 using System.Reflection;
 using System.Runtime.Serialization;

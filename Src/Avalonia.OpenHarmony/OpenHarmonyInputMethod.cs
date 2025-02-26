@@ -1,6 +1,5 @@
 ﻿using Avalonia.Input.TextInput;
-using OpenHarmony.Sdk;
-using OpenHarmony.Sdk.Native;
+using OpenHarmony.NDK.Bindings.Native;
 using System;
 using System.Collections.Generic;
 using System.Linq;

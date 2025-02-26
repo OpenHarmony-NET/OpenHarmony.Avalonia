@@ -5,8 +5,6 @@ VisualStudioVersion = 17.12.35410.144
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entry", "Src\Entry\Entry.csproj", "{956C344F-D951-4676-A07E-10A75ACDB433}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenHarmony.Sdk", "ThridParty\OpenHarmony.Net\OpenHarmony.Sdk\OpenHarmony.Sdk.csproj", "{F3F81658-A7D7-47B5-9D02-8200193FE40E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.OpenHarmony", "Src\Avalonia.OpenHarmony\Avalonia.OpenHarmony.csproj", "{CC9E4CDF-637E-43FC-999C-5717F97CFE43}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{F1FEDF1B-E967-4070-B986-C11E9D6D6C61}"
@@ -21,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaExample.iOS", "Src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaExample.Browser", "Src\Example\AvaloniaExample\AvaloniaExample.Browser\AvaloniaExample.Browser.csproj", "{BFF1476E-893E-444A-938A-6BBD1AE4D581}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenHarmony.NDK.Bindings", "ThirdParty\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings.csproj", "{F8E2F26E-DAE3-4CA7-924E-7F05E655E71D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,10 +31,6 @@ Global
 		{956C344F-D951-4676-A07E-10A75ACDB433}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{956C344F-D951-4676-A07E-10A75ACDB433}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{956C344F-D951-4676-A07E-10A75ACDB433}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F3F81658-A7D7-47B5-9D02-8200193FE40E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F3F81658-A7D7-47B5-9D02-8200193FE40E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F3F81658-A7D7-47B5-9D02-8200193FE40E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F3F81658-A7D7-47B5-9D02-8200193FE40E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CC9E4CDF-637E-43FC-999C-5717F97CFE43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC9E4CDF-637E-43FC-999C-5717F97CFE43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC9E4CDF-637E-43FC-999C-5717F97CFE43}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +59,10 @@ Global
 		{BFF1476E-893E-444A-938A-6BBD1AE4D581}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFF1476E-893E-444A-938A-6BBD1AE4D581}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFF1476E-893E-444A-938A-6BBD1AE4D581}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8E2F26E-DAE3-4CA7-924E-7F05E655E71D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8E2F26E-DAE3-4CA7-924E-7F05E655E71D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8E2F26E-DAE3-4CA7-924E-7F05E655E71D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8E2F26E-DAE3-4CA7-924E-7F05E655E71D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

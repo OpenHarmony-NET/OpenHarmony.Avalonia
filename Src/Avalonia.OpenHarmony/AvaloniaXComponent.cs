@@ -2,7 +2,7 @@
 using Avalonia.Input;
 using Avalonia.Input.Raw;
 using Avalonia.OpenGL.Egl;
-using OpenHarmony.Sdk.Native;
+using OpenHarmony.NDK.Bindings.Native;
 using Silk.NET.OpenGLES;
 using System.Runtime.InteropServices;
 
@@ -14,7 +14,7 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
     public EmbeddableControlRoot? Root;
     public TopLevelImpl? TopLevelImpl;
 
-    public bool UseSoftRenderer = true;
+    public bool UseSoftRenderer = false;
     GL? gl;
     nint display;
     nint surface;

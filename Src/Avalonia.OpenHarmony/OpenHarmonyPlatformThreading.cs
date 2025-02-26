@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform;
 using Avalonia.Threading;
-using OpenHarmony.Sdk.Native;
+using OpenHarmony.NDK.Bindings.Native;
 
 namespace Avalonia.OpenHarmony;
 

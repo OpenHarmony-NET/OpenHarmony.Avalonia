@@ -1,4 +1,4 @@
-﻿using OpenHarmony.Sdk.Native;
+﻿using OpenHarmony.NDK.Bindings.Native;
 
 namespace Avalonia.OpenHarmony;
 

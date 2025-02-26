@@ -1,4 +1,4 @@
-﻿using OpenHarmony.Sdk.Native;
+﻿using OpenHarmony.NDK.Bindings.Native;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Loader;

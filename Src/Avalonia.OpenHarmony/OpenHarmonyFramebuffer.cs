@@ -1,5 +1,5 @@
 ﻿using Avalonia.Platform;
-using OpenHarmony.Sdk.Native;
+using OpenHarmony.NDK.Bindings.Native;
 using Silk.NET.OpenGLES;
 using System.Diagnostics;
 using System.Drawing;
