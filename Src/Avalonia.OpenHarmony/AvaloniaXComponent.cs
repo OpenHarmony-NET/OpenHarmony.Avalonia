@@ -14,7 +14,7 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
     public EmbeddableControlRoot? Root;
     public TopLevelImpl? TopLevelImpl;
 
-    public bool UseSoftRenderer = false;
+    public bool UseSoftRenderer = true;
     GL? gl;
     nint display;
     nint surface;

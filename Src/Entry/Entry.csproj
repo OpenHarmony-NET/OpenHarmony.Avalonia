@@ -23,7 +23,7 @@
 
 	<ItemGroup>
 		<NativeSharedLibrary Include="runtimes/x86_64/*" Condition="'$(RuntimeIdentifier)' == 'linux-musl-x64'" />
-		<NativeSharedLibrary Include="runtimes/arm64/*" Condition="'$(RuntimeIdentifier)' == 'linux-musl-arm64'" />
+		<NativeSharedLibrary Include="runtimes/arm64-v8a/*" Condition="'$(RuntimeIdentifier)' == 'linux-musl-arm64'" />
 	</ItemGroup>
 
 	<Target Name="CopyNativeLibs" BeforeTargets="Publish">
