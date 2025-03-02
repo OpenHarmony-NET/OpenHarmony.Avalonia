@@ -25,6 +25,10 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
     private readonly PenDevice _penDevice;
     public AvaloniaXComponent(nint XComponentHandle, nint WindowHandle) : base(XComponentHandle, WindowHandle)
     {
+        if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
+            UseSoftRenderer = true;
+        else if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
+            UseSoftRenderer = false;
         _touchDevice = new TouchDevice();
         _penDevice = new PenDevice();
         _mouseDevice = new MouseDevice();
