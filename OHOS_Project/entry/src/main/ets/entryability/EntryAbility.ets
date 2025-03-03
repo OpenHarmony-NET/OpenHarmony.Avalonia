@@ -24,8 +24,8 @@ export default class EntryAbility extends UIAbility {
         return;
       }
       windowStage.getMainWindow().then(w => {
-        // 设置占用全屏
-        w.setWindowLayoutFullScreen(true)
+         w.setWindowLayoutFullScreen(true)
+         w.setPreferredOrientation(window.Orientation.AUTO_ROTATION)
       })
       hilog.info(DOMAIN, 'testTag', 'Succeeded in loading the content.');
     });
