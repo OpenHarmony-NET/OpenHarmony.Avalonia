@@ -1,51 +1,12 @@
 {
   "app": {
-    "signingConfigs": [
-      {
-        "name": "default",
-        "type": "HarmonyOS",
-        "material": {
-          "certpath": "C:/Users/CeSun/.ohos/config/default_OHOS_Project_tjvsHnvFWQJxayUbgqIuJawiWQnqnke7APW5aAsu9s0=.cer",
-          "storePassword": "0000001BFFEF2EA0CBDB5D4FAF96FE2E5AAE0B9BF2ED489D6D785F08E31BAD1D535BC6E4D34EBF8766B3B0",
-          "keyAlias": "debugKey",
-          "keyPassword": "0000001B6A4AC0ADF0E860AD5115861225CBA82F5335BF4DAB0C32BE50FEDA2B3EB029572F20A4EDB87357",
-          "profile": "C:/Users/CeSun/.ohos/config/default_OHOS_Project_tjvsHnvFWQJxayUbgqIuJawiWQnqnke7APW5aAsu9s0=.p7b",
-          "signAlg": "SHA256withECDSA",
-          "storeFile": "C:/Users/CeSun/.ohos/config/default_OHOS_Project_tjvsHnvFWQJxayUbgqIuJawiWQnqnke7APW5aAsu9s0=.p12"
-        }
-      },
-      {
-        "name": "openharmony",
-        "material": {
-          "certpath": "C:/Users/CeSun/.ohos/config/openharmony/openharmony_OHOS_Project_tjvsHnvFWQJxayUbgqIuJawiWQnqnke7APW5aAsu9s0=.cer",
-          "storePassword": "0000001B5C1BCFF8210A113C996426A65E16B32EDF1DEE02575E0D148DD8FEB5854A35F6E8662219D7629E",
-          "keyAlias": "debugKey",
-          "keyPassword": "0000001BE005447E2579AC2255B2249C4FE5723F5D3656DF3708B258D35D977DB62E09A630A0554FB982FC",
-          "profile": "C:/Users/CeSun/.ohos/config/openharmony/openharmony_OHOS_Project_tjvsHnvFWQJxayUbgqIuJawiWQnqnke7APW5aAsu9s0=.p7b",
-          "signAlg": "SHA256withECDSA",
-          "storeFile": "C:/Users/CeSun/.ohos/config/openharmony/openharmony_OHOS_Project_tjvsHnvFWQJxayUbgqIuJawiWQnqnke7APW5aAsu9s0=.p12"
-        }
-      }
-    ],
+    "signingConfigs": [],
     "products": [
       {
         "name": "default",
         "signingConfig": "default",
-        "compatibleSdkVersion": "5.0.0(12)",
+        "compatibleSdkVersion": "5.0.1(13)",
         "runtimeOS": "HarmonyOS",
-        "buildOption": {
-          "strictMode": {
-            "caseSensitiveCheck": true,
-            "useNormalizedOHMUrl": true
-          }
-        }
-      },
-      {
-        "name": "openharmony",
-        "signingConfig": "openharmony",
-        "compatibleSdkVersion": 12,
-        "compileSdkVersion": 12,
-        "runtimeOS": "OpenHarmony",
         "buildOption": {
           "strictMode": {
             "caseSensitiveCheck": true,
@@ -71,11 +32,10 @@
         {
           "name": "default",
           "applyToProducts": [
-            "default",
-            "openharmony"
+            "default"
           ]
         }
       ]
-    },
+    }
   ]
 }

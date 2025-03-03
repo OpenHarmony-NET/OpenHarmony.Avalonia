@@ -1,6 +1,3 @@
-import { hilog } from '@kit.PerformanceAnalysisKit';
-import testNapi from 'libentry.so';
-
 @Entry
 @Component
 struct Index {
@@ -8,10 +5,7 @@ struct Index {
 
   build() {
     Row() {
-      Column() {
-        XComponent({ type: XComponentType.SURFACE, id: 'AvaloniaRootComponent', libraryname: "entry" })
-      }
-      .width('100%')
+      XComponent({ type: XComponentType.SURFACE, id: 'AvaloniaRootComponent', libraryname: "entry" })
     }
     .height('100%')
   }

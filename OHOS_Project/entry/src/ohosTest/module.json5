@@ -3,8 +3,10 @@
     "name": "entry_test",
     "type": "feature",
     "deviceTypes": [
-      "default",
-      "tablet"
+      "phone",
+      "tablet",
+      "2in1",
+      "car"
     ],
     "deliveryWithInstall": true,
     "installationFree": false

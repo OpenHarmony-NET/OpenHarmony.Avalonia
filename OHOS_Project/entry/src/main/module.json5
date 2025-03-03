@@ -5,8 +5,10 @@
     "description": "$string:module_desc",
     "mainElement": "EntryAbility",
     "deviceTypes": [
-      "default",
-      "tablet"
+      "phone",
+      "tablet",
+      "2in1",
+      "car"
     ],
     "deliveryWithInstall": true,
     "installationFree": false,
@@ -44,7 +46,7 @@
             "name": "ohos.extension.backup",
             "resource": "$profile:backup_config"
           }
-        ]
+        ],
       }
     ]
   }

@@ -1,6 +1,5 @@
 #include <cassert>
 #include <dlfcn.h>
-#include <stdlib.h>
 
 
 extern "C" __attribute__((constructor)) void RegisterEntryModule(void)
