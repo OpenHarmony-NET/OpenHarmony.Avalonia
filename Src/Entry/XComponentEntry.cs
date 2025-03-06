@@ -1,9 +1,8 @@
 ﻿using Avalonia.OpenHarmony;
-using AvaloniaExample;
 using OpenHarmony.NDK.Bindings.Native;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Loader;
+using AvaloniaApp;
 
 namespace Entry;
 
@@ -15,7 +14,6 @@ public unsafe static class XComponentEntry
     {
         try
         {
-
             ace_ndk.OH_NativeXComponent_RegisterOnFrameCallback(component, &OnSurfaceRendered);
             if (XComponents.TryGetValue((nint)component, out XComponent? xComponent) == true)
                 return;

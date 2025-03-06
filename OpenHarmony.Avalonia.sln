@@ -9,15 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalonia.OpenHarmony", "Src
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{F1FEDF1B-E967-4070-B986-C11E9D6D6C61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaExample", "Src\Example\AvaloniaExample\AvaloniaExample\AvaloniaExample.csproj", "{32CF34B5-F75A-4A00-A730-90140C0A792D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaApp", "Src\Example\AvaloniaApp\AvaloniaApp.csproj", "{32CF34B5-F75A-4A00-A730-90140C0A792D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaExample.Android", "Src\Example\AvaloniaExample\AvaloniaExample.Android\AvaloniaExample.Android.csproj", "{4E3C9504-059B-4A8B-9325-9F04F144F2CA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaExample.Desktop", "Src\Example\AvaloniaExample\AvaloniaExample.Desktop\AvaloniaExample.Desktop.csproj", "{D1AC0C3E-A28F-4604-9B04-74101768F712}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaExample.iOS", "Src\Example\AvaloniaExample\AvaloniaExample.iOS\AvaloniaExample.iOS.csproj", "{1AE54C16-B711-4AD7-80B3-501CB6B0CB36}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaExample.Browser", "Src\Example\AvaloniaExample\AvaloniaExample.Browser\AvaloniaExample.Browser.csproj", "{BFF1476E-893E-444A-938A-6BBD1AE4D581}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaApp.Desktop", "Src\Example\AvaloniaApp.Desktop\AvaloniaApp.Desktop.csproj", "{D1AC0C3E-A28F-4604-9B04-74101768F712}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenHarmony.NDK.Bindings", "ThirdParty\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings.csproj", "{F8E2F26E-DAE3-4CA7-924E-7F05E655E71D}"
 EndProject
@@ -39,26 +33,10 @@ Global
 		{32CF34B5-F75A-4A00-A730-90140C0A792D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32CF34B5-F75A-4A00-A730-90140C0A792D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32CF34B5-F75A-4A00-A730-90140C0A792D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E3C9504-059B-4A8B-9325-9F04F144F2CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E3C9504-059B-4A8B-9325-9F04F144F2CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E3C9504-059B-4A8B-9325-9F04F144F2CA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{4E3C9504-059B-4A8B-9325-9F04F144F2CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E3C9504-059B-4A8B-9325-9F04F144F2CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E3C9504-059B-4A8B-9325-9F04F144F2CA}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{D1AC0C3E-A28F-4604-9B04-74101768F712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D1AC0C3E-A28F-4604-9B04-74101768F712}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1AC0C3E-A28F-4604-9B04-74101768F712}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1AC0C3E-A28F-4604-9B04-74101768F712}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1AE54C16-B711-4AD7-80B3-501CB6B0CB36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1AE54C16-B711-4AD7-80B3-501CB6B0CB36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1AE54C16-B711-4AD7-80B3-501CB6B0CB36}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{1AE54C16-B711-4AD7-80B3-501CB6B0CB36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1AE54C16-B711-4AD7-80B3-501CB6B0CB36}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1AE54C16-B711-4AD7-80B3-501CB6B0CB36}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{BFF1476E-893E-444A-938A-6BBD1AE4D581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BFF1476E-893E-444A-938A-6BBD1AE4D581}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BFF1476E-893E-444A-938A-6BBD1AE4D581}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BFF1476E-893E-444A-938A-6BBD1AE4D581}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F8E2F26E-DAE3-4CA7-924E-7F05E655E71D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F8E2F26E-DAE3-4CA7-924E-7F05E655E71D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8E2F26E-DAE3-4CA7-924E-7F05E655E71D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,9 +47,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{32CF34B5-F75A-4A00-A730-90140C0A792D} = {F1FEDF1B-E967-4070-B986-C11E9D6D6C61}
-		{4E3C9504-059B-4A8B-9325-9F04F144F2CA} = {F1FEDF1B-E967-4070-B986-C11E9D6D6C61}
 		{D1AC0C3E-A28F-4604-9B04-74101768F712} = {F1FEDF1B-E967-4070-B986-C11E9D6D6C61}
-		{1AE54C16-B711-4AD7-80B3-501CB6B0CB36} = {F1FEDF1B-E967-4070-B986-C11E9D6D6C61}
-		{BFF1476E-893E-444A-938A-6BBD1AE4D581} = {F1FEDF1B-E967-4070-B986-C11E9D6D6C61}
 	EndGlobalSection
 EndGlobal

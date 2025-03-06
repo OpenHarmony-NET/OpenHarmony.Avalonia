@@ -12,7 +12,7 @@
 	<PrivateSdkAssemblies Include="$(IlcSdkPath)*.dll" />
 	<ProjectReference Include="..\..\ThirdParty\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings.csproj" />
     <ProjectReference Include="..\Avalonia.OpenHarmony\Avalonia.OpenHarmony.csproj" />
-    <ProjectReference Include="..\Example\AvaloniaExample\AvaloniaExample\AvaloniaExample.csproj" />
+    <ProjectReference Include="..\Example\AvaloniaApp\AvaloniaApp.csproj" />
   </ItemGroup>
 	<ItemGroup>
 		<RdXmlFile Include="rd.xml" />
