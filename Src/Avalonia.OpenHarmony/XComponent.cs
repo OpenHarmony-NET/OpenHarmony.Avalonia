@@ -17,7 +17,7 @@ public class XComponent
     {
         ulong Width = 0;
         ulong Height = 0;
-        ace_ndk.OH_NativeXComponent_GetXComponentSize((OH_NativeXComponent*)XComponentHandle, (void*)WindowHandle, &Width, &Height);
+        Ace.OH_NativeXComponent_GetXComponentSize((OH_NativeXComponent*)XComponentHandle, (void*)WindowHandle, &Width, &Height);
         return new Size(Width, Height); 
     }
 

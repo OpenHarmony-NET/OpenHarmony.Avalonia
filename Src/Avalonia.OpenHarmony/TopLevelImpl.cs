@@ -88,7 +88,7 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         Window = window;
         XComponent = xcomponent;
         ulong width = 0, height = 0;
-        ace_ndk.OH_NativeXComponent_GetXComponentSize((OH_NativeXComponent*)xcomponent, (void*)window, &width, &height);
+        Ace.OH_NativeXComponent_GetXComponentSize((OH_NativeXComponent*)xcomponent, (void*)window, &width, &height);
         float density = 1;
         display_manager.OH_NativeDisplayManager_GetDefaultDisplayScaledDensity(&density);
         Size = new PixelSize((int)width, (int)height);
@@ -136,7 +136,7 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
     public unsafe void Resize()
     {
         ulong width = 0, height = 0;
-        ace_ndk.OH_NativeXComponent_GetXComponentSize((OH_NativeXComponent*)XComponent, (void*)Window, &width, &height);
+        Ace.OH_NativeXComponent_GetXComponentSize((OH_NativeXComponent*)XComponent, (void*)Window, &width, &height);
         float density = 1;
         display_manager.OH_NativeDisplayManager_GetDefaultDisplayScaledDensity(&density);
         Size = new PixelSize((int)width, (int)height);

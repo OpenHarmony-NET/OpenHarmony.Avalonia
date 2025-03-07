@@ -138,7 +138,7 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
         if (TopLevelImpl.InputRoot == null)
             return;
         OH_NativeXComponent_TouchEvent touchEvent = default;
-        var result = ace_ndk.OH_NativeXComponent_GetTouchEvent((OH_NativeXComponent*)XComponentHandle, (void*)WindowHandle, &touchEvent);
+        var result = Ace.OH_NativeXComponent_GetTouchEvent((OH_NativeXComponent*)XComponentHandle, (void*)WindowHandle, &touchEvent);
         if (result == (int)OH_NATIVEXCOMPONENT_RESULT.SUCCESS)
         {
             for (uint i = 0; i < touchEvent.numPoints; i++)
@@ -148,9 +148,9 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
                 float tiltY = 0;
 
 
-                ace_ndk.OH_NativeXComponent_GetTouchPointToolType((OH_NativeXComponent*)XComponentHandle, i, &toolType);
-                ace_ndk.OH_NativeXComponent_GetTouchPointTiltX((OH_NativeXComponent*)XComponentHandle, i, &tiltX);
-                ace_ndk.OH_NativeXComponent_GetTouchPointTiltY((OH_NativeXComponent*)XComponentHandle, i, &tiltY);
+                Ace.OH_NativeXComponent_GetTouchPointToolType((OH_NativeXComponent*)XComponentHandle, i, &toolType);
+                Ace.OH_NativeXComponent_GetTouchPointTiltX((OH_NativeXComponent*)XComponentHandle, i, &tiltX);
+                Ace.OH_NativeXComponent_GetTouchPointTiltY((OH_NativeXComponent*)XComponentHandle, i, &tiltY);
 
 
                 var id = touchEvent.touchPoints[(int)i].id;
@@ -187,7 +187,7 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
         base.OnSurfaceChanged();
         ulong width = 0, height = 0;
         TopLevelImpl.Resize();
-        ace_ndk.OH_NativeXComponent_GetXComponentSize((OH_NativeXComponent*)XComponentHandle, (void*)WindowHandle, &width, &height);
+        Ace.OH_NativeXComponent_GetXComponentSize((OH_NativeXComponent*)XComponentHandle, (void*)WindowHandle, &width, &height);
         if (UseSoftRenderer == true && gl != null)
         {
             gl.Viewport(0, 0, (uint)width, (uint)height);

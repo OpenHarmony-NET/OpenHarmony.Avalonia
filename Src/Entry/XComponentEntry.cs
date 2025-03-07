@@ -14,7 +14,7 @@ public unsafe static class XComponentEntry
     {
         try
         {
-            ace_ndk.OH_NativeXComponent_RegisterOnFrameCallback(component, &OnSurfaceRendered);
+            Ace.OH_NativeXComponent_RegisterOnFrameCallback(component, &OnSurfaceRendered);
             if (XComponents.TryGetValue((nint)component, out XComponent? xComponent) == true)
                 return;
             xComponent = new AvaloniaXComponent<App>((nint)component, (nint)window);
