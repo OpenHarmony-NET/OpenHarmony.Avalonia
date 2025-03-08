@@ -1,5 +1,8 @@
 ## 喜报
-运行时问题已解决，有一定限制，禁止使用Marshal.GetDelegateForFunctionPointer相关API，请使用函数指针(delegate* unmanaged)
+.NET运行时和GPU渲染均已解决
 
-## 已知问题
-1. 默认CPU渲染，模拟器上很卡，GPU渲染仅支持不带输入的控件。
+## 计划
+- 键盘事件
+- 鼠标事件
+- 多窗口
+- 字体
