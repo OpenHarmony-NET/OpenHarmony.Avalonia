@@ -8,19 +8,19 @@
 		<DockPanel Height="180"  DockPanel.Dock="Top">
 			<Grid Margin="10 0 10 20" DockPanel.Dock="Bottom" ColumnDefinitions="* * * * *">
 				<Border Width="50" Height="50" CornerRadius="25" Background="#5055a3">
-					<Image  Width="40" Height="40" Source="avares://AvaloniaExample/Assets/search (1).png"></Image>
+					<Image  Width="40" Height="40" Source="avares://AvaloniaApp/Assets/search (1).png"></Image>
 				</Border>
 				<Border Grid.Column="1" Width="50" Height="50" CornerRadius="25" Background="#ffe0ec">
-					<Image Width="40" Height="40" Source="avares://AvaloniaExample/Assets/emoji1.png"></Image>
+					<Image Width="40" Height="40" Source="avares://AvaloniaApp/Assets/emoji1.png"></Image>
 				</Border>
 				<Border Grid.Column="2" Width="50" Height="50" CornerRadius="25" Background="#bfe9f2">
-					<Image Width="40" Height="40" Source="avares://AvaloniaExample/Assets/emoji2.png"></Image>
+					<Image Width="40" Height="40" Source="avares://AvaloniaApp/Assets/emoji2.png"></Image>
 				</Border>
 				<Border Grid.Column="3" Width="50" Height="50" CornerRadius="25" Background="#ffd6c4">
-					<Image Width="40" Height="40" Source="avares://AvaloniaExample/Assets/emoji3.png"></Image>
+					<Image Width="40" Height="40" Source="avares://AvaloniaApp/Assets/emoji3.png"></Image>
 				</Border>
 				<Border Grid.Column="4" Width="50" Height="50" CornerRadius="25" Background="#c3c1e6">
-					<Image Width="40" Height="40" Source="avares://AvaloniaExample/Assets/emoji4.png"></Image>
+					<Image Width="40" Height="40" Source="avares://AvaloniaApp/Assets/emoji4.png"></Image>
 				</Border>
 			</Grid>
 			<StackPanel Margin="20 30">
@@ -34,7 +34,7 @@
 
 					<DockPanel>
 						<Border Margin="30 0 0 0" DockPanel.Dock="Left" Width="50" Height="50" CornerRadius="25" Background="#FFE0EC">
-							<Image Width="40" Height="40" Source="avares://AvaloniaExample/Assets/emoji1.png"></Image>
+							<Image Width="40" Height="40" Source="avares://AvaloniaApp/Assets/emoji1.png"></Image>
 						</Border>
 						<TextBlock Padding="0 20 20 0" Foreground="#A2A2A2"  DockPanel.Dock="Right" Text="18:32"/>
 						<StackPanel VerticalAlignment="Center" Margin="20">
@@ -46,7 +46,7 @@
 
 					<DockPanel>
 						<Border Margin="30 0 0 0" DockPanel.Dock="Left" Width="50" Height="50" CornerRadius="25" Background="#BFE9F2">
-							<Image Width="40" Height="40" Source="avares://AvaloniaExample/Assets/emoji2.png"></Image>
+							<Image Width="40" Height="40" Source="avares://AvaloniaApp/Assets/emoji2.png"></Image>
 						</Border>
 						<TextBlock Padding="0 20 20 0" Foreground="#A2A2A2"  DockPanel.Dock="Right" Text="18:32"/>
 						<StackPanel VerticalAlignment="Center" Margin="20">
@@ -58,7 +58,7 @@
 
 					<DockPanel>
 						<Border Margin="30 0 0 0" DockPanel.Dock="Left" Width="50" Height="50" CornerRadius="25" Background="#FFD6C4">
-							<Image Width="40" Height="40" Source="avares://AvaloniaExample/Assets/emoji3.png"></Image>
+							<Image Width="40" Height="40" Source="avares://AvaloniaApp/Assets/emoji3.png"></Image>
 						</Border>
 						<TextBlock Padding="0 20 20 0" Foreground="#A2A2A2"  DockPanel.Dock="Right" Text="18:32"/>
 						<StackPanel VerticalAlignment="Center" Margin="20">
@@ -70,7 +70,7 @@
 
 					<DockPanel>
 						<Border Margin="30 0 0 0" DockPanel.Dock="Left" Width="50" Height="50" CornerRadius="25" Background="#C3C1E6">
-							<Image Width="40" Height="40" Source="avares://AvaloniaExample/Assets/emoji4.png"></Image>
+							<Image Width="40" Height="40" Source="avares://AvaloniaApp/Assets/emoji4.png"></Image>
 						</Border>
 						<TextBlock Padding="0 20 20 0" Foreground="#A2A2A2"  DockPanel.Dock="Right" Text="18:32"/>
 						<StackPanel VerticalAlignment="Center" Margin="20">
@@ -82,7 +82,7 @@
 
 					<DockPanel>
 						<Border Margin="30 0 0 0" DockPanel.Dock="Left" Width="50" Height="50" CornerRadius="25" Background="#FFE0EC">
-							<Image Width="40" Height="40" Source="avares://AvaloniaExample/Assets/emoji1.png"></Image>
+							<Image Width="40" Height="40" Source="avares://AvaloniaApp/Assets/emoji1.png"></Image>
 						</Border>
 						<TextBlock Padding="0 20 20 0" Foreground="#A2A2A2"  DockPanel.Dock="Right" Text="18:32"/>
 						<StackPanel VerticalAlignment="Center" Margin="20">
@@ -94,7 +94,7 @@
 
 					<DockPanel>
 						<Border Margin="30 0 0 0" DockPanel.Dock="Left" Width="50" Height="50" CornerRadius="25" Background="#BFE9F2">
-							<Image Width="40" Height="40" Source="avares://AvaloniaExample/Assets/emoji2.png"></Image>
+							<Image Width="40" Height="40" Source="avares://AvaloniaApp/Assets/emoji2.png"></Image>
 						</Border>
 						<TextBlock Padding="0 20 20 0" Foreground="#A2A2A2"  DockPanel.Dock="Right" Text="18:32"/>
 						<StackPanel VerticalAlignment="Center" Margin="20">
@@ -106,7 +106,7 @@
 
 					<DockPanel>
 						<Border Margin="30 0 0 0" DockPanel.Dock="Left" Width="50" Height="50" CornerRadius="25" Background="#FFD6C4">
-							<Image Width="40" Height="40" Source="avares://AvaloniaExample/Assets/emoji3.png"></Image>
+							<Image Width="40" Height="40" Source="avares://AvaloniaApp/Assets/emoji3.png"></Image>
 						</Border>
 						<TextBlock Padding="0 20 20 0" Foreground="#A2A2A2"  DockPanel.Dock="Right" Text="18:32"/>
 						<StackPanel VerticalAlignment="Center" Margin="20">
@@ -118,7 +118,7 @@
 
 					<DockPanel>
 						<Border Margin="30 0 0 0" DockPanel.Dock="Left" Width="50" Height="50" CornerRadius="25" Background="#C3C1E6">
-							<Image Width="40" Height="40" Source="avares://AvaloniaExample/Assets/emoji4.png"></Image>
+							<Image Width="40" Height="40" Source="avares://AvaloniaApp/Assets/emoji4.png"></Image>
 						</Border>
 						<TextBlock Padding="0 20 20 0" Foreground="#A2A2A2"  DockPanel.Dock="Right" Text="18:32"/>
 						<StackPanel VerticalAlignment="Center" Margin="20">

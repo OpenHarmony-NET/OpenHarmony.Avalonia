@@ -10,12 +10,12 @@
 		<Panel DockPanel.Dock="Top" Height="60" Background="#FFFFFF">
 			<DockPanel>
 				<Border Margin="10 5 0 0" CornerRadius="20" Background="#F1F1F1" Width="40" Height="40" DockPanel.Dock="Left">
-					<Image Width="20" Height="20" Source="avares://AvaloniaExample/Assets/apps (1).png" />
+					<Image Width="20" Height="20" Source="avares://AvaloniaApp/Assets/apps (1).png" />
 				</Border>
 				<Border Margin="0 5 10 0" CornerRadius="20" Background="#F1F1F1" Width="40" Height="40" DockPanel.Dock="Right">
-					<Image Width="20" Height="20" Source="avares://AvaloniaExample/Assets/group (1).png" />
+					<Image Width="20" Height="20" Source="avares://AvaloniaApp/Assets/group (1).png" />
 				</Border>
-				<Image VerticalAlignment="Center" Width="50" Height="50" Source="avares://AvaloniaExample/Assets/avalonia-logo.ico" />
+				<Image VerticalAlignment="Center" Width="50" Height="50" Source="avares://AvaloniaApp/Assets/avalonia-logo.ico" />
 			</DockPanel>
 		</Panel>
 		<ScrollViewer>
@@ -23,7 +23,7 @@
 				<StackPanel HorizontalAlignment="Left">
 					<DockPanel>
 						<Border Margin="10 0 0 0" CornerRadius="20" DockPanel.Dock="Right" Width="40" Height="40" Background="#000000">
-							<Image Width="20" Height="20" Source="avares://AvaloniaExample/Assets/search.png" />
+							<Image Width="20" Height="20" Source="avares://AvaloniaApp/Assets/search.png" />
 						</Border>
 						
 						<TextBox  Background="#f1f1f1" Padding="20 10 10 10" Foreground="#666" Text="Search" CornerRadius="20" Height="40" BorderBrush="Transparent" Tag="123"></TextBox>
@@ -61,7 +61,7 @@
 									<Border  CornerRadius="20" Margin="0 10 20 0" BoxShadow="0 0 10 0 #DDDDDD" Height="300" Width="200">
 										<DockPanel >
 											<TextBlock Height="40" Padding="10 5 10 5" TextAlignment="Left"   DockPanel.Dock="Bottom" Text="Some one"></TextBlock>
-											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaExample/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
 												<Image.Clip>
 													<RectangleGeometry RadiusX="20" RadiusY="20" Rect="0 0 200 260"/>
 												</Image.Clip>
@@ -72,7 +72,7 @@
 									<Border  CornerRadius="20" Margin="0 10 20 0" BoxShadow="0 0 10 0 #DDDDDD" Height="300" Width="200">
 										<DockPanel >
 											<TextBlock Height="40" Padding="10 5 10 5" TextAlignment="Left"   DockPanel.Dock="Bottom" Text="Some one"></TextBlock>
-											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaExample/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
 												<Image.Clip>
 													<RectangleGeometry RadiusX="20" RadiusY="20" Rect="0 0 200 260"/>
 												</Image.Clip>
@@ -83,7 +83,7 @@
 									<Border  CornerRadius="20" Margin="0 10 20 0" BoxShadow="0 0 10 0 #DDDDDD" Height="300" Width="200">
 										<DockPanel >
 											<TextBlock Height="40" Padding="10 5 10 5" TextAlignment="Left"   DockPanel.Dock="Bottom" Text="Some one"></TextBlock>
-											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaExample/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
 												<Image.Clip>
 													<RectangleGeometry RadiusX="20" RadiusY="20" Rect="0 0 200 260"/>
 												</Image.Clip>
@@ -93,7 +93,7 @@
 									<Border  CornerRadius="20" Margin="0 10 20 0" BoxShadow="0 0 10 0 #DDDDDD" Height="300" Width="200">
 										<DockPanel >
 											<TextBlock Height="40" Padding="10 5 10 5" TextAlignment="Left"   DockPanel.Dock="Bottom" Text="Some one"></TextBlock>
-											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaExample/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
 												<Image.Clip>
 													<RectangleGeometry RadiusX="20" RadiusY="20" Rect="0 0 200 260"/>
 												</Image.Clip>
@@ -103,7 +103,7 @@
 									<Border  CornerRadius="20" Margin="0 10 20 0" BoxShadow="0 0 10 0 #DDDDDD" Height="300" Width="200">
 										<DockPanel >
 											<TextBlock Height="40" Padding="10 5 10 5" TextAlignment="Left"   DockPanel.Dock="Bottom" Text="Some one"></TextBlock>
-											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaExample/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
 												<Image.Clip>
 													<RectangleGeometry RadiusX="20" RadiusY="20" Rect="0 0 200 260"/>
 												</Image.Clip>
@@ -113,7 +113,7 @@
 									<Border  CornerRadius="20" Margin="0 10 20 0" BoxShadow="0 0 10 0 #DDDDDD" Height="300" Width="200">
 										<DockPanel >
 											<TextBlock Height="40" Padding="10 5 10 5" TextAlignment="Left"   DockPanel.Dock="Bottom" Text="Some one"></TextBlock>
-											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaExample/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
 												<Image.Clip>
 													<RectangleGeometry RadiusX="20" RadiusY="20" Rect="0 0 200 260"/>
 												</Image.Clip>
@@ -123,7 +123,7 @@
 									<Border  CornerRadius="20" Margin="0 10 20 0" BoxShadow="0 0 10 0 #DDDDDD" Height="300" Width="200">
 										<DockPanel >
 											<TextBlock Height="40" Padding="10 5 10 5" TextAlignment="Left"   DockPanel.Dock="Bottom" Text="Some one"></TextBlock>
-											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaExample/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
 												<Image.Clip>
 													<RectangleGeometry RadiusX="20" RadiusY="20" Rect="0 0 200 260"/>
 												</Image.Clip>
@@ -133,7 +133,7 @@
 									<Border  CornerRadius="20" Margin="0 10 20 0" BoxShadow="0 0 10 0 #DDDDDD" Height="300" Width="200">
 										<DockPanel >
 											<TextBlock Height="40" Padding="10 5 10 5" TextAlignment="Left"   DockPanel.Dock="Bottom" Text="Some one"></TextBlock>
-											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaExample/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+											<Image Stretch="UniformToFill" Width="200" Height="260" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
 												<Image.Clip>
 													<RectangleGeometry RadiusX="20" RadiusY="20" Rect="0 0 200 260"/>
 												</Image.Clip>
@@ -148,12 +148,12 @@
 						
 							<Border  Margin="0 20 0 0" BoxShadow="0 0 20 0 #DDDDDD" CornerRadius="15">
 								<DockPanel Height="70">
-									<Image Margin="5" DockPanel.Dock="Left"  Stretch="UniformToFill" Width="60" Source="avares://AvaloniaExample/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+									<Image Margin="5" DockPanel.Dock="Left"  Stretch="UniformToFill" Width="60" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
 										<Image.Clip>
 											<RectangleGeometry RadiusX="15" RadiusY="15" Rect="0 0 60 60"/>
 										</Image.Clip>
 									</Image>
-									<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaExample/Assets/round_right_fill.png"></Image>
+									<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaApp/Assets/round_right_fill.png"></Image>
 									<TextBlock Margin="20 10 20 10" Text="What "></TextBlock>
 								</DockPanel>
 							</Border>
@@ -161,48 +161,48 @@
 
 							<Border  Margin="0 20 0 0" BoxShadow="0 0 20 0 #DDDDDD" CornerRadius="15">
 								<DockPanel Height="70">
-									<Image Margin="5" DockPanel.Dock="Left"  Stretch="UniformToFill" Width="60" Source="avares://AvaloniaExample/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+									<Image Margin="5" DockPanel.Dock="Left"  Stretch="UniformToFill" Width="60" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
 										<Image.Clip>
 											<RectangleGeometry RadiusX="15" RadiusY="15" Rect="0 0 60 60"/>
 										</Image.Clip>
 									</Image>
-									<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaExample/Assets/round_right_fill.png"></Image>
+									<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaApp/Assets/round_right_fill.png"></Image>
 									<TextBlock Margin="20 10 20 10" Text="What "></TextBlock>
 								</DockPanel>
 							</Border>
 
 							<Border  Margin="0 20 0 0" BoxShadow="0 0 20 0 #DDDDDD" CornerRadius="15">
 								<DockPanel Height="70">
-									<Image Margin="5" DockPanel.Dock="Left"  Stretch="UniformToFill" Width="60" Source="avares://AvaloniaExample/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+									<Image Margin="5" DockPanel.Dock="Left"  Stretch="UniformToFill" Width="60" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
 										<Image.Clip>
 											<RectangleGeometry RadiusX="15" RadiusY="15" Rect="0 0 60 60"/>
 										</Image.Clip>
 									</Image>
-									<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaExample/Assets/round_right_fill.png"></Image>
+									<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaApp/Assets/round_right_fill.png"></Image>
 									<TextBlock Margin="20 10 20 10" Text="What "></TextBlock>
 								</DockPanel>
 							</Border>
 
 							<Border  Margin="0 20 0 0" BoxShadow="0 0 20 0 #DDDDDD" CornerRadius="15">
 								<DockPanel Height="70">
-									<Image Margin="5" DockPanel.Dock="Left"  Stretch="UniformToFill" Width="60" Source="avares://AvaloniaExample/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+									<Image Margin="5" DockPanel.Dock="Left"  Stretch="UniformToFill" Width="60" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
 										<Image.Clip>
 											<RectangleGeometry RadiusX="15" RadiusY="15" Rect="0 0 60 60"/>
 										</Image.Clip>
 									</Image>
-									<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaExample/Assets/round_right_fill.png"></Image>
+									<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaApp/Assets/round_right_fill.png"></Image>
 									<TextBlock Margin="20 10 20 10" Text="What "></TextBlock>
 								</DockPanel>
 							</Border>
 
 							<Border  Margin="0 20 0 0" BoxShadow="0 0 20 0 #DDDDDD" CornerRadius="15">
 								<DockPanel Height="70">
-									<Image Margin="5" DockPanel.Dock="Left"  Stretch="UniformToFill" Width="60" Source="avares://AvaloniaExample/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+									<Image Margin="5" DockPanel.Dock="Left"  Stretch="UniformToFill" Width="60" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
 										<Image.Clip>
 											<RectangleGeometry RadiusX="15" RadiusY="15" Rect="0 0 60 60"/>
 										</Image.Clip>
 									</Image>
-									<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaExample/Assets/round_right_fill.png"></Image>
+									<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaApp/Assets/round_right_fill.png"></Image>
 									<TextBlock Margin="20 10 20 10" Text="What "></TextBlock>
 								</DockPanel>
 							</Border>

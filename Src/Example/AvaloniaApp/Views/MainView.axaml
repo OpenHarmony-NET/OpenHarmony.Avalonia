@@ -22,8 +22,8 @@
 					<Grid ColumnDefinitions="* * * *">
 						<Border HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" PointerPressed="OnShowHomeClick">
 							<StackPanel>
-								<Image IsVisible="{Binding !ShowHome}" Width="28" Height="28" Source="avares://AvaloniaExample/Assets/home.png" />
-								<Image IsVisible="{Binding ShowHome}" Width="28" Height="28" Source="avares://AvaloniaExample/Assets/home_fill_light.png" />
+								<Image IsVisible="{Binding !ShowHome}" Width="28" Height="28" Source="avares://AvaloniaApp/Assets/home.png" />
+								<Image IsVisible="{Binding ShowHome}" Width="28" Height="28" Source="avares://AvaloniaApp/Assets/home_fill_light.png" />
 								<Border Margin="0 5 0 0" IsVisible="{Binding !ShowHome}">
 									<TextBlock HorizontalAlignment="Center" FontSize="12" Text="Home"></TextBlock>
 								</Border>
@@ -34,8 +34,8 @@
 						</Border>
 						<Border HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"  PointerPressed="OnShowNewsClick">
 							<StackPanel>
-								<Image IsVisible="{Binding !ShowNews}" Width="28" Height="28" Source="avares://AvaloniaExample/Assets/news_hot_light.png" />
-								<Image IsVisible="{Binding ShowNews}" Width="28" Height="28" Source="avares://AvaloniaExample/Assets/news_hot_fill_light.png" />
+								<Image IsVisible="{Binding !ShowNews}" Width="28" Height="28" Source="avares://AvaloniaApp/Assets/news_hot_light.png" />
+								<Image IsVisible="{Binding ShowNews}" Width="28" Height="28" Source="avares://AvaloniaApp/Assets/news_hot_fill_light.png" />
 								<Border Margin="0 5 0 0" IsVisible="{Binding !ShowNews}">
 									<TextBlock FontSize="12" Text="News"></TextBlock>
 								</Border>
@@ -46,8 +46,8 @@
 						</Border>
 						<Border HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" PointerPressed="OnShowMessageClick">
 							<StackPanel>
-								<Image IsVisible="{Binding !ShowMessage}" Width="28" Height="28" Source="avares://AvaloniaExample/Assets/mark.png" />
-								<Image IsVisible="{Binding ShowMessage}" Width="28" Height="28" Source="avares://AvaloniaExample/Assets/mark_fill.png" />
+								<Image IsVisible="{Binding !ShowMessage}" Width="28" Height="28" Source="avares://AvaloniaApp/Assets/mark.png" />
+								<Image IsVisible="{Binding ShowMessage}" Width="28" Height="28" Source="avares://AvaloniaApp/Assets/mark_fill.png" />
 								<Border Margin="0 5 0 0"  IsVisible="{Binding !ShowMessage}">
 									<TextBlock HorizontalAlignment="Center" FontSize="12" Text="Message"></TextBlock>
 								</Border>
@@ -58,8 +58,8 @@
 						</Border>
 						<Border HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" PointerPressed="OnShowProfileClick">
 							<StackPanel>
-								<Image IsVisible="{Binding !ShowProfile}" Width="28" Height="28" Source="avares://AvaloniaExample/Assets/people.png" />
-								<Image IsVisible="{Binding ShowProfile}" Width="28" Height="28" Source="avares://AvaloniaExample/Assets/people_fill.png" />
+								<Image IsVisible="{Binding !ShowProfile}" Width="28" Height="28" Source="avares://AvaloniaApp/Assets/people.png" />
+								<Image IsVisible="{Binding ShowProfile}" Width="28" Height="28" Source="avares://AvaloniaApp/Assets/people_fill.png" />
 								<Border Margin="0 5 0 0" IsVisible="{Binding !ShowProfile}">
 									<TextBlock HorizontalAlignment="Center" FontSize="12" Text="Profile"></TextBlock>
 								</Border>
