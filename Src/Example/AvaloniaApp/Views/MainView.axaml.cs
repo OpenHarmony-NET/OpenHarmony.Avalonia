@@ -3,6 +3,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using AvaloniaApp.ViewModels;
 using System.Threading.Tasks;
+using Avalonia.Input.TextInput;
 
 namespace AvaloniaApp.Views;
 
@@ -46,5 +47,14 @@ public partial class MainView : UserControl
         if (viewmodel == null)
             return;
         viewmodel.ChangeTo(3);
+    }
+
+    private void InputElement_OnTextInput(object? sender, TextInputEventArgs e)
+    {
+        
+    }
+
+    private void InputElement_OnTextInputMethodClientRequested(object? sender, TextInputMethodClientRequestedEventArgs e)
+    {
     }
 }

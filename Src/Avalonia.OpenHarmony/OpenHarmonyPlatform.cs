@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls.Platform;
+using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Media;
 using Avalonia.OpenGL.Egl;
@@ -12,24 +13,28 @@ namespace Avalonia.OpenHarmony;
 
 public class OpenHarmonyPlatform
 {
+    public static OpenHarmonyPlatformOptions Options = new OpenHarmonyPlatformOptions()
+        { RenderingMode = [OpenHarmonyPlatformRenderingMode.Software] };
 
-    public static OpenHarmonyPlatformOptions Options = new OpenHarmonyPlatformOptions() { RenderingMode = [OpenHarmonyPlatformRenderingMode.Software] };
     public static void Initialize()
     {
-        var options = AvaloniaLocator.Current.GetService<OpenHarmonyPlatformOptions>() ?? new OpenHarmonyPlatformOptions();
+        var options = AvaloniaLocator.Current.GetService<OpenHarmonyPlatformOptions>() ??
+                      new OpenHarmonyPlatformOptions();
         AvaloniaLocator.CurrentMutable
             .Bind<PlatformHotkeyConfiguration>().ToSingleton<PlatformHotkeyConfiguration>()
             .Bind<FontManager>().ToConstant(new FontManager(new CustomFontManagerImpl()))
             .Bind<IRuntimePlatform>().ToSingleton<OpenHarmonyRuntimePlatform>()
             .Bind<IRenderTimer>().ToSingleton<OpenHarmonyRenderTimer>()
             .Bind<ICursorFactory>().ToSingleton<CursorFactory>()
-            .Bind<IPlatformThreadingInterface>().ToSingleton<OpenHarmonyPlatformThreading>();
+            .Bind<IPlatformThreadingInterface>().ToSingleton<OpenHarmonyPlatformThreading>()
+            .Bind<IKeyboardDevice>().ToSingleton<OpenHarmonyKeyboardDevice>();
 
         var platformGraphics = InitializeGraphics(options);
         if (platformGraphics is not null)
         {
             AvaloniaLocator.CurrentMutable.Bind<IPlatformGraphics>().ToConstant(platformGraphics);
         }
+
         var compositor = new Compositor(platformGraphics);
         AvaloniaLocator.CurrentMutable.Bind<Compositor>().ToConstant(compositor);
     }
@@ -37,7 +42,7 @@ public class OpenHarmonyPlatform
     private static IPlatformGraphics? InitializeGraphics(OpenHarmonyPlatformOptions options)
     {
         foreach (var renderingMode in options.RenderingMode)
-        { 
+        {
             if (renderingMode == OpenHarmonyPlatformRenderingMode.Egl)
             {
                 return EglPlatformGraphics.TryCreate(() =>
@@ -55,16 +60,15 @@ public class OpenHarmonyPlatform
                 return null;
             }
         }
+
         throw new Exception("no render mode");
     }
 }
 
-
-
 public sealed class OpenHarmonyPlatformOptions
 {
-    public IReadOnlyList<OpenHarmonyPlatformRenderingMode> RenderingMode { get; set; } = [OpenHarmonyPlatformRenderingMode.Egl, OpenHarmonyPlatformRenderingMode.Software];
-
+    public IReadOnlyList<OpenHarmonyPlatformRenderingMode> RenderingMode { get; set; } =
+        [OpenHarmonyPlatformRenderingMode.Egl, OpenHarmonyPlatformRenderingMode.Software];
 }
 
 public enum OpenHarmonyPlatformRenderingMode
@@ -72,5 +76,4 @@ public enum OpenHarmonyPlatformRenderingMode
     Software = 1,
 
     Egl = 2,
-
 }

@@ -19,7 +19,7 @@ namespace Avalonia.OpenHarmony;
 
 public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlatformSurfaceInfo
 {
-    public IntPtr Window {  get; private set; }
+    public IntPtr Window { get; private set; }
     public IntPtr XComponent { get; private set; }
     public nint Handle => Window;
 
@@ -37,9 +37,10 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
 
     public OpenHarmonyPlatformThreading? OpenHarmonyPlatformThreading { get; private set; }
 
-    public OpenHarmonyInputMethod _textInputMethod = new OpenHarmonyInputMethod();
+    public OpenHarmonyInputMethod _textInputMethod;
 
     public ClipboardImpl _clipboard = new ClipboardImpl();
+
     public unsafe void Render()
     {
         try
@@ -55,6 +56,7 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
             {
                 Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", e.StackTrace.ToString());
             }
+
             if (e.InnerException != null)
             {
                 Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", e.InnerException.Message.ToString());
@@ -63,8 +65,10 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
                     Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", e.InnerException.StackTrace.ToString());
                 }
             }
+
             throw;
         }
+
         // software render
         if (gl != null)
         {
@@ -81,8 +85,8 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
             gl.BindVertexArray(vao);
             gl.DrawElements(GLEnum.Triangles, 6, GLEnum.UnsignedInt, (void*)0);
         }
-        
     }
+
     public unsafe TopLevelImpl(IntPtr xcomponent, IntPtr window)
     {
         Window = window;
@@ -102,13 +106,17 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
             InitShader();
             InitOrUpdateTexture();
         }
+
         RenderTimer = AvaloniaLocator.Current.GetService<IRenderTimer>() as OpenHarmonyRenderTimer;
-        OpenHarmonyPlatformThreading = AvaloniaLocator.Current.GetService<IPlatformThreadingInterface>() as OpenHarmonyPlatformThreading;
+        OpenHarmonyPlatformThreading =
+            AvaloniaLocator.Current.GetService<IPlatformThreadingInterface>() as OpenHarmonyPlatformThreading;
+        _textInputMethod = new OpenHarmonyInputMethod(this);
     }
 
     public uint textureId;
 
     public nint Address;
+
     public unsafe void InitOrUpdateTexture()
     {
         if (gl == null)
@@ -120,13 +128,15 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
             for (int i = 0; i < span.Length; i++)
                 span[i] = 255;
         }
+
         if (textureId == 0)
         {
             textureId = gl.GenTexture();
         }
 
         gl.BindTexture(GLEnum.Texture2D, textureId);
-        gl.TexImage2D(GLEnum.Texture2D, 0, (int)GLEnum.Rgba8, (uint)Size.Width, (uint)Size.Height, 0, GLEnum.Rgba, GLEnum.UnsignedByte, (void*)Address);
+        gl.TexImage2D(GLEnum.Texture2D, 0, (int)GLEnum.Rgba8, (uint)Size.Width, (uint)Size.Height, 0, GLEnum.Rgba,
+            GLEnum.UnsignedByte, (void*)Address);
         gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureMinFilter, (int)GLEnum.Linear);
         gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureMagFilter, (int)GLEnum.Linear);
         gl.TexParameter(GLEnum.Texture2D, GLEnum.TextureWrapS, (int)GLEnum.ClampToEdge);
@@ -145,9 +155,10 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         {
             InitOrUpdateTexture();
         }
-        Resized(Size.ToSize(Scaling), WindowResizeReason.User);
 
+        Resized(Size.ToSize(Scaling), WindowResizeReason.User);
     }
+
     public unsafe void InitShader()
     {
         if (gl == null)
@@ -194,6 +205,7 @@ void main()
             Hilog.OH_LOG_ERROR(LogType.LOG_APP, "vs shader", info);
             throw new Exception(info);
         }
+
         var frag = gl.CreateShader(GLEnum.FragmentShader);
         gl.ShaderSource(frag, FragShaderSource);
         gl.CompileShader(frag);
@@ -221,6 +233,7 @@ void main()
             Hilog.OH_LOG_ERROR(LogType.LOG_APP, "program shader", info);
             throw new Exception(info);
         }
+
         gl.DeleteShader(vert);
         gl.DeleteShader(frag);
     }
@@ -229,17 +242,20 @@ void main()
     public uint vbo;
     public uint ebo;
     public uint programId;
+
     public unsafe void Init()
     {
         vao = gl.GenVertexArray();
-        float[] vertices = [
+        float[] vertices =
+        [
             -1, 1, 0, 0, 0,
             -1, -1, 0, 0, 1,
             1, -1, 0, 1, 1,
-            1, 1, 0, 1, 0];
+            1, 1, 0, 1, 0
+        ];
         uint[] indices =
         [
-            0, 1, 2, 2, 3,0
+            0, 1, 2, 2, 3, 0
         ];
         vao = gl.GenVertexArray();
         vbo = gl.GenBuffer();
@@ -250,11 +266,13 @@ void main()
         {
             gl.BufferData(GLEnum.ArrayBuffer, (nuint)(vertices.Length * sizeof(float)), p, GLEnum.StaticDraw);
         }
+
         gl.BindBuffer(GLEnum.ElementArrayBuffer, ebo);
         fixed (uint* p = indices)
         {
             gl.BufferData(GLEnum.ElementArrayBuffer, (nuint)(indices.Length * sizeof(uint)), p, GLEnum.StaticDraw);
         }
+
         // Location
         gl.EnableVertexAttribArray(0);
         gl.VertexAttribPointer(0, 3, GLEnum.Float, false, (uint)sizeof(float) * 5, (void*)0);
@@ -279,13 +297,16 @@ void main()
     public Action<double>? ScalingChanged { get; set; }
     public Action<WindowTransparencyLevel>? TransparencyLevelChanged { get; set; }
 
-    public Compositor Compositor => AvaloniaLocator.CurrentMutable.GetService<Compositor>() ?? throw new InvalidOperationException("Android backend wasn't initialized. Make sure .UseAndroid() was executed.");
+    public Compositor Compositor => AvaloniaLocator.CurrentMutable.GetService<Compositor>() ??
+                                    throw new InvalidOperationException(
+                                        "Android backend wasn't initialized. Make sure .UseAndroid() was executed.");
 
-    public Action? Closed  { get; set; }
+    public Action? Closed { get; set; }
     public Action? LostFocus { get; set; }
 
     private WindowTransparencyLevel _transparencyLevel;
-    public WindowTransparencyLevel TransparencyLevel 
+
+    public WindowTransparencyLevel TransparencyLevel
     {
         get => _transparencyLevel;
         private set
@@ -298,7 +319,8 @@ void main()
         }
     }
 
-    public AcrylicPlatformCompensationLevels AcrylicCompensationLevels => new AcrylicPlatformCompensationLevels(1, 1, 1);
+    public AcrylicPlatformCompensationLevels AcrylicCompensationLevels =>
+        new AcrylicPlatformCompensationLevels(1, 1, 1);
 
 
     public IInputRoot? InputRoot { get; private set; }
@@ -342,7 +364,6 @@ void main()
 
     public object? TryGetFeature(Type featureType)
     {
-
         if (featureType == typeof(ITextInputMethodImpl))
         {
             return _textInputMethod;
@@ -351,11 +372,27 @@ void main()
         {
             return _clipboard;
         }
+
         // todo
         return null;
+    }
+
+    internal void TextInput(string text)
+    {
+        if (Input != null)
+        {
+            var args = new RawTextInputEventArgs(
+                (AvaloniaLocator.Current.GetService<IKeyboardDevice>() as KeyboardDevice)!,
+                (ulong)DateTime.Now.Ticks,
+                InputRoot!, text);
+
+            Input(args);
+        }
     }
 
     public void Dispose()
     {
     }
 }
+
+internal class OpenHarmonyKeyboardDevice : KeyboardDevice;
