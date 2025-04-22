@@ -122,7 +122,14 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
 
     private void TextInputMethodOnInputPanelHeightChanged(object? sender, EventArgs e)
     {
-        _openHarmonyInputPane.OnGeometryChange(_textInputMethod.PositionY, _textInputMethod.InputPanelHeight);
+        try
+        {
+            _openHarmonyInputPane.OnGeometryChange(_textInputMethod.PositionY, _textInputMethod.InputPanelHeight);
+        }
+        catch (Exception exception)
+        {
+            OHDebugHelper.Error("TextInputMethodOnInputPanelHeightChanged", exception);
+        }
     }
 
     public uint textureId;

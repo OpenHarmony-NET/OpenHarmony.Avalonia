@@ -12,9 +12,10 @@
             Grid.Row="0"
             Spacing="5">
             <TextBox />
-            <TextBox 
-                Name="TextBox" 
-                     IsReadOnly="True"></TextBox>
+            <TextBox
+                Name="TextBox"
+                IsReadOnly="True">
+            </TextBox>
         </StackPanel>
 
         <ListBox

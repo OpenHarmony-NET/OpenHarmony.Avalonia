@@ -76,44 +76,62 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
         get => _inputPanelHeight;
         set
         {
-            if (Math.Abs(_inputPanelHeight - value) >= 0.00f)
+            if (Math.Abs(_inputPanelHeight - value) >= 0.001f)
             {
                 _inputPanelHeight = value;
-                try
-                {
-                    var result = input_method.OH_TextAvoidInfo_SetHeight(_inputMethodTextAvoidInfo, _inputPanelHeight);
-                    OHDebugHelper.Debug($"输入法面板的新高度设置结果：{result}");
-                }
-                catch (Exception e)
-                {
-                    OHDebugHelper.Error($"输入法面板的新高度设置失败。\n新位置：{_inputPanelHeight}", e);
-                }
-
                 InputPanelHeightChanged?.Invoke(this, EventArgs.Empty);
             }
+        }
+    }
+
+    public void SetInputPanelHeight(double value)
+    {
+        if (Math.Abs(_inputPanelHeight - value) >= 0.00f)
+        {
+            _inputPanelHeight = value;
+            try
+            {
+                var result = input_method.OH_TextAvoidInfo_SetHeight(_inputMethodTextAvoidInfo, _inputPanelHeight);
+                OHDebugHelper.Debug($"输入法面板的新高度设置结果：{result}");
+            }
+            catch (Exception e)
+            {
+                OHDebugHelper.Error($"输入法面板的新高度设置失败。\n新位置：{_inputPanelHeight}", e);
+            }
+
+            InputPanelHeightChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
     public double PositionY
     {
         get => _positionY;
-        set
+        private set
         {
-            if (Math.Abs(_positionY - value) >= 0.00f)
+            if (Math.Abs(_positionY - value) >= 0.001f)
             {
                 _positionY = value;
-                try
-                {
-                    var result = input_method.OH_TextAvoidInfo_SetPositionY(_inputMethodTextAvoidInfo, _positionY);
-                    OHDebugHelper.Debug($"输入法面板的新位置（基于左上角与物理屏幕的距离）设置结果：{result}");
-                }
-                catch (Exception e)
-                {
-                    OHDebugHelper.Error($"输入法面板的新位置（基于左上角与物理屏幕的距离）设置失败。\n新位置：{_positionY}", e);
-                }
-
                 PositionYChanged?.Invoke(this, EventArgs.Empty);
             }
+        }
+    }
+
+    public void SetPositionY(double value)
+    {
+        if (Math.Abs(_positionY - value) >= 0.00f)
+        {
+            _positionY = value;
+            try
+            {
+                var result = input_method.OH_TextAvoidInfo_SetPositionY(_inputMethodTextAvoidInfo, _positionY);
+                OHDebugHelper.Debug($"输入法面板的新位置（基于左上角与物理屏幕的距离）设置结果：{result}");
+            }
+            catch (Exception e)
+            {
+                OHDebugHelper.Error($"输入法面板的新位置（基于左上角与物理屏幕的距离）设置失败。\n新位置：{_positionY}", e);
+            }
+
+            PositionYChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -122,8 +140,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
         var result = input_method.OH_InputMethodController_Detach(_inputMethodProxy);
         _inputMethodProxy = null;
         _inputMethodTextAvoidInfo = null;
-        InputPanelHeight = 0;
-        PositionY = 0;
+        UpdateTextAvoidInfo();
         OHDebugHelper.Debug(
             $"""
              在输入控件失焦后解绑输入法。
@@ -284,16 +301,50 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
             InputMethod_TextAvoidInfo* ptr = null;
             input_method.OH_TextConfig_GetTextAvoidInfo(config, &ptr);
             _instance._inputMethodTextAvoidInfo = ptr;
-            double* ptrDouble = null;
-            input_method.OH_TextAvoidInfo_GetHeight(ptr, ptrDouble);
-            _instance.InputPanelHeight = *ptrDouble;
-            input_method.OH_TextAvoidInfo_GetPositionY(ptr, ptrDouble);
-            _instance.PositionY = *ptrDouble;
+            _instance.UpdateTextAvoidInfo();
+            DateTime dateTime = DateTime.Now + TimeSpan.FromSeconds(5);
+            _disposable?.Dispose();
+            _disposable = DispatcherTimer.Run(() =>
+                {
+                    _instance.UpdateTextAvoidInfo();
+                    return DateTime.Now < dateTime;
+                },
+                TimeSpan.FromSeconds(0.1));
             OHDebugHelper.Debug($"输入法获取输入框配置时触发的函数。\n回车键模式：{enterKeyType}\n输入框类型：{inputType}");
         }
         catch (Exception e)
         {
             OHDebugHelper.Error("输入法获取输入框配置时触发的函数。", e);
+        }
+    }
+
+    private static IDisposable? _disposable;
+
+    private void UpdateTextAvoidInfo()
+    {
+        if (_inputMethodTextAvoidInfo is null)
+        {
+            InputPanelHeight = 0;
+            PositionY = 0;
+            return;
+        }
+
+        try
+        {
+            double ptrDouble;
+            var code = input_method.OH_TextAvoidInfo_GetHeight(_inputMethodTextAvoidInfo, &ptrDouble);
+            // OHDebugHelper.Debug($"获取输入法高度的结果：{code}");
+            if (code is not InputMethod_ErrorCode.IME_ERR_OK) InputPanelHeight = 0;
+            else InputPanelHeight = ptrDouble;
+            ptrDouble = 0;
+            code = input_method.OH_TextAvoidInfo_GetPositionY(_inputMethodTextAvoidInfo, &ptrDouble);
+            // OHDebugHelper.Debug($"获取输入法Y轴坐标的结果：{code}");
+            if (code is not InputMethod_ErrorCode.IME_ERR_OK) PositionY = 0;
+            else PositionY = ptrDouble;
+        }
+        catch (Exception e)
+        {
+            OHDebugHelper.Error($"输入法面板的新高度与位置设置失败。\n新位置：{_inputPanelHeight}", e);
         }
     }
 
@@ -402,12 +453,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
         if (_client is null) return;
         if (_keyboardStatus == keyboardStatus) return;
         _keyboardStatus = keyboardStatus;
-        if (_keyboardStatus is InputMethod_KeyboardStatus.IME_KEYBOARD_STATUS_HIDE)
-        {
-            _instance.InputPanelHeight = 0;
-            _instance.PositionY = 0;
-        }
-
+        _instance.UpdateTextAvoidInfo();
         OHDebugHelper.Debug($"输入法通知键盘状态时触发的函数。\n新的键盘状态：{_keyboardStatus}");
     }
 
