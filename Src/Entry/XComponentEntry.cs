@@ -9,6 +9,7 @@ namespace Entry;
 public unsafe static class XComponentEntry
 {
     public static Dictionary<IntPtr, XComponent> XComponents = [];
+
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     public static void OnSurfaceCreated(OH_NativeXComponent* component, void* window)
     {
@@ -17,7 +18,7 @@ public unsafe static class XComponentEntry
             Ace.OH_NativeXComponent_RegisterOnFrameCallback(component, &OnSurfaceRendered);
             if (XComponents.TryGetValue((nint)component, out XComponent? xComponent) == true)
                 return;
-            xComponent = new AvaloniaXComponent<App>((nint)component, (nint)window);
+            xComponent = new AvaloniaXComponent<SandBox.App>((nint)component, (nint)window);
             XComponents.Add((nint)component, xComponent);
             xComponent.OnSurfaceCreated();
         }
@@ -28,6 +29,7 @@ public unsafe static class XComponentEntry
             {
                 Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.StackTrace);
             }
+
             if (ex.InnerException != null)
             {
                 Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.InnerException.Message);
@@ -46,7 +48,7 @@ public unsafe static class XComponentEntry
         try
         {
             if (XComponents.TryGetValue((nint)component, out XComponent? xComponent) == false)
-            return;
+                return;
             xComponent.OnSurfaceRendered(timestamp, targetTimestamp);
         }
         catch (Exception ex)
@@ -56,6 +58,7 @@ public unsafe static class XComponentEntry
             {
                 Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.StackTrace);
             }
+
             if (ex.InnerException != null)
             {
                 Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.InnerException.Message);
@@ -74,6 +77,7 @@ public unsafe static class XComponentEntry
             return;
         xComponent.OnSurfaceChanged();
     }
+
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     public static void OnSurfaceDestroyed(OH_NativeXComponent* component, void* window)
     {
@@ -81,8 +85,8 @@ public unsafe static class XComponentEntry
             return;
         xComponent.OnSurfaceDestroyed();
         XComponents.Remove((nint)component);
-
     }
+
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     public static void DispatchTouchEvent(OH_NativeXComponent* component, void* window)
     {

@@ -28,7 +28,7 @@
 				<TextBlock Text="your friends" FontSize="20" FontWeight="Bold" Foreground="White"></TextBlock>
 			</StackPanel>
 		</DockPanel>
-		<Border CornerRadius="30 0" Background="White">
+		<Border CornerRadius="30" Background="White">
 			<ScrollViewer>
 				<StackPanel Margin="0 30 0 100">
 

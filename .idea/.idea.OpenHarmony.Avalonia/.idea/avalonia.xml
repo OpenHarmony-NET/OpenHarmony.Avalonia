@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="Src/Example/AvaloniaApp/Views/MainView.axaml" value="Src/Example/AvaloniaApp.Desktop/AvaloniaApp.Desktop.csproj" />
+        <entry key="Src/Example/AvaloniaApp/Views/MessagePageView.axaml" value="Src/Example/AvaloniaApp.Desktop/AvaloniaApp.Desktop.csproj" />
+        <entry key="Src/Example/SandBox/App.axaml" value="Src/Example/SandBox.Desktop/SandBox.Desktop.csproj" />
+        <entry key="Src/Example/SandBox/Views/MainView.axaml" value="Src/Example/SandBox.Desktop/SandBox.Desktop.csproj" />
+        <entry key="Src/Example/SandBox/Views/MainWindow.axaml" value="Src/Example/SandBox.Desktop/SandBox.Desktop.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

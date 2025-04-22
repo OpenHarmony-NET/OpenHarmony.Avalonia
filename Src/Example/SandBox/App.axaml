@@ -1,0 +1,22 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="SandBox.App"
+             xmlns:semi="https://irihi.tech/semi"
+             xmlns:semi-ursa="https://irihi.tech/ursa/themes/semi"
+             RequestedThemeVariant="Dark">
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <FontFamily x:Key="DefaultFontFamily">avares://SandBox/Assets/Fonts/HarmonyOS_Sans_SC/#HarmonyOS Sans SC</FontFamily>
+        </ResourceDictionary>
+        <!-- <x:Double x:Key="ControlContentThemeFontSize">12</x:Double> -->
+        <!-- <FontFamily x:Key="ContentControlThemeFontFamily">avares://WCKYWCKF.Model2ViewModel.Editor/Assets/Fonts/HarmonyOS_Sans_SC/#HarmonyOS Sans SC</FontFamily> -->
+    </Application.Resources>
+    <Application.Styles>
+        <semi:SemiTheme Locale="zh-CN" />
+        <semi-ursa:SemiTheme Locale="zh-CN" />
+        <semi:SemiPopupAnimations />
+        <StyleInclude Source="avares://Semi.Avalonia.TreeDataGrid/Index.axaml" />
+    </Application.Styles>
+</Application>
