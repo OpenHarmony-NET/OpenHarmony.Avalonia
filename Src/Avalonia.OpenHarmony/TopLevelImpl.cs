@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using Avalonia.Controls.Platform;
 
 namespace Avalonia.OpenHarmony;
 
@@ -37,7 +38,9 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
 
     public OpenHarmonyPlatformThreading? OpenHarmonyPlatformThreading { get; private set; }
 
-    public OpenHarmonyInputMethod _textInputMethod;
+    private OpenHarmonyInputPane _openHarmonyInputPane;
+
+    private OpenHarmonyInputMethod _textInputMethod;
 
     public ClipboardImpl _clipboard = new ClipboardImpl();
 
@@ -111,6 +114,15 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         OpenHarmonyPlatformThreading =
             AvaloniaLocator.Current.GetService<IPlatformThreadingInterface>() as OpenHarmonyPlatformThreading;
         _textInputMethod = new OpenHarmonyInputMethod(this);
+        _openHarmonyInputPane = new OpenHarmonyInputPane(this);
+
+        _textInputMethod.InputPanelHeightChanged += TextInputMethodOnInputPanelHeightChanged;
+        _textInputMethod.PositionYChanged += TextInputMethodOnInputPanelHeightChanged;
+    }
+
+    private void TextInputMethodOnInputPanelHeightChanged(object? sender, EventArgs e)
+    {
+        _openHarmonyInputPane.OnGeometryChange(_textInputMethod.PositionY, _textInputMethod.InputPanelHeight);
     }
 
     public uint textureId;
@@ -371,6 +383,10 @@ void main()
         else if (featureType == typeof(IClipboard))
         {
             return _clipboard;
+        }
+        else if (featureType == typeof(IInputPane))
+        {
+            return _openHarmonyInputPane;
         }
 
         // todo

@@ -9,24 +9,12 @@
         Margin="50"
         RowDefinitions="Auto,*">
         <StackPanel
-            Grid.Row="0">
+            Grid.Row="0"
+            Spacing="5">
             <TextBox />
-            <TextBox InnerLeftContent="https://" InnerRightContent=".com" />
-            <TextBox Classes="clearButton" Text="click to clear" />
-            <TextBox Classes="revealPasswordButton" Text="123456" />
-            <TextBox
-
-                Classes="ClearButton RevealPasswordButton"
-                InnerLeftContent="https://"
-                InnerRightContent=".com"
-                Text="123456" />
-            <TextBox Classes="TextArea" Watermark="TextArea TextBox" />
-            <TextBox
-
-                Theme="{StaticResource LooklessTextBox}"
-                Watermark="Lookless TextBox"
-                InnerLeftContent="https://"
-                InnerRightContent=".com" />
+            <TextBox 
+                Name="TextBox" 
+                     IsReadOnly="True"></TextBox>
         </StackPanel>
 
         <ListBox
