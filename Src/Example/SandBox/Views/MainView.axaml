@@ -7,10 +7,28 @@
              x:Class="SandBox.Views.MainView">
     <Grid
         Margin="50"
-        RowDefinitions="Auto,*,200">
-        <TextBox
+        RowDefinitions="Auto,*">
+        <StackPanel
             Grid.Row="0">
-        </TextBox>
+            <TextBox />
+            <TextBox InnerLeftContent="https://" InnerRightContent=".com" />
+            <TextBox Classes="clearButton" Text="click to clear" />
+            <TextBox Classes="revealPasswordButton" Text="123456" />
+            <TextBox
+
+                Classes="ClearButton RevealPasswordButton"
+                InnerLeftContent="https://"
+                InnerRightContent=".com"
+                Text="123456" />
+            <TextBox Classes="TextArea" Watermark="TextArea TextBox" />
+            <TextBox
+
+                Theme="{StaticResource LooklessTextBox}"
+                Watermark="Lookless TextBox"
+                InnerLeftContent="https://"
+                InnerRightContent=".com" />
+        </StackPanel>
+
         <ListBox
             Grid.Row="1"
             Name="ListBox"

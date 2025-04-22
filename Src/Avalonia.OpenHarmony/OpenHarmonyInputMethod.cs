@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 using Avalonia.Controls;
-using Avalonia.Controls.Presenters;
 using Avalonia.Input;
 using Avalonia.Input.Raw;
 using Avalonia.Input.TextInput;
@@ -15,8 +15,10 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
     private static OpenHarmonyInputMethod? _instance;
     private static TextInputMethodClient? _client;
 
-    private readonly InputMethod_TextEditorProxy* textEditorProxy;
+    private static InputMethod_KeyboardStatus _keyboardStatus;
     private readonly TopLevelImpl _topLevelImpl;
+
+    private readonly InputMethod_TextEditorProxy* textEditorProxy;
     private InputMethod_InputMethodProxy* _inputMethodProxy = null;
 
     public OpenHarmonyInputMethod(TopLevelImpl topLevelImpl)
@@ -72,39 +74,16 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
 
     public void SetClient(TextInputMethodClient? client)
     {
-        if (_inputMethodProxy is not null)
-        {
-            if (_keyboardStatus is InputMethod_KeyboardStatus.IME_KEYBOARD_STATUS_HIDE)
-            {
-                var result = input_method.OH_InputMethodProxy_ShowKeyboard(_inputMethodProxy);
-                OHDebugHelper.Debug(
-                    $"""
-                     在输入控件没有失焦但输入法面板已关闭的情况下重新拉起输入法。
-                     拉起结果：{result}
-                     """);
-            }
-
-            return;
-        }
-
+        _isEqualToPreviousValue = _client == client;
         if (_client is not null) _client.SelectionChanged -= NotifySelectionChange;
 
         _client = client;
 
-
         if (_client is not null)
         {
-            var options = input_method.OH_AttachOptions_Create(true);
-            InputMethod_InputMethodProxy* ptr = null;
-            var code = input_method.OH_InputMethodController_Attach(textEditorProxy, options, &ptr);
-            _inputMethodProxy = ptr;
-            OHDebugHelper.Debug(
-                $"""
-                 在输入控件获得焦点后绑定输入法。
-                 绑定结果：{code}
-                 """);
             _client.SelectionChanged += NotifySelectionChange;
         }
+        else Reset();
     }
 
     public void SetCursorRect(Rect rect)
@@ -112,14 +91,60 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
         Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "CSharp", "OpenHarmonyInputMethod.SetCursorRect");
     }
 
+    private static TextInputOptions? _options;
+
+    private bool _isEqualToPreviousValue;
+
     public void SetOptions(TextInputOptions options)
     {
-        if (_inputMethodProxy is null) return;
-        OHDebugHelper.Debug(
-            $"""
-             设置输入法选项。
-             设置结果：
-             """);
+        _options = options;
+        if (_inputMethodProxy is not null)
+        {
+            if (_keyboardStatus is InputMethod_KeyboardStatus.IME_KEYBOARD_STATUS_HIDE)
+            {
+                var result = input_method.OH_InputMethodProxy_ShowKeyboard(_inputMethodProxy);
+                if (result is InputMethod_ErrorCode.IME_ERR_IMCLIENT)
+                {
+                    OH_InputMethodController_Attach();
+                    OHDebugHelper.Debug(
+                        $"""
+                         在应用进入后台后重新进入应用时重新绑定输入法。
+                         绑定结果：{result}
+                         """);
+                }
+                else
+                {
+                    OHDebugHelper.Debug(
+                        $"""
+                         在输入控件没有失焦但输入法面板已关闭的情况下重新拉起输入法。
+                         拉起结果：{result}
+                         """);
+                }
+
+                if (_isEqualToPreviousValue) return;
+            }
+        }
+
+        if (_client is not null)
+        {
+            var code = OH_InputMethodController_Attach();
+            OHDebugHelper.Debug(
+                $"""
+                 在输入控件获得焦点后绑定输入法。
+                 绑定结果：{code}
+                 """);
+        }
+
+        return;
+
+        InputMethod_ErrorCode OH_InputMethodController_Attach()
+        {
+            var options = input_method.OH_AttachOptions_Create(true);
+            InputMethod_InputMethodProxy* ptr = null;
+            var code = input_method.OH_InputMethodController_Attach(textEditorProxy, options, &ptr);
+            _inputMethodProxy = ptr;
+            return code;
+        }
     }
 
     /// <summary>
@@ -142,7 +167,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
             OHDebugHelper.Debug(
                 $"""
                  通知光标位置变化。
-                 光标位置：{_client.Selection.Start} - {_client.Selection.End}
+                 光标位置：{_client.Selection.Start} 至 {_client.Selection.End}
                  """);
         }
         catch (Exception exception)
@@ -151,14 +176,66 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
         }
     }
 
+    /// <summary>
+    /// 输入法获取输入框配置时触发的函数。
+    /// </summary>
+    /// <param name="textEditorProxy"></param>
+    /// <param name="config"></param>
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     public static void input_method_harmony_get_text_config(InputMethod_TextEditorProxy* textEditorProxy,
         InputMethod_TextConfig* config)
     {
+        OHDebugHelper.Debug($"输入法获取输入框配置时触发的函数。被调用了");
+        if (_client is null ||
+            _instance is null ||
+            _options is null) return;
+        try
+        {
+            InputMethod_EnterKeyType enterKeyType = _options.ReturnKeyType switch
+            {
+                TextInputReturnKeyType.Default => InputMethod_EnterKeyType.IME_ENTER_KEY_UNSPECIFIED,
+                TextInputReturnKeyType.Return => InputMethod_EnterKeyType.IME_ENTER_KEY_NEWLINE,
+                TextInputReturnKeyType.Done => InputMethod_EnterKeyType.IME_ENTER_KEY_DONE,
+                TextInputReturnKeyType.Go => InputMethod_EnterKeyType.IME_ENTER_KEY_GO,
+                TextInputReturnKeyType.Send => InputMethod_EnterKeyType.IME_ENTER_KEY_SEND,
+                TextInputReturnKeyType.Search => InputMethod_EnterKeyType.IME_ENTER_KEY_SEARCH,
+                TextInputReturnKeyType.Next => InputMethod_EnterKeyType.IME_ENTER_KEY_NEXT,
+                TextInputReturnKeyType.Previous => InputMethod_EnterKeyType.IME_ENTER_KEY_PREVIOUS,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            input_method.OH_TextConfig_SetEnterKeyType(config, enterKeyType);
+            InputMethod_TextInputType inputType = _options.ContentType switch
+            {
+                TextInputContentType.Normal => enterKeyType is InputMethod_EnterKeyType.IME_ENTER_KEY_NEWLINE
+                    ? InputMethod_TextInputType.IME_TEXT_INPUT_TYPE_MULTILINE
+                    : InputMethod_TextInputType.IME_TEXT_INPUT_TYPE_NONE,
+                TextInputContentType.Alpha => InputMethod_TextInputType.IME_TEXT_INPUT_TYPE_TEXT,
+                TextInputContentType.Digits => InputMethod_TextInputType.IME_TEXT_INPUT_TYPE_NUMBER,
+                TextInputContentType.Pin => InputMethod_TextInputType.IME_TEXT_INPUT_TYPE_SCREEN_LOCK_PASSWORD,
+                TextInputContentType.Number => InputMethod_TextInputType.IME_TEXT_INPUT_TYPE_NUMBER_DECIMAL,
+                TextInputContentType.Email => InputMethod_TextInputType.IME_TEXT_INPUT_TYPE_EMAIL_ADDRESS,
+                TextInputContentType.Url => InputMethod_TextInputType.IME_TEXT_INPUT_TYPE_URL,
+                TextInputContentType.Name => InputMethod_TextInputType.IME_TEXT_INPUT_TYPE_USER_NAME,
+                TextInputContentType.Password => InputMethod_TextInputType.IME_TEXT_INPUT_TYPE_VISIBLE_PASSWORD,
+                TextInputContentType.Social => InputMethod_TextInputType.IME_TEXT_INPUT_TYPE_TEXT,
+                TextInputContentType.Search => InputMethod_TextInputType.IME_TEXT_INPUT_TYPE_TEXT,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            input_method.OH_TextConfig_SetInputType(config, inputType);
+            input_method.OH_TextConfig_SetPreviewTextSupport(config, _client.SupportsPreedit);
+            var selection = Dispatcher.UIThread.Invoke(() => _client.Selection);
+            input_method.OH_TextConfig_SetSelection(config, selection.Start, selection.End);
+            input_method.OH_TextConfig_SetWindowId(config, (int)_instance._topLevelImpl.programId);
+            OHDebugHelper.Debug($"输入法获取输入框配置时触发的函数。\n回车键模式：{enterKeyType}\n输入框类型：{inputType}");
+        }
+        catch (Exception e)
+        {
+            OHDebugHelper.Error("输入法获取输入框配置时触发的函数。", e);
+        }
     }
 
     /// <summary>
-    ///     输入法应用插入文本时触发的函数。
+    /// 输入法应用插入文本时触发的函数。
     /// </summary>
     /// <param name="textEditorProxy"></param>
     /// <param name="text"></param>
@@ -181,7 +258,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
     }
 
     /// <summary>
-    ///     输入法删除光标左侧文本时触发的函数。
+    /// 输入法删除光标左侧文本时触发的函数。
     /// </summary>
     /// <param name="textEditorProxy"></param>
     /// <param name="length"></param>
@@ -193,9 +270,9 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
             _instance?._topLevelImpl.InputRoot is null) return;
         try
         {
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
-                RawKeyEventArgs args = Dispatcher.UIThread.Invoke(() => new RawKeyEventArgs(
+                var args = Dispatcher.UIThread.Invoke(() => new RawKeyEventArgs(
                     OpenHarmonyKeyboardDevice.Instance,
                     (ulong)DateTime.Now.Ticks,
                     _instance._topLevelImpl.InputRoot,
@@ -217,7 +294,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
     }
 
     /// <summary>
-    ///     输入法删除光标右侧文本时触发的函数。
+    /// 输入法删除光标右侧文本时触发的函数。
     /// </summary>
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void input_method_harmony_delete_forward(InputMethod_TextEditorProxy* textEditorProxy, int length)
@@ -226,9 +303,9 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
             _instance?._topLevelImpl.InputRoot is null) return;
         try
         {
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
-                RawKeyEventArgs args = Dispatcher.UIThread.Invoke(() => new RawKeyEventArgs(
+                var args = Dispatcher.UIThread.Invoke(() => new RawKeyEventArgs(
                     OpenHarmonyKeyboardDevice.Instance,
                     (ulong)DateTime.Now.Ticks,
                     _instance._topLevelImpl.InputRoot,
@@ -249,10 +326,8 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
         }
     }
 
-    private static InputMethod_KeyboardStatus _keyboardStatus;
-
     /// <summary>
-    ///     输入法通知键盘状态时触发的函数。
+    /// 输入法通知键盘状态时触发的函数。
     /// </summary>
     /// <param name="textEditorProxy"></param>
     /// <param name="keyboardStatus"></param>
@@ -261,12 +336,13 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
         InputMethod_KeyboardStatus keyboardStatus)
     {
         if (_client is null) return;
+        if (_keyboardStatus == keyboardStatus) return;
         _keyboardStatus = keyboardStatus;
-        OHDebugHelper.Debug("输入法通知键盘状态时触发的函数。");
+        OHDebugHelper.Debug($"输入法通知键盘状态时触发的函数。\n新的键盘状态：{_keyboardStatus}");
     }
 
     /// <summary>
-    ///     输入法发送回车键时触发的函数。
+    /// 输入法发送回车键时触发的函数。
     /// </summary>
     /// <param name="textEditorProxy"></param>
     /// <param name="enterKeyType"></param>
@@ -281,7 +357,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
         {
             Dispatcher.UIThread.Post(() =>
             {
-                RawKeyEventArgs args = new RawKeyEventArgs(
+                var args = new RawKeyEventArgs(
                     OpenHarmonyKeyboardDevice.Instance,
                     (ulong)DateTime.Now.Ticks,
                     _instance._topLevelImpl.InputRoot,
@@ -302,7 +378,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
     }
 
     /// <summary>
-    ///     输入法移动光标时触发的函数。
+    /// 输入法移动光标时触发的函数。
     /// </summary>
     /// <param name="textEditorProxy"></param>
     /// <param name="direction"></param>
@@ -310,11 +386,49 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
     private static void input_method_harmony_move_cursor(InputMethod_TextEditorProxy* textEditorProxy,
         InputMethod_Direction direction)
     {
-        if (_client is null) return;
+        if (_client is null ||
+            _instance?._topLevelImpl.InputRoot is null) return;
         try
         {
+            var key = direction switch
+            {
+                InputMethod_Direction.IME_DIRECTION_LEFT => Key.Left,
+                InputMethod_Direction.IME_DIRECTION_RIGHT => Key.Right,
+                InputMethod_Direction.IME_DIRECTION_UP => Key.Up,
+                InputMethod_Direction.IME_DIRECTION_DOWN => Key.Down,
+                _ => Key.None
+            };
+            var physicalKey = direction switch
+            {
+                InputMethod_Direction.IME_DIRECTION_LEFT => PhysicalKey.ArrowLeft,
+                InputMethod_Direction.IME_DIRECTION_RIGHT => PhysicalKey.ArrowRight,
+                InputMethod_Direction.IME_DIRECTION_UP => PhysicalKey.ArrowUp,
+                InputMethod_Direction.IME_DIRECTION_DOWN => PhysicalKey.ArrowDown,
+                _ => PhysicalKey.None
+            };
+            var keySymbol = direction switch
+            {
+                InputMethod_Direction.IME_DIRECTION_LEFT => "\u2190",
+                InputMethod_Direction.IME_DIRECTION_RIGHT => "\u2192",
+                InputMethod_Direction.IME_DIRECTION_UP => "\u2191",
+                InputMethod_Direction.IME_DIRECTION_DOWN => "\u2193",
+                _ => null
+            };
+            Dispatcher.UIThread.Post(() =>
+            {
+                var args = new RawKeyEventArgs(
+                    OpenHarmonyKeyboardDevice.Instance,
+                    (ulong)DateTime.Now.Ticks,
+                    _instance._topLevelImpl.InputRoot,
+                    RawKeyEventType.KeyDown,
+                    key,
+                    RawInputModifiers.None,
+                    physicalKey,
+                    keySymbol
+                );
+                _instance._topLevelImpl.Input?.Invoke(args);
+            });
             OHDebugHelper.Debug("输入法移动光标时触发的函数。");
-            // _instance._topLevelImpl.TextInput("\n");
         }
         catch (Exception e)
         {
@@ -323,7 +437,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
     }
 
     /// <summary>
-    ///     输入法请求选中文本时触发的函数。
+    /// 输入法请求选中文本时触发的函数。
     /// </summary>
     /// <param name="textEditorProxy"></param>
     /// <param name="start"></param>
@@ -346,7 +460,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
     }
 
     /// <summary>
-    ///     输入法发送扩展编辑操作时触发的函数。
+    /// 输入法发送扩展编辑操作时触发的函数。
     /// </summary>
     /// <param name="textEditorProxy"></param>
     /// <param name="action"></param>
@@ -354,10 +468,30 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
     private static void input_method_harmony_handle_extend_action(InputMethod_TextEditorProxy* textEditorProxy,
         InputMethod_ExtendAction action)
     {
+        if (_client is null) return;
+        try
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                _client.ExecuteContextMenuAction(action switch
+                {
+                    InputMethod_ExtendAction.IME_EXTEND_ACTION_COPY => ContextMenuAction.Copy,
+                    InputMethod_ExtendAction.IME_EXTEND_ACTION_CUT => ContextMenuAction.Cut,
+                    InputMethod_ExtendAction.IME_EXTEND_ACTION_PASTE => ContextMenuAction.Paste,
+                    InputMethod_ExtendAction.IME_EXTEND_ACTION_SELECT_ALL => ContextMenuAction.SelectAll,
+                    _ => throw new NotImplementedException()
+                });
+            });
+            OHDebugHelper.Debug("输入法发送扩展编辑操作时触发的函数。");
+        }
+        catch (Exception e)
+        {
+            OHDebugHelper.Error("输入法发送扩展编辑操作时触发的函数。", e);
+        }
     }
 
     /// <summary>
-    ///     输入法获取光标左侧文本时触发的函数。
+    /// 输入法获取光标左侧文本时触发的函数。
     /// </summary>
     /// <param name="textEditorProxy"></param>
     /// <param name="number"></param>
@@ -368,12 +502,20 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
         int number,
         char* text, ulong* length)
     {
-        if (_client is null) return;
+        if (_client?.TextViewVisual is not TextBox textBox) return;
         try
         {
-            // {
-            //     var leftText = Marshal.PtrToStringUni((IntPtr)text, (int)number);
-            //     _instance?._topLevelImpl.TextInput(leftText);
+            var str = Dispatcher.UIThread.Invoke(() =>
+            {
+                if (textBox.Text?.Length is not { } bl || bl is 0) return string.Empty;
+                var caretIndex = textBox.CaretIndex;
+                var l = (int)*length;
+                if (l > bl) l = bl;
+
+                return textBox.Text?.Substring(caretIndex, l) ?? string.Empty;
+            });
+            Marshal.Copy(Encoding.Unicode.GetBytes(str), 0, (IntPtr)text, (int)*length);
+            OHDebugHelper.Debug("输入法获取光标左侧文本时触发的函数。");
         }
         catch (Exception e)
         {
@@ -382,7 +524,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
     }
 
     /// <summary>
-    ///     输入法获取光标右侧文本时触发的函数。
+    /// 输入法获取光标右侧文本时触发的函数。
     /// </summary>
     /// <param name="textEditorProxy"></param>
     /// <param name="number"></param>
@@ -393,22 +535,53 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
         int number,
         char* text, ulong* length)
     {
+        if (_client?.TextViewVisual is not TextBox textBox) return;
+        try
+        {
+            var str = Dispatcher.UIThread.Invoke(() =>
+            {
+                if (textBox.Text?.Length is 0) return string.Empty;
+                var caretIndex = textBox.CaretIndex;
+                var l = (int)*length;
+                var startIndex = caretIndex - l;
+                if (startIndex < 0) startIndex = 0;
+
+                return textBox.Text?.Substring(startIndex, caretIndex) ?? string.Empty;
+            });
+            Marshal.Copy(Encoding.Unicode.GetBytes(str), 0, (IntPtr)text, (int)*length);
+            OHDebugHelper.Debug("输入法获取光标右侧文本时触发的函数。");
+        }
+        catch (Exception e)
+        {
+            OHDebugHelper.Error("输入法获取光标右侧文本时触发的函数。", e);
+        }
     }
 
     /// <summary>
-    ///     输入法获取光标所在输入框文本索引时触发的函数。
+    /// 输入法获取光标所在输入框文本索引时触发的函数。
     /// </summary>
     /// <param name="textEditorProxy"></param>
     /// <returns></returns>
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static int input_method_harmony_get_text_index_at_cursor(InputMethod_TextEditorProxy* textEditorProxy)
     {
-        if (_client is null) return 0;
+        if (_client?.TextViewVisual is not TextBox textBox) return 0;
+        try
+        {
+            var result = Dispatcher.UIThread.Invoke(() => textBox.CaretIndex);
+            OHDebugHelper.Debug("输入法获取光标所在输入框文本索引时触发的函数。");
+            return result;
+        }
+        catch (Exception e)
+        {
+            OHDebugHelper.Error("输入法获取光标所在输入框文本索引时触发的函数。", e);
+        }
+
         return 0;
     }
 
     /// <summary>
-    ///     输入法应用发送私有数据命令时触发的函数。
+    /// 输入法应用发送私有数据命令时触发的函数。
     /// </summary>
     /// <param name="textEditorProxy"></param>
     /// <param name="privateCommand"></param>
@@ -423,7 +596,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
     }
 
     /// <summary>
-    ///     输入法设置预上屏文本时触发的函数。
+    /// 输入法设置预上屏文本时触发的函数。
     /// </summary>
     /// <param name="textEditorProxy"></param>
     /// <param name="text"></param>
@@ -461,7 +634,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
     }
 
     /// <summary>
-    ///     输入法结束预上屏时触发的函数。
+    /// 输入法结束预上屏时触发的函数。
     /// </summary>
     /// <param name="textEditorProxy"></param>
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
@@ -470,6 +643,6 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
         OHDebugHelper.Debug("输入法结束预上屏时触发的函数。");
         if (_client is null) return;
         if (_client.SupportsPreedit is false) return;
-        _client.SetPreeditText(null);
+        Dispatcher.UIThread.Post(() => _client?.SetPreeditText(null));
     }
 }
