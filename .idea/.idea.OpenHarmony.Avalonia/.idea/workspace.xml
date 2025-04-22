@@ -12,19 +12,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1f2b5cd-87e6-4b79-abae-28574378b709" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OpenHarmonyPlatformSettings.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.OpenHarmony.Avalonia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.OpenHarmony.Avalonia/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OHDebugHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OHDebugHelper.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OpenHarmonyInputMethod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OpenHarmonyInputMethod.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OpenHarmonyPlatform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OpenHarmonyPlatform.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/TopLevelImpl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/TopLevelImpl.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Example/SandBox/App.axaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/SandBox/App.axaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Example/SandBox/ViewModels/MainWindowViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/SandBox/ViewModels/MainViewViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainView.axaml" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainView.axaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainView.axaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainView.axaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainWindow.axaml" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainWindow.axaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ThirdParty/OpenHarmony.NDK.Bindings" beforeDir="false" afterPath="$PROJECT_DIR$/ThirdParty/OpenHarmony.NDK.Bindings" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ThirdParty/OpenHarmony.NDK.Bindings/OpenHarmony.NDK.Bindings/input_method/input_method.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ThirdParty/OpenHarmony.NDK.Bindings/OpenHarmony.NDK.Bindings/input_method/input_method.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +47,8 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4a46978660944bf59f4592e11aa626571e3400/bd/17d8e410/Typeface.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/b9fee17163914ebe95e2aec54e043296101000/c0/5111b74c/InputPaneBase.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/Project/OpenHarmony.NET/OpenHarmony.Avalonia/Src/Avalonia.OpenHarmony/OpenHarmonyInputMethod.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Src/Example/SandBox/ViewModels/MainViewViewModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Src/Example/SandBox/Views/MainWindow.axaml" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -199,7 +191,7 @@
       <option name="presentableId" value="Default" />
       <updated>1745163813085</updated>
       <workItem from="1745163816210" duration="5822000" />
-      <workItem from="1745218231334" duration="37873000" />
+      <workItem from="1745218231334" duration="67571000" />
     </task>
     <task id="LOCAL-00001" summary="· 添加Sandbox便于功能接入测试。&#10;· 初步接入OpenHarmony的IMEKit，能够输入或插入文本。">
       <option name="closed" value="true" />
@@ -209,7 +201,63 @@
       <option name="project" value="LOCAL" />
       <updated>1745253053416</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="· 修复在发出Key事件时空引用问题。&#10;· 添加缺失的IPlatformSettings绑定OpenHarmonyPlatformSettings。&#10;· 优化OHDebugHelper的功能。&#10;· 优化Sandbox的日志显示方式，在调试时不会被输入法阻挡。">
+      <option name="closed" value="true" />
+      <created>1745295305786</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745295305786</updated>
+    </task>
+    <task id="LOCAL-00003" summary="· 修复OH_TextEditorProxy_SetDeleteBackwardFunc函数的委托类型">
+      <option name="closed" value="true" />
+      <created>1745295321450</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745295321450</updated>
+    </task>
+    <task id="LOCAL-00004" summary="· 在Sandbox中添加更多的输入框测试。&#10;· 修复切换窗口后，输入法不能正常拉起。&#10;· 输入法初步接入完成，能够正常使用。&#10;· 修复从某一输入控件跳转到其它输入控件时OpenHarmonyInputMethod.SetClient方法错误的处理逻辑。&#10;· 接入输入框的配置信息，能够设置输入法初始模式（密码、网页、邮箱）。&#10;· 修复由预上屏回调引起的空引用异常。&#10;· 修复由Avalonia输入框架的方法调用顺序导致的输入法没能正确获得输入框配置信息。">
+      <option name="closed" value="true" />
+      <created>1745305894376</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1745305894376</updated>
+    </task>
+    <task id="LOCAL-00005" summary="· 实现服务InputPane。">
+      <option name="closed" value="true" />
+      <created>1745312536506</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1745312536506</updated>
+    </task>
+    <task id="LOCAL-00006" summary="· 实现服务InputPane。">
+      <option name="closed" value="true" />
+      <created>1745312571054</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1745312571054</updated>
+    </task>
+    <task id="LOCAL-00007" summary="· 实现服务InputPane。">
+      <option name="closed" value="true" />
+      <created>1745312847007</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1745312847007</updated>
+    </task>
+    <task id="LOCAL-00008" summary="· 修复输入法避让设置的获取。">
+      <option name="closed" value="true" />
+      <created>1745322630799</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1745322630799</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -222,7 +270,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feat-imekit" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -231,7 +291,13 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="· 添加Sandbox便于功能接入测试。&#10;· 初步接入OpenHarmony的IMEKit，能够输入或插入文本。" />
-    <option name="LAST_COMMIT_MESSAGE" value="· 添加Sandbox便于功能接入测试。&#10;· 初步接入OpenHarmony的IMEKit，能够输入或插入文本。" />
+    <MESSAGE value="· 修复在发出Key事件时空引用问题。&#10;· 添加缺失的IPlatformSettings绑定OpenHarmonyPlatformSettings。&#10;· 优化OHDebugHelper的功能。&#10;· 优化Sandbox的日志显示方式，在调试时不会被输入法阻挡。" />
+    <MESSAGE value="· 修复在发出Key事件时空引用问题。 &#10;· 添加缺失的IPlatformSettings绑定OpenHarmonyPlatformSettings。 &#10;· 优化OHDebugHelper的功能。&#10;· 优化Sandbox的日志显示方式，在调试时不会被输入法阻挡。" />
+    <MESSAGE value="· 修复在发出Key事件时空引用问题。 &#10;· 添加缺失的IPlatformSettings绑定OpenHarmonyPlatformSettings。 &#10;· 优化OHDebugHelper的功能。&#10;· 优化Sandbox的日志显示方式，在调试时不会被输入法阻挡。" />
+    <MESSAGE value="· 在Sandbox中添加更多的输入框测试。&#10;· 修复切换窗口后，输入法不能正常拉起。&#10;· 输入法初步接入完成，能够正常使用。&#10;· 修复从某一输入控件跳转到其它输入控件时OpenHarmonyInputMethod.SetClient方法错误的处理逻辑。&#10;· 接入输入框的配置信息，能够设置输入法初始模式（密码、网页、邮箱）。&#10;· 修复由预上屏回调引起的空引用异常。&#10;· 修复由Avalonia输入框架的方法调用顺序导致的输入法没能正确获得输入框配置信息。" />
+    <MESSAGE value="· 实现服务InputPane。" />
+    <MESSAGE value="· 修复输入法避让设置的获取。" />
+    <option name="LAST_COMMIT_MESSAGE" value="· 修复输入法避让设置的获取。" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

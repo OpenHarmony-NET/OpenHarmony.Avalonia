@@ -137,15 +137,18 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
 
     public void Reset()
     {
-        var result = input_method.OH_InputMethodController_Detach(_inputMethodProxy);
-        _inputMethodProxy = null;
-        _inputMethodTextAvoidInfo = null;
-        UpdateTextAvoidInfo();
-        OHDebugHelper.Debug(
-            $"""
-             在输入控件失焦后解绑输入法。
-             解绑结果：{result}
-             """);
+        if (_inputMethodProxy is not null)
+        {
+            var result = input_method.OH_InputMethodController_Detach(_inputMethodProxy);
+            _inputMethodProxy = null;
+            _inputMethodTextAvoidInfo = null;
+            UpdateTextAvoidInfo();
+            OHDebugHelper.Debug(
+                $"""
+                 在输入控件失焦后解绑输入法。
+                 解绑结果：{result}
+                 """);
+        }
     }
 
     public void SetClient(TextInputMethodClient? client)
@@ -309,7 +312,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
                     _instance.UpdateTextAvoidInfo();
                     return DateTime.Now < dateTime;
                 },
-                TimeSpan.FromSeconds(0.1));
+                TimeSpan.FromSeconds(0.5));
             OHDebugHelper.Debug($"输入法获取输入框配置时触发的函数。\n回车键模式：{enterKeyType}\n输入框类型：{inputType}");
         }
         catch (Exception e)
@@ -331,16 +334,16 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
 
         try
         {
-            double ptrDouble;
-            var code = input_method.OH_TextAvoidInfo_GetHeight(_inputMethodTextAvoidInfo, &ptrDouble);
-            // OHDebugHelper.Debug($"获取输入法高度的结果：{code}");
-            if (code is not InputMethod_ErrorCode.IME_ERR_OK) InputPanelHeight = 0;
-            else InputPanelHeight = ptrDouble;
-            ptrDouble = 0;
-            code = input_method.OH_TextAvoidInfo_GetPositionY(_inputMethodTextAvoidInfo, &ptrDouble);
-            // OHDebugHelper.Debug($"获取输入法Y轴坐标的结果：{code}");
-            if (code is not InputMethod_ErrorCode.IME_ERR_OK) PositionY = 0;
-            else PositionY = ptrDouble;
+            // double ptrDouble = 0;
+            // var code = input_method.OH_TextAvoidInfo_GetHeight(_inputMethodTextAvoidInfo, &ptrDouble);
+            // OHDebugHelper.Debug($"获取输入法高度的结果：{code} 新高度：{ptrDouble}");
+            // if (code is not InputMethod_ErrorCode.IME_ERR_OK) InputPanelHeight = 0;
+            // else InputPanelHeight = ptrDouble;
+            // ptrDouble = 0;
+            // code = input_method.OH_TextAvoidInfo_GetPositionY(_inputMethodTextAvoidInfo, &ptrDouble);
+            // OHDebugHelper.Debug($"获取输入法Y轴坐标的结果：{code} 新Y轴坐标：{Convert.ToInt32(ptrDouble)}");
+            // if (code is not InputMethod_ErrorCode.IME_ERR_OK) PositionY = 0;
+            // else PositionY = ptrDouble;
         }
         catch (Exception e)
         {
@@ -733,7 +736,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
             Dispatcher.UIThread.Post(() =>
             {
                 _client.SetPreeditText(preeditText);
-                _client.Selection = new TextSelection(start, end);
+                // _client.Selection = new TextSelection(start, end);
             });
             OHDebugHelper.Debug(
                 $"""
