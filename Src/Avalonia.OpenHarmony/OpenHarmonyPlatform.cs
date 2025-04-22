@@ -27,7 +27,8 @@ public class OpenHarmonyPlatform
             .Bind<IRenderTimer>().ToSingleton<OpenHarmonyRenderTimer>()
             .Bind<ICursorFactory>().ToSingleton<CursorFactory>()
             .Bind<IPlatformThreadingInterface>().ToSingleton<OpenHarmonyPlatformThreading>()
-            .Bind<IKeyboardDevice>().ToSingleton<OpenHarmonyKeyboardDevice>();
+            .Bind<IKeyboardDevice>().ToSingleton<OpenHarmonyKeyboardDevice>()
+            .Bind<IPlatformSettings>().ToSingleton<OpenHarmonyPlatformSettings>();
 
         var platformGraphics = InitializeGraphics(options);
         if (platformGraphics is not null)

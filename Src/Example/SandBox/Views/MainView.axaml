@@ -7,7 +7,7 @@
              x:Class="SandBox.Views.MainView">
     <Grid
         Margin="50"
-        RowDefinitions="Auto,*">
+        RowDefinitions="Auto,*,200">
         <TextBox
             Grid.Row="0">
         </TextBox>
@@ -15,7 +15,13 @@
             Grid.Row="1"
             Name="ListBox"
             ItemsSource="{x:Static openHarmony:OHDebugHelper.Logs}">
-
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Theme="{DynamicResource CardBorder}">
+                        <TextBlock Text="{Binding Message}"></TextBlock>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
     </Grid>
 </UserControl>

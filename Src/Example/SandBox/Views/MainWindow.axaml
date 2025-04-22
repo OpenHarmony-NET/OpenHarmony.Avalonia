@@ -6,14 +6,14 @@
         xmlns:views="clr-namespace:SandBox.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SandBox.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
+        x:DataType="vm:MainViewViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="SandBox">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel />
+        <vm:MainViewViewModel />
     </Design.DataContext>
 
     <views:MainView />

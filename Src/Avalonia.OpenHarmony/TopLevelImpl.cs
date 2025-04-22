@@ -382,7 +382,7 @@ void main()
         if (Input != null)
         {
             var args = new RawTextInputEventArgs(
-                (AvaloniaLocator.Current.GetService<IKeyboardDevice>() as KeyboardDevice)!,
+                OpenHarmonyKeyboardDevice.Instance,
                 (ulong)DateTime.Now.Ticks,
                 InputRoot!, text);
 
@@ -395,4 +395,8 @@ void main()
     }
 }
 
-internal class OpenHarmonyKeyboardDevice : KeyboardDevice;
+internal class OpenHarmonyKeyboardDevice : KeyboardDevice
+{
+    internal static KeyboardDevice Instance =>
+        (AvaloniaLocator.Current.GetService<IKeyboardDevice>() as KeyboardDevice)!;
+}

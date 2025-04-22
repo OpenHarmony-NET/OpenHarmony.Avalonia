@@ -12,28 +12,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b1f2b5cd-87e6-4b79-abae-28574378b709" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OHDebugHelper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Src/Example/SandBox/Assets/Fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Black.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Src/Example/SandBox/Assets/Fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Src/Example/SandBox/Assets/Fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Light.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Src/Example/SandBox/Assets/Fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Medium.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Src/Example/SandBox/Assets/Fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Src/Example/SandBox/Assets/Fonts/HarmonyOS_Sans_SC/HarmonyOS_SansSC_Thin.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Src/Example/SandBox/Assets/Fonts/HarmonyOS_Sans_SC/LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainView.axaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainView.axaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OpenHarmony.Avalonia.sln" beforeDir="false" afterPath="$PROJECT_DIR$/OpenHarmony.Avalonia.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/Avalonia.OpenHarmony.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/Avalonia.OpenHarmony.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OpenHarmonyPlatformSettings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.OpenHarmony.Avalonia/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.OpenHarmony.Avalonia/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OHDebugHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OHDebugHelper.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OpenHarmonyInputMethod.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OpenHarmonyInputMethod.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OpenHarmonyPlatform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/OpenHarmonyPlatform.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/TopLevelImpl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Avalonia.OpenHarmony/TopLevelImpl.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Entry/Entry.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Entry/Entry.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Entry/XComponentEntry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Entry/XComponentEntry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Example/AvaloniaApp.Desktop/AvaloniaApp.Desktop.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/AvaloniaApp.Desktop/AvaloniaApp.Desktop.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Example/AvaloniaApp/AvaloniaApp.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/AvaloniaApp/AvaloniaApp.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Example/AvaloniaApp/Views/MainView.axaml" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/AvaloniaApp/Views/MainView.axaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Example/AvaloniaApp/Views/MainView.axaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/AvaloniaApp/Views/MainView.axaml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Src/Example/AvaloniaApp/Views/MessagePageView.axaml" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/AvaloniaApp/Views/MessagePageView.axaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Example/SandBox/App.axaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/SandBox/App.axaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Example/SandBox/ViewModels/MainWindowViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/SandBox/ViewModels/MainViewViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainView.axaml" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainView.axaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainView.axaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainView.axaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainWindow.axaml" beforeDir="false" afterPath="$PROJECT_DIR$/Src/Example/SandBox/Views/MainWindow.axaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThirdParty/OpenHarmony.NDK.Bindings" beforeDir="false" afterPath="$PROJECT_DIR$/ThirdParty/OpenHarmony.NDK.Bindings" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ThirdParty/OpenHarmony.NDK.Bindings/OpenHarmony.NDK.Bindings/input_method/input_method.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ThirdParty/OpenHarmony.NDK.Bindings/OpenHarmony.NDK.Bindings/input_method/input_method.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +35,13 @@
     <option name="firstShow" value="false" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -60,9 +57,10 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4a46978660944bf59f4592e11aa626571e3400/bd/17d8e410/Typeface.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Src/Example/SandBox/ViewModels/MainWindowViewModel.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Src/Example/SandBox/ViewModels/MainViewViewModel.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Src/Example/SandBox/Views/MainWindow.axaml" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="Toolset" />
   </component>
@@ -82,7 +80,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feat-imekit",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -201,13 +199,23 @@
       <option name="presentableId" value="Default" />
       <updated>1745163813085</updated>
       <workItem from="1745163816210" duration="5822000" />
-      <workItem from="1745218231334" duration="21823000" />
+      <workItem from="1745218231334" duration="37873000" />
     </task>
+    <task id="LOCAL-00001" summary="· 添加Sandbox便于功能接入测试。&#10;· 初步接入OpenHarmony的IMEKit，能够输入或插入文本。">
+      <option name="closed" value="true" />
+      <created>1745253053416</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745253053416</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -222,6 +230,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="· 添加Sandbox便于功能接入测试。&#10;· 初步接入OpenHarmony的IMEKit，能够输入或插入文本。" />
+    <option name="LAST_COMMIT_MESSAGE" value="· 添加Sandbox便于功能接入测试。&#10;· 初步接入OpenHarmony的IMEKit，能够输入或插入文本。" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
