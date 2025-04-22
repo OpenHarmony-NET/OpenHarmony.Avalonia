@@ -363,3 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 /OHOS_Project/entry/libs/arm64-v8a/*
 /OHOS_Project/entry/libs/x86_64/*
+
+
+# Jetbrains
+.idea
