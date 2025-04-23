@@ -14,8 +14,7 @@
             <TextBox />
             <TextBox
                 Name="TextBox"
-                IsReadOnly="True">
-            </TextBox>
+                IsReadOnly="True" />
         </StackPanel>
 
         <ListBox
@@ -25,7 +24,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border Theme="{DynamicResource CardBorder}">
-                        <TextBlock Text="{Binding Message}"></TextBlock>
+                        <TextBlock Text="{Binding Message}" />
                     </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>

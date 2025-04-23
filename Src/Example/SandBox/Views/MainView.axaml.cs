@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Reactive.Linq;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Input;
-using Avalonia.Input.TextInput;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Avalonia.OpenHarmony;
 using Avalonia.Threading;
 using ReactiveMarbles.ObservableEvents;

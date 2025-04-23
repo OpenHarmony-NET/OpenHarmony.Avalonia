@@ -1,4 +1,8 @@
-﻿using Avalonia.Controls;
+﻿using System.Drawing;
+using System.Numerics;
+using System.Runtime.InteropServices;
+using Avalonia.Controls;
+using Avalonia.Controls.Platform;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Input.Raw;
@@ -10,85 +14,33 @@ using Avalonia.Rendering;
 using Avalonia.Rendering.Composition;
 using OpenHarmony.NDK.Bindings.Native;
 using Silk.NET.OpenGLES;
-using System.Diagnostics;
-using System.Drawing;
-using System.Numerics;
-using System.Runtime.InteropServices;
-using Avalonia.Controls.Platform;
 
 namespace Avalonia.OpenHarmony;
 
 public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlatformSurfaceInfo
 {
-    public IntPtr Window { get; private set; }
-    public IntPtr XComponent { get; private set; }
-    public nint Handle => Window;
+    public readonly ClipboardImpl _clipboard = new();
 
-    public PixelSize Size { get; private set; }
+    private readonly OpenHarmonyInputPane _openHarmonyInputPane;
 
-    public double Scaling { get; private set; }
+    private readonly OpenHarmonyInputMethod _textInputMethod;
 
     public IGlPlatformSurface _gl;
 
-    public GL? gl;
+    private WindowTransparencyLevel _transparencyLevel;
+
+    public nint Address;
+    public uint ebo;
 
     public List<OpenHarmonyFramebuffer> framebuffers = [];
 
-    public OpenHarmonyRenderTimer? RenderTimer { get; private set; }
+    public GL? gl;
+    public uint programId;
 
-    public OpenHarmonyPlatformThreading? OpenHarmonyPlatformThreading { get; private set; }
+    public uint textureId;
 
-    private OpenHarmonyInputPane _openHarmonyInputPane;
-
-    private OpenHarmonyInputMethod _textInputMethod;
-
-    public ClipboardImpl _clipboard = new ClipboardImpl();
-
-    public unsafe void Render()
-    {
-        try
-        {
-            RenderTimer?.Render();
-            Paint?.Invoke(new Rect(0, 0, Size.Width, Size.Height));
-            OpenHarmonyPlatformThreading?.Tick();
-        }
-        catch (Exception e)
-        {
-            Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", e.Message.ToString());
-            if (e.StackTrace != null)
-            {
-                Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", e.StackTrace.ToString());
-            }
-
-            if (e.InnerException != null)
-            {
-                Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", e.InnerException.Message.ToString());
-                if (e.InnerException.StackTrace != null)
-                {
-                    Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", e.InnerException.StackTrace.ToString());
-                }
-            }
-
-            throw;
-        }
-
-        // software render
-        if (gl != null)
-        {
-            InitOrUpdateTexture();
-
-            gl.ClearColor(Color.White);
-            gl.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);
-
-            gl.UseProgram(programId);
-            var location = gl.GetUniformLocation(programId, "Texture_Buffer");
-            gl.Uniform1(location, 1);
-            gl.ActiveTexture(GLEnum.Texture1);
-            gl.BindTexture(GLEnum.Texture2D, textureId);
-            gl.BindVertexArray(vao);
-            gl.DrawElements(GLEnum.Triangles, 6, GLEnum.UnsignedInt, (void*)0);
-        }
-    }
+    public uint vao;
+    public uint vbo;
 
     public unsafe TopLevelImpl(IntPtr xcomponent, IntPtr window)
     {
@@ -120,6 +72,153 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         _textInputMethod.PositionYChanged += TextInputMethodOnInputPanelHeightChanged;
     }
 
+    public IntPtr Window { get; }
+    public IntPtr XComponent { get; }
+
+    public OpenHarmonyRenderTimer? RenderTimer { get; }
+
+    public OpenHarmonyPlatformThreading? OpenHarmonyPlatformThreading { get; }
+
+    public Size? FrameSize => null;
+
+
+    public IInputRoot? InputRoot { get; private set; }
+    public nint Handle => Window;
+
+    public PixelSize Size { get; private set; }
+
+    public double Scaling { get; private set; }
+
+
+    public Size ClientSize => new Size(Size.Width, Size.Height) / Scaling;
+
+    public double RenderScaling => Scaling;
+
+    public IEnumerable<object> Surfaces { get; }
+
+    public Action<RawInputEventArgs>? Input { get; set; }
+    public Action<Rect>? Paint { get; set; }
+    public Action<Size, WindowResizeReason>? Resized { get; set; }
+    public Action<double>? ScalingChanged { get; set; }
+    public Action<WindowTransparencyLevel>? TransparencyLevelChanged { get; set; }
+
+    public Compositor Compositor => AvaloniaLocator.CurrentMutable.GetService<Compositor>() ??
+                                    throw new InvalidOperationException(
+                                        "Android backend wasn't initialized. Make sure .UseAndroid() was executed.");
+
+    public Action? Closed { get; set; }
+    public Action? LostFocus { get; set; }
+
+    public WindowTransparencyLevel TransparencyLevel
+    {
+        get => _transparencyLevel;
+        private set
+        {
+            if (_transparencyLevel != value)
+            {
+                _transparencyLevel = value;
+                TransparencyLevelChanged?.Invoke(value);
+            }
+        }
+    }
+
+    public AcrylicPlatformCompensationLevels AcrylicCompensationLevels => new(1, 1, 1);
+
+    public double DesktopScaling => throw new NotImplementedException();
+
+    IPlatformHandle? ITopLevelImpl.Handle => throw new NotImplementedException();
+
+    public void SetInputRoot(IInputRoot inputRoot)
+    {
+        InputRoot = inputRoot;
+    }
+
+    public Point PointToClient(PixelPoint point)
+    {
+        return point.ToPoint(RenderScaling);
+    }
+
+    public PixelPoint PointToScreen(Point point)
+    {
+        return PixelPoint.FromPoint(point, RenderScaling);
+    }
+
+    public void SetCursor(ICursorImpl? cursor)
+    {
+    }
+
+    public IPopupImpl? CreatePopup()
+    {
+        return null;
+    }
+
+    public void SetTransparencyLevelHint(IReadOnlyList<WindowTransparencyLevel> transparencyLevels)
+    {
+        // todo
+    }
+
+    public void SetFrameThemeVariant(PlatformThemeVariant themeVariant)
+    {
+        // todo
+    }
+
+    public object? TryGetFeature(Type featureType)
+    {
+        if (featureType == typeof(ITextInputMethodImpl)) return _textInputMethod;
+
+        if (featureType == typeof(IClipboard)) return _clipboard;
+
+        if (featureType == typeof(IInputPane)) return _openHarmonyInputPane;
+
+        // todo
+        return null;
+    }
+
+    public void Dispose()
+    {
+    }
+
+    public unsafe void Render()
+    {
+        try
+        {
+            RenderTimer?.Render();
+            Paint?.Invoke(new Rect(0, 0, Size.Width, Size.Height));
+            OpenHarmonyPlatformThreading?.Tick();
+        }
+        catch (Exception e)
+        {
+            Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", e.Message);
+            if (e.StackTrace != null) Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", e.StackTrace);
+
+            if (e.InnerException != null)
+            {
+                Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", e.InnerException.Message);
+                if (e.InnerException.StackTrace != null)
+                    Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", e.InnerException.StackTrace);
+            }
+
+            throw;
+        }
+
+        // software render
+        if (gl != null)
+        {
+            InitOrUpdateTexture();
+
+            gl.ClearColor(Color.White);
+            gl.Clear(ClearBufferMask.DepthBufferBit | ClearBufferMask.ColorBufferBit);
+
+            gl.UseProgram(programId);
+            var location = gl.GetUniformLocation(programId, "Texture_Buffer");
+            gl.Uniform1(location, 1);
+            gl.ActiveTexture(GLEnum.Texture1);
+            gl.BindTexture(GLEnum.Texture2D, textureId);
+            gl.BindVertexArray(vao);
+            gl.DrawElements(GLEnum.Triangles, 6, GLEnum.UnsignedInt, (void*)0);
+        }
+    }
+
     private void TextInputMethodOnInputPanelHeightChanged(object? sender, EventArgs e)
     {
         try
@@ -132,10 +231,6 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         }
     }
 
-    public uint textureId;
-
-    public nint Address;
-
     public unsafe void InitOrUpdateTexture()
     {
         if (gl == null)
@@ -144,14 +239,11 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         {
             Address = Marshal.AllocHGlobal(sizeof(byte) * 4 * Size.Width * Size.Height);
             var span = new Span<byte>((void*)Address, 4 * Size.Width * Size.Height);
-            for (int i = 0; i < span.Length; i++)
+            for (var i = 0; i < span.Length; i++)
                 span[i] = 255;
         }
 
-        if (textureId == 0)
-        {
-            textureId = gl.GenTexture();
-        }
+        if (textureId == 0) textureId = gl.GenTexture();
 
         gl.BindTexture(GLEnum.Texture2D, textureId);
         gl.TexImage2D(GLEnum.Texture2D, 0, (int)GLEnum.Rgba8, (uint)Size.Width, (uint)Size.Height, 0, GLEnum.Rgba,
@@ -170,15 +262,12 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         display_manager.OH_NativeDisplayManager_GetDefaultDisplayScaledDensity(&density);
         Size = new PixelSize((int)width, (int)height);
         Scaling = density;
-        if (gl != null)
-        {
-            InitOrUpdateTexture();
-        }
+        if (gl != null) InitOrUpdateTexture();
 
         Resized(Size.ToSize(Scaling), WindowResizeReason.User);
     }
 
-    public unsafe void InitShader()
+    public void InitShader()
     {
         if (gl == null)
             return;
@@ -216,7 +305,7 @@ void main()
         var vert = gl.CreateShader(GLEnum.VertexShader);
         gl.ShaderSource(vert, VertShaderSource);
         gl.CompileShader(vert);
-        gl.GetShader(vert, GLEnum.CompileStatus, out int code);
+        gl.GetShader(vert, GLEnum.CompileStatus, out var code);
         if (code == 0)
         {
             var info = gl.GetShaderInfoLog(vert);
@@ -257,11 +346,6 @@ void main()
         gl.DeleteShader(frag);
     }
 
-    public uint vao;
-    public uint vbo;
-    public uint ebo;
-    public uint programId;
-
     public unsafe void Init()
     {
         vao = gl.GenVertexArray();
@@ -301,105 +385,6 @@ void main()
         gl.BindVertexArray(0);
     }
 
-
-    public Size ClientSize => new Size(Size.Width, Size.Height) / Scaling;
-
-    public Size? FrameSize => null;
-
-    public double RenderScaling => Scaling;
-
-    public IEnumerable<object> Surfaces { get; }
-
-    public Action<RawInputEventArgs>? Input { get; set; }
-    public Action<Rect>? Paint { get; set; }
-    public Action<Size, WindowResizeReason>? Resized { get; set; }
-    public Action<double>? ScalingChanged { get; set; }
-    public Action<WindowTransparencyLevel>? TransparencyLevelChanged { get; set; }
-
-    public Compositor Compositor => AvaloniaLocator.CurrentMutable.GetService<Compositor>() ??
-                                    throw new InvalidOperationException(
-                                        "Android backend wasn't initialized. Make sure .UseAndroid() was executed.");
-
-    public Action? Closed { get; set; }
-    public Action? LostFocus { get; set; }
-
-    private WindowTransparencyLevel _transparencyLevel;
-
-    public WindowTransparencyLevel TransparencyLevel
-    {
-        get => _transparencyLevel;
-        private set
-        {
-            if (_transparencyLevel != value)
-            {
-                _transparencyLevel = value;
-                TransparencyLevelChanged?.Invoke(value);
-            }
-        }
-    }
-
-    public AcrylicPlatformCompensationLevels AcrylicCompensationLevels =>
-        new AcrylicPlatformCompensationLevels(1, 1, 1);
-
-
-    public IInputRoot? InputRoot { get; private set; }
-
-    public double DesktopScaling => throw new NotImplementedException();
-
-    IPlatformHandle? ITopLevelImpl.Handle => throw new NotImplementedException();
-
-    public void SetInputRoot(IInputRoot inputRoot)
-    {
-        InputRoot = inputRoot;
-    }
-
-    public Point PointToClient(PixelPoint point)
-    {
-        return point.ToPoint(RenderScaling);
-    }
-
-    public PixelPoint PointToScreen(Point point)
-    {
-        return PixelPoint.FromPoint(point, RenderScaling);
-    }
-
-    public void SetCursor(ICursorImpl? cursor)
-    {
-    }
-
-    public IPopupImpl? CreatePopup() => null;
-
-    public void SetTransparencyLevelHint(IReadOnlyList<WindowTransparencyLevel> transparencyLevels)
-    {
-        // todo
-        return;
-    }
-
-    public void SetFrameThemeVariant(PlatformThemeVariant themeVariant)
-    {
-        // todo
-        return;
-    }
-
-    public object? TryGetFeature(Type featureType)
-    {
-        if (featureType == typeof(ITextInputMethodImpl))
-        {
-            return _textInputMethod;
-        }
-        else if (featureType == typeof(IClipboard))
-        {
-            return _clipboard;
-        }
-        else if (featureType == typeof(IInputPane))
-        {
-            return _openHarmonyInputPane;
-        }
-
-        // todo
-        return null;
-    }
-
     internal void TextInput(string text)
     {
         if (Input != null)
@@ -412,14 +397,4 @@ void main()
             Input(args);
         }
     }
-
-    public void Dispose()
-    {
-    }
-}
-
-internal class OpenHarmonyKeyboardDevice : KeyboardDevice
-{
-    internal static KeyboardDevice Instance =>
-        (AvaloniaLocator.Current.GetService<IKeyboardDevice>() as KeyboardDevice)!;
 }

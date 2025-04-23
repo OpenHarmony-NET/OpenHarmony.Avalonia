@@ -1,28 +1,29 @@
-﻿using Avalonia.Controls.Embedding;
+﻿using System.Runtime.InteropServices;
+using Avalonia.Controls.Embedding;
 using Avalonia.Input;
 using Avalonia.Input.Raw;
 using Avalonia.OpenGL.Egl;
 using OpenHarmony.NDK.Bindings.Native;
 using Silk.NET.OpenGLES;
-using System.Runtime.InteropServices;
 
 namespace Avalonia.OpenHarmony;
 
 public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new()
 {
-    public SingleViewLifetime? SingleViewLifetime;
+    private readonly MouseDevice _mouseDevice;
+    private readonly PenDevice _penDevice;
+
+    private readonly TouchDevice _touchDevice;
+    private nint display;
+    private EglInterface? egl;
+    private GL? gl;
     public EmbeddableControlRoot? Root;
+    public SingleViewLifetime? SingleViewLifetime;
+    private nint surface;
     public TopLevelImpl? TopLevelImpl;
 
     public bool UseSoftRenderer = false;
-    GL? gl;
-    nint display;
-    nint surface;
-    EglInterface? egl;
 
-    private readonly TouchDevice _touchDevice;
-    private readonly MouseDevice _mouseDevice;
-    private readonly PenDevice _penDevice;
     public AvaloniaXComponent(nint XComponentHandle, nint WindowHandle) : base(XComponentHandle, WindowHandle)
     {
         _touchDevice = new TouchDevice();
@@ -30,7 +31,7 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
         _mouseDevice = new MouseDevice();
     }
 
-    public unsafe void InitOpenGlEnv()
+    public void InitOpenGlEnv()
     {
         egl = new EglInterface("libEGL.so");
 
@@ -60,7 +61,7 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
 
 
         int[] attrib3_list = [0x3098, 2, 0x3038];
-        int sharedEglContext = 0;
+        var sharedEglContext = 0;
         var context = egl.CreateContext(display, configs, sharedEglContext, attrib3_list);
         if (egl.MakeCurrent(display, surface, surface, context) == false)
         {
@@ -80,18 +81,12 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
 
     public override void OnSurfaceCreated()
     {
-        if (UseSoftRenderer == true)
-        {
-            InitOpenGlEnv();
-        }
+        if (UseSoftRenderer) InitOpenGlEnv();
         var builder = CreateAppBuilder();
         if (UseSoftRenderer)
         {
             builder.UseSoftwareRenderer();
-            if (gl != null)
-            {
-                AvaloniaLocator.CurrentMutable.Bind<GL>().ToConstant(gl);
-            }
+            if (gl != null) AvaloniaLocator.CurrentMutable.Bind<GL>().ToConstant(gl);
         }
 
         SingleViewLifetime = new SingleViewLifetime();
@@ -99,8 +94,6 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
 
 
         Root?.StartRendering();
-
-
     }
 
     public override void OnSurfaceRendered(ulong timestamp, ulong targetTimestamp)
@@ -109,11 +102,9 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
             return;
         base.OnSurfaceRendered(timestamp, targetTimestamp);
         TopLevelImpl.Render();
-        if (UseSoftRenderer == true && egl != null)
-        {
-            egl.SwapBuffers(display, surface);
-        }
+        if (UseSoftRenderer && egl != null) egl.SwapBuffers(display, surface);
     }
+
     private void CreateView(AppBuilder appBuilder)
     {
         if (SingleViewLifetime == null)
@@ -122,10 +113,9 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
         Root = new EmbeddableControlRoot(TopLevelImpl);
         SingleViewLifetime.Root = Root;
         Root.Prepare();
-
     }
 
-    public unsafe override void DispatchTouchEvent()
+    public override unsafe void DispatchTouchEvent()
     {
         if (TopLevelImpl == null)
             return;
@@ -134,9 +124,9 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
         if (TopLevelImpl.InputRoot == null)
             return;
         OH_NativeXComponent_TouchEvent touchEvent = default;
-        var result = Ace.OH_NativeXComponent_GetTouchEvent((OH_NativeXComponent*)XComponentHandle, (void*)WindowHandle, &touchEvent);
+        var result = Ace.OH_NativeXComponent_GetTouchEvent((OH_NativeXComponent*)XComponentHandle, (void*)WindowHandle,
+            &touchEvent);
         if (result == (int)OH_NATIVEXCOMPONENT_RESULT.SUCCESS)
-        {
             for (uint i = 0; i < touchEvent.numPoints; i++)
             {
                 OH_NativeXComponent_TouchPointToolType toolType = default;
@@ -160,35 +150,31 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
                     _ => throw new NotImplementedException()
                 };
 
-                var position = new Point(touchEvent.touchPoints[(int)i].x, touchEvent.touchPoints[(int)i].y) / TopLevelImpl.RenderScaling;
+                var position = new Point(touchEvent.touchPoints[(int)i].x, touchEvent.touchPoints[(int)i].y) /
+                               TopLevelImpl.RenderScaling;
                 var modifiers = RawInputModifiers.None;
-                if (type == RawPointerEventType.TouchUpdate)
-                {
-                    modifiers |= RawInputModifiers.LeftMouseButton;
-                }
-                var args = new RawTouchEventArgs(_touchDevice, (ulong)touchEvent.touchPoints[(int)i].timeStamp, TopLevelImpl.InputRoot, type, position, RawInputModifiers.LeftMouseButton, id);
+                if (type == RawPointerEventType.TouchUpdate) modifiers |= RawInputModifiers.LeftMouseButton;
+                var args = new RawTouchEventArgs(_touchDevice, (ulong)touchEvent.touchPoints[(int)i].timeStamp,
+                    TopLevelImpl.InputRoot, type, position, RawInputModifiers.LeftMouseButton, id);
 
                 TopLevelImpl.Input?.Invoke(args);
             }
-        }
         else
-        {
             Hilog.OH_LOG_ERROR(LogType.LOG_APP, "csharp", "OH_NativeXComponent_GetTouchEvent fail");
-        }
-
     }
 
-    public unsafe override void OnSurfaceChanged()
+    public override unsafe void OnSurfaceChanged()
     {
         base.OnSurfaceChanged();
         ulong width = 0, height = 0;
         TopLevelImpl.Resize();
-        Ace.OH_NativeXComponent_GetXComponentSize((OH_NativeXComponent*)XComponentHandle, (void*)WindowHandle, &width, &height);
-        if (UseSoftRenderer == true && gl != null)
-        {
-            gl.Viewport(0, 0, (uint)width, (uint)height);
-        }
+        Ace.OH_NativeXComponent_GetXComponentSize((OH_NativeXComponent*)XComponentHandle, (void*)WindowHandle, &width,
+            &height);
+        if (UseSoftRenderer && gl != null) gl.Viewport(0, 0, (uint)width, (uint)height);
     }
-    private AppBuilder CreateAppBuilder() => AppBuilder.Configure<TApp>().UseOpenHarmony();
 
+    private AppBuilder CreateAppBuilder()
+    {
+        return AppBuilder.Configure<TApp>().UseOpenHarmony();
+    }
 }

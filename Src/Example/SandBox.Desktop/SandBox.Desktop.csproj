@@ -9,11 +9,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Avalonia.Desktop" Version="11.2.8" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.2.8"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SandBox\SandBox.csproj" />
+        <ProjectReference Include="..\SandBox\SandBox.csproj"/>
     </ItemGroup>
 
 </Project>

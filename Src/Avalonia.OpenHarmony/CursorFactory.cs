@@ -1,25 +1,30 @@
 ﻿using Avalonia.Input;
 using Avalonia.Platform;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Avalonia.OpenHarmony;
 
 public class CursorFactory : ICursorFactory
 {
-    public ICursorImpl CreateCursor(IBitmapImpl cursor, PixelPoint hotSpot) => CursorImpl.ZeroCursor;
+    public ICursorImpl CreateCursor(IBitmapImpl cursor, PixelPoint hotSpot)
+    {
+        return CursorImpl.ZeroCursor;
+    }
 
-    public ICursorImpl GetCursor(StandardCursorType cursorType) => CursorImpl.ZeroCursor;
+    public ICursorImpl GetCursor(StandardCursorType cursorType)
+    {
+        return CursorImpl.ZeroCursor;
+    }
 
     private sealed class CursorImpl : ICursorImpl
     {
-        public static CursorImpl ZeroCursor { get; } = new CursorImpl();
+        private CursorImpl()
+        {
+        }
 
-        private CursorImpl() { }
+        public static CursorImpl ZeroCursor { get; } = new();
 
-        public void Dispose() { }
+        public void Dispose()
+        {
+        }
     }
 }

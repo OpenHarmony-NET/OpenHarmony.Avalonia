@@ -18,13 +18,10 @@
         <TextBox
             Grid.Row="0"
             TextInput="InputElement_OnTextInput"
-            TextInputMethodClientRequested="InputElement_OnTextInputMethodClientRequested">
-        </TextBox>
+            TextInputMethodClientRequested="InputElement_OnTextInputMethodClientRequested" />
         <ListBox
             Grid.Row="1"
-            ItemsSource="{x:Static openHarmony:OHDebugHelper.Logs}">
-
-        </ListBox>
+            ItemsSource="{x:Static openHarmony:OHDebugHelper.Logs}" />
 
         <!-- <Grid> -->
         <!-- 	<ContentControl Content="{Binding CurrentViewModel}" /> -->

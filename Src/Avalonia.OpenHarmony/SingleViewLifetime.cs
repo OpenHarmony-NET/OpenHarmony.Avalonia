@@ -6,13 +6,10 @@ namespace Avalonia.OpenHarmony;
 
 public class SingleViewLifetime : ISingleViewApplicationLifetime
 {
-    public EmbeddableControlRoot? Root;
-    public SingleViewLifetime()
-    {
-
-    }
     private Control? _mainView;
-    public Control? MainView 
+    public EmbeddableControlRoot? Root;
+
+    public Control? MainView
     {
         get => _mainView;
         set

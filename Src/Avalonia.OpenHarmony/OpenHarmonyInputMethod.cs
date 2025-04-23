@@ -304,20 +304,20 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
             input_method.OH_TextConfig_SetPreviewTextSupport(config, _client.SupportsPreedit);
             var selection = Dispatcher.UIThread.Invoke(() => _client.Selection);
             input_method.OH_TextConfig_SetSelection(config, selection.Start, selection.End);
-            input_method.OH_TextConfig_SetWindowId(config, (int)_instance._topLevelImpl.programId);
+            input_method.OH_TextConfig_SetWindowId(config, (int)_instance._topLevelImpl.Window);
 
             InputMethod_TextAvoidInfo* ptr = null;
             input_method.OH_TextConfig_GetTextAvoidInfo(config, &ptr);
             _instance._inputMethodTextAvoidInfo = ptr;
             _instance.UpdateTextAvoidInfo();
-            var dateTime = DateTime.Now + TimeSpan.FromSeconds(5);
-            _disposable?.Dispose();
-            _disposable = DispatcherTimer.Run(() =>
-                {
-                    _instance.UpdateTextAvoidInfo();
-                    return DateTime.Now < dateTime;
-                },
-                TimeSpan.FromSeconds(0.5));
+            // var dateTime = DateTime.Now + TimeSpan.FromSeconds(5);
+            // _disposable?.Dispose();
+            // _disposable = DispatcherTimer.Run(() =>
+            //     {
+            //         _instance.UpdateTextAvoidInfo();
+            //         return DateTime.Now < dateTime;
+            //     },
+            //     TimeSpan.FromSeconds(0.5));
             OHDebugHelper.Debug($"输入法获取输入框配置时触发的函数。\n回车键模式：{enterKeyType}\n输入框类型：{inputType}");
         }
         catch (Exception e)

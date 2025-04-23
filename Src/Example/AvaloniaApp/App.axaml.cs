@@ -1,6 +1,5 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using AvaloniaApp.ViewModels;
@@ -8,7 +7,7 @@ using AvaloniaApp.Views;
 
 namespace AvaloniaApp;
 
-public partial class App : Application
+public class App : Application
 {
     public override void Initialize()
     {

@@ -1,21 +1,24 @@
 ﻿using Avalonia.Controls.Platform.Surfaces;
 using Avalonia.Platform;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Avalonia.OpenHarmony;
 
 public class FramebufferManager : IFramebufferPlatformSurface
 {
+    private readonly TopLevelImpl TopLevelImpl;
 
-    TopLevelImpl TopLevelImpl;
-    public FramebufferManager(TopLevelImpl topLevelImpl) 
+    public FramebufferManager(TopLevelImpl topLevelImpl)
     {
         TopLevelImpl = topLevelImpl;
     }
-    public ILockedFramebuffer Lock() => new OpenHarmonyFramebuffer(TopLevelImpl);
-    public IFramebufferRenderTarget CreateFramebufferRenderTarget() => new FuncFramebufferRenderTarget(Lock);
+
+    public IFramebufferRenderTarget CreateFramebufferRenderTarget()
+    {
+        return new FuncFramebufferRenderTarget(Lock);
+    }
+
+    public ILockedFramebuffer Lock()
+    {
+        return new OpenHarmonyFramebuffer(TopLevelImpl);
+    }
 }

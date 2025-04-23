@@ -1,6 +1,5 @@
-﻿using Avalonia.Rendering;
-using OpenHarmony.NDK.Bindings.Native;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using Avalonia.Rendering;
 
 namespace Avalonia.OpenHarmony;
 
