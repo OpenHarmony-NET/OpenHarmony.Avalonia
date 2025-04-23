@@ -1,12 +1,12 @@
-﻿using Avalonia.OpenHarmony;
-using OpenHarmony.NDK.Bindings.Native;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using AvaloniaApp;
+using Avalonia.OpenHarmony;
+using OpenHarmony.NDK.Bindings.Native;
+using SandBox;
 
 namespace Entry;
 
-public unsafe static class XComponentEntry
+public static unsafe class XComponentEntry
 {
     public static Dictionary<IntPtr, XComponent> XComponents = [];
 
@@ -16,27 +16,22 @@ public unsafe static class XComponentEntry
         try
         {
             Ace.OH_NativeXComponent_RegisterOnFrameCallback(component, &OnSurfaceRendered);
-            if (XComponents.TryGetValue((nint)component, out XComponent? xComponent) == true)
+            if (XComponents.TryGetValue((nint)component, out var xComponent))
                 return;
-            xComponent = new AvaloniaXComponent<SandBox.App>((nint)component, (nint)window);
+            xComponent = new AvaloniaXComponent<App>((nint)component, (nint)window);
             XComponents.Add((nint)component, xComponent);
             xComponent.OnSurfaceCreated();
         }
         catch (Exception ex)
         {
             Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.Message);
-            if (ex.StackTrace != null)
-            {
-                Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.StackTrace);
-            }
+            if (ex.StackTrace != null) Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.StackTrace);
 
             if (ex.InnerException != null)
             {
                 Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.InnerException.Message);
                 if (ex.InnerException.StackTrace != null)
-                {
                     Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.InnerException.StackTrace);
-                }
             }
         }
     }
@@ -47,25 +42,20 @@ public unsafe static class XComponentEntry
     {
         try
         {
-            if (XComponents.TryGetValue((nint)component, out XComponent? xComponent) == false)
+            if (XComponents.TryGetValue((nint)component, out var xComponent) == false)
                 return;
             xComponent.OnSurfaceRendered(timestamp, targetTimestamp);
         }
         catch (Exception ex)
         {
             Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.Message);
-            if (ex.StackTrace != null)
-            {
-                Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.StackTrace);
-            }
+            if (ex.StackTrace != null) Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.StackTrace);
 
             if (ex.InnerException != null)
             {
                 Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.InnerException.Message);
                 if (ex.InnerException.StackTrace != null)
-                {
                     Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", ex.InnerException.StackTrace);
-                }
             }
         }
     }
@@ -73,7 +63,7 @@ public unsafe static class XComponentEntry
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     public static void OnSurfaceChanged(OH_NativeXComponent* component, void* window)
     {
-        if (XComponents.TryGetValue((nint)component, out XComponent? xComponent) == false)
+        if (XComponents.TryGetValue((nint)component, out var xComponent) == false)
             return;
         xComponent.OnSurfaceChanged();
     }
@@ -81,7 +71,7 @@ public unsafe static class XComponentEntry
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     public static void OnSurfaceDestroyed(OH_NativeXComponent* component, void* window)
     {
-        if (XComponents.TryGetValue((nint)component, out XComponent? xComponent) == false)
+        if (XComponents.TryGetValue((nint)component, out var xComponent) == false)
             return;
         xComponent.OnSurfaceDestroyed();
         XComponents.Remove((nint)component);
@@ -90,7 +80,7 @@ public unsafe static class XComponentEntry
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     public static void DispatchTouchEvent(OH_NativeXComponent* component, void* window)
     {
-        if (XComponents.TryGetValue((nint)component, out XComponent? xComponent) == false)
+        if (XComponents.TryGetValue((nint)component, out var xComponent) == false)
             return;
         xComponent.DispatchTouchEvent();
     }

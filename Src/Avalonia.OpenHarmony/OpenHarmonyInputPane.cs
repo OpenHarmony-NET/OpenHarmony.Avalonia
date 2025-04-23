@@ -18,10 +18,7 @@ public class OpenHarmonyInputPane : InputPaneBase
         OccludedRect = new Rect(0, y, _topLevelImpl.ClientSize.Width, height);
         State = OccludedRect.Height != 0 ? InputPaneState.Open : InputPaneState.Closed;
 
-        if (oldState != (OccludedRect, State))
-        {
-            OnStateChanged(new InputPaneStateEventArgs(State, null, OccludedRect));
-        }
+        if (oldState != (OccludedRect, State)) OnStateChanged(new InputPaneStateEventArgs(State, null, OccludedRect));
 
         return true;
     }

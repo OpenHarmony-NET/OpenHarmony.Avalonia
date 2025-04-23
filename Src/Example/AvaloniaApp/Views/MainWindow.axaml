@@ -1,14 +1,13 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:AvaloniaApp.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:AvaloniaApp.Views"
         mc:Ignorable="d" d:DesignWidth="720" d:DesignHeight="600"
         x:Class="AvaloniaApp.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-		Height="760"
-		Width="380"
+        Height="760"
+        Width="380"
         Title="AvaloniaApp">
-        <views:MainView />
+    <views:MainView />
 </Window>

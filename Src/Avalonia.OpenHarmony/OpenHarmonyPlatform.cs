@@ -1,19 +1,16 @@
-﻿using Avalonia.Controls.Platform;
-using Avalonia.Input;
+﻿using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Media;
 using Avalonia.OpenGL.Egl;
 using Avalonia.Platform;
 using Avalonia.Rendering;
 using Avalonia.Rendering.Composition;
-using Avalonia.Skia;
-using Avalonia.Threading;
 
 namespace Avalonia.OpenHarmony;
 
 public class OpenHarmonyPlatform
 {
-    public static OpenHarmonyPlatformOptions Options = new OpenHarmonyPlatformOptions()
+    public static OpenHarmonyPlatformOptions Options = new()
         { RenderingMode = [OpenHarmonyPlatformRenderingMode.Software] };
 
     public static void Initialize()
@@ -32,9 +29,7 @@ public class OpenHarmonyPlatform
 
         var platformGraphics = InitializeGraphics(options);
         if (platformGraphics is not null)
-        {
             AvaloniaLocator.CurrentMutable.Bind<IPlatformGraphics>().ToConstant(platformGraphics);
-        }
 
         var compositor = new Compositor(platformGraphics);
         AvaloniaLocator.CurrentMutable.Bind<Compositor>().ToConstant(compositor);
@@ -45,7 +40,6 @@ public class OpenHarmonyPlatform
         foreach (var renderingMode in options.RenderingMode)
         {
             if (renderingMode == OpenHarmonyPlatformRenderingMode.Egl)
-            {
                 return EglPlatformGraphics.TryCreate(() =>
                 {
                     return new EglDisplay(new EglDisplayCreationOptions
@@ -55,11 +49,8 @@ public class OpenHarmonyPlatform
                         SupportsContextSharing = true
                     });
                 });
-            }
-            else if (renderingMode == OpenHarmonyPlatformRenderingMode.Software)
-            {
-                return null;
-            }
+
+            if (renderingMode == OpenHarmonyPlatformRenderingMode.Software) return null;
         }
 
         throw new Exception("no render mode");
@@ -76,5 +67,5 @@ public enum OpenHarmonyPlatformRenderingMode
 {
     Software = 1,
 
-    Egl = 2,
+    Egl = 2
 }

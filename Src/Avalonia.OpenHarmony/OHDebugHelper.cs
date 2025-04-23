@@ -1,6 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using OpenHarmony.NDK.Bindings.Native;
 
 namespace Avalonia.OpenHarmony;
@@ -40,10 +38,7 @@ public static class OHDebugHelper
     public static void AddLog(LogLevel logLevel, string log)
     {
         LogRecord logRecord = new(logLevel, log);
-        if (_logs.Count > MaxLogCount)
-        {
-            _logs.Clear();
-        }
+        if (_logs.Count > MaxLogCount) _logs.Clear();
 
         _logs.Add(logRecord);
         Hilog.OH_LOG_PRINT(LogType.LOG_APP, logLevel, CSharp, log);

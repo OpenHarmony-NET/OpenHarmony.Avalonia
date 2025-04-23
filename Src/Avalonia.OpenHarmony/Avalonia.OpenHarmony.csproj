@@ -1,48 +1,48 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	<AssemblyTitle>AvaloniaOpenHarmony</AssemblyTitle>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyTitle>AvaloniaOpenHarmony</AssemblyTitle>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
 
-  <ItemGroup>
-	  <EmbeddedResource Include="Assets\*"></EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.2.8" />
-	<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="all" />
-	<PackageReference Include="Silk.NET.OpenGLES" Version="2.22.0" />
-	<PackageReference Include="StbImageWriteSharp" Version="1.16.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\ThirdParty\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Avalonia.Skia">
-      <HintPath>libs\Avalonia.Skia\Avalonia.Skia.dll</HintPath>
-    </Reference>
-    <Reference Include="HarfBuzzSharp">
-      <HintPath>libs\HarfBuzzSharp\HarfBuzzSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="SkiaSharp">
-      <HintPath>libs\SkiaSharp\SkiaSharp.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-
-  <Target Name="AvaloniaOpenHarmonyReferenceAvaloniaRuntimeAssemblies" AfterTargets="ResolvePackageAssets" BeforeTargets="ResolveLockFileReferences">
     <ItemGroup>
-      <ResolvedCompileFileDefinitions Include="@(ResolvedCompileFileDefinitions-&gt;'%(Identity)'-&gt;Replace('/ref/', '/lib/')-&gt;Replace('\ref\', '\lib\'))" HintPath="$([System.String]::new('%(HintPath)').Replace('/ref/', '/lib/').Replace('\ref\', '\lib\'))" PathInPackage="lib/$([System.String]::new('%(PathInPackage)').Substring(4))" Condition="$([System.String]::new('%(PathInPackage)').StartsWith('ref/$(TargetFramework)/Avalonia'))" />
-      <ResolvedCompileFileDefinitions Remove="@(ResolvedCompileFileDefinitions)" Condition="$([System.String]::new('%(PathInPackage)').StartsWith('ref/$(TargetFramework)/Avalonia'))" />
+        <EmbeddedResource Include="Assets\*"></EmbeddedResource>
     </ItemGroup>
-  </Target>
 
-	
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="11.2.8"/>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="all"/>
+        <PackageReference Include="Silk.NET.OpenGLES" Version="2.22.0"/>
+        <PackageReference Include="StbImageWriteSharp" Version="1.16.7"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\ThirdParty\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="Avalonia.Skia">
+            <HintPath>libs\Avalonia.Skia\Avalonia.Skia.dll</HintPath>
+        </Reference>
+        <Reference Include="HarfBuzzSharp">
+            <HintPath>libs\HarfBuzzSharp\HarfBuzzSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="SkiaSharp">
+            <HintPath>libs\SkiaSharp\SkiaSharp.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+
+    <Target Name="AvaloniaOpenHarmonyReferenceAvaloniaRuntimeAssemblies" AfterTargets="ResolvePackageAssets" BeforeTargets="ResolveLockFileReferences">
+        <ItemGroup>
+            <ResolvedCompileFileDefinitions Include="@(ResolvedCompileFileDefinitions-&gt;'%(Identity)'-&gt;Replace('/ref/', '/lib/')-&gt;Replace('\ref\', '\lib\'))" HintPath="$([System.String]::new('%(HintPath)').Replace('/ref/', '/lib/').Replace('\ref\', '\lib\'))" PathInPackage="lib/$([System.String]::new('%(PathInPackage)').Substring(4))" Condition="$([System.String]::new('%(PathInPackage)').StartsWith('ref/$(TargetFramework)/Avalonia'))"/>
+            <ResolvedCompileFileDefinitions Remove="@(ResolvedCompileFileDefinitions)" Condition="$([System.String]::new('%(PathInPackage)').StartsWith('ref/$(TargetFramework)/Avalonia'))"/>
+        </ItemGroup>
+    </Target>
+
+
 </Project>
 

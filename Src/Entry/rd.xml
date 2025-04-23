@@ -1,7 +1,7 @@
 ﻿<Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
-	<Application>
-		<Assembly Name="Avalonia.Skia">
-			<Type Name="Avalonia.Skia.GlyphTypefaceImpl" Dynamic="Required All"></Type>
-		</Assembly>
-	</Application>
+    <Application>
+        <Assembly Name="Avalonia.Skia">
+            <Type Name="Avalonia.Skia.GlyphTypefaceImpl" Dynamic="Required All"></Type>
+        </Assembly>
+    </Application>
 </Directives>

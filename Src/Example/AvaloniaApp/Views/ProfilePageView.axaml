@@ -4,139 +4,137 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="700"
              x:Class="AvaloniaApp.Views.ProfilePageView">
-	<DockPanel Background="#EFF4FC">
-		<Border BoxShadow="0 0 30 #CCC" Background="White" CornerRadius="20" Margin="30 30 30 30" DockPanel.Dock="Top">
-			<DockPanel  Height="300">
-				
-				<Grid Margin="20 0 20 0" DockPanel.Dock="Bottom" Height="70" ColumnDefinitions="* * *">
-					<StackPanel HorizontalAlignment="Center" Grid.Column="0">
-						<TextBlock TextAlignment="Center" FontWeight="Black" Text="$8900"></TextBlock>
-						<TextBlock TextAlignment="Center" Text="Income"></TextBlock>
-					</StackPanel>
-					<StackPanel  HorizontalAlignment="Center" Grid.Column="1">
-						<TextBlock TextAlignment="Center" FontWeight="Black" Text="$5500"></TextBlock>
-						<TextBlock TextAlignment="Center" Text="Expenses"></TextBlock>
-					</StackPanel>
-					<StackPanel  HorizontalAlignment="Center" Grid.Column="2">
-						<TextBlock TextAlignment="Center" FontWeight="Black" Text="$890"></TextBlock>
-						<TextBlock TextAlignment="Center" Text="Loan"></TextBlock>
-					</StackPanel>
-				</Grid>
-				<StackPanel HorizontalAlignment="Center">
-					<Image Margin="0 40 0 0" Height="100" Width="100" Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
-						<Image.Clip>
-							<RectangleGeometry RadiusX="50" RadiusY="50" Rect="0 0 100 100"/>
-						</Image.Clip>
-					</Image>
-					<TextBlock Margin="0 10 0 0" FontWeight="Bold" TextAlignment="Center" Text="Bubu" FontSize="20">
-						
-					</TextBlock>
-					<TextBlock Margin="0 5 0 0" TextAlignment="Center" Text=".Net Developer" >
+    <DockPanel Background="#EFF4FC">
+        <Border BoxShadow="0 0 30 #CCC" Background="White" CornerRadius="20" Margin="30 30 30 30" DockPanel.Dock="Top">
+            <DockPanel Height="300">
 
-					</TextBlock>
-				</StackPanel>
-			</DockPanel>
-		</Border>
-		<Border Padding="20 0 20 0" DockPanel.Dock="Top">
-			<DockPanel>
-				<TextBlock VerticalAlignment="Center" DockPanel.Dock="Right"  FontSize="15" FontWeight="Bold" Text="Aug 9,2024"></TextBlock>
-				<TextBlock VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Text="Overview"></TextBlock>
-			</DockPanel>
-		</Border>
-		<ScrollViewer VerticalScrollBarVisibility="Hidden">
-			<StackPanel Margin="0 0 0 100">
-				<Border Margin="20 20 20 0" CornerRadius="20"  BoxShadow="0 0 30 #CCC"  Background="White">
-					<DockPanel Height="70">
-						<Border Margin="15" Background="#000" Height="50" Width="50" CornerRadius="15" >
-							<Image Height="30" Width="30" DockPanel.Dock="Left" Source="avares://AvaloniaApp/Assets/money_bag_fill.png">
+                <Grid Margin="20 0 20 0" DockPanel.Dock="Bottom" Height="70" ColumnDefinitions="* * *">
+                    <StackPanel HorizontalAlignment="Center" Grid.Column="0">
+                        <TextBlock TextAlignment="Center" FontWeight="Black" Text="$8900" />
+                        <TextBlock TextAlignment="Center" Text="Income" />
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" Grid.Column="1">
+                        <TextBlock TextAlignment="Center" FontWeight="Black" Text="$5500" />
+                        <TextBlock TextAlignment="Center" Text="Expenses" />
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Center" Grid.Column="2">
+                        <TextBlock TextAlignment="Center" FontWeight="Black" Text="$890" />
+                        <TextBlock TextAlignment="Center" Text="Loan" />
+                    </StackPanel>
+                </Grid>
+                <StackPanel HorizontalAlignment="Center">
+                    <Image Margin="0 40 0 0" Height="100" Width="100"
+                           Source="avares://AvaloniaApp/Assets/O1CN01T2ugeo1gJT57UONrC_!!0-item_pic.jpg">
+                        <Image.Clip>
+                            <RectangleGeometry RadiusX="50" RadiusY="50" Rect="0 0 100 100" />
+                        </Image.Clip>
+                    </Image>
+                    <TextBlock Margin="0 10 0 0" FontWeight="Bold" TextAlignment="Center" Text="Bubu" FontSize="20" />
+                    <TextBlock Margin="0 5 0 0" TextAlignment="Center" Text=".Net Developer" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+        <Border Padding="20 0 20 0" DockPanel.Dock="Top">
+            <DockPanel>
+                <TextBlock VerticalAlignment="Center" DockPanel.Dock="Right" FontSize="15" FontWeight="Bold"
+                           Text="Aug 9,2024" />
+                <TextBlock VerticalAlignment="Center" FontWeight="Bold" FontSize="22" Text="Overview" />
+            </DockPanel>
+        </Border>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <StackPanel Margin="0 0 0 100">
+                <Border Margin="20 20 20 0" CornerRadius="20" BoxShadow="0 0 30 #CCC" Background="White">
+                    <DockPanel Height="70">
+                        <Border Margin="15" Background="#000" Height="50" Width="50" CornerRadius="15">
+                            <Image Height="30" Width="30" DockPanel.Dock="Left"
+                                   Source="avares://AvaloniaApp/Assets/money_bag_fill.png" />
+                        </Border>
+                        <Image Margin="0 0 10 0" DockPanel.Dock="Right" Stretch="UniformToFill" Width="40" Height="40"
+                               Source="avares://AvaloniaApp/Assets/round_right_fill.png" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Money Bag" FontWeight="Bold" />
+                            <TextBlock Margin="0 5 0 0" FontSize="12" Text="Your money will be here" />
 
-							</Image>
-						</Border>
-						<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaApp/Assets/round_right_fill.png"></Image>
-						<StackPanel VerticalAlignment="Center">
-							<TextBlock Text="Money Bag" FontWeight="Bold"></TextBlock>
-							<TextBlock Margin="0 5 0 0" FontSize="12" Text="Your money will be here" ></TextBlock>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border Margin="20 20 20 0" CornerRadius="20" BoxShadow="0 0 30 #CCC" Background="White">
+                    <DockPanel Height="70">
+                        <Border Margin="15" Background="#000" Height="50" Width="50" CornerRadius="15">
+                            <Image Height="30" Width="30" DockPanel.Dock="Left"
+                                   Source="avares://AvaloniaApp/Assets/money_bag_fill.png" />
+                        </Border>
+                        <Image Margin="0 0 10 0" DockPanel.Dock="Right" Stretch="UniformToFill" Width="40" Height="40"
+                               Source="avares://AvaloniaApp/Assets/round_right_fill.png" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Money Bag" FontWeight="Bold" />
+                            <TextBlock Margin="0 5 0 0" FontSize="12" Text="Your money will be here" />
 
-						</StackPanel>
-					</DockPanel>
-				</Border>
-				<Border Margin="20 20 20 0" CornerRadius="20"  BoxShadow="0 0 30 #CCC"  Background="White">
-					<DockPanel Height="70">
-						<Border Margin="15" Background="#000" Height="50" Width="50" CornerRadius="15" >
-							<Image Height="30" Width="30" DockPanel.Dock="Left" Source="avares://AvaloniaApp/Assets/money_bag_fill.png">
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border Margin="20 20 20 0" CornerRadius="20" BoxShadow="0 0 30 #CCC" Background="White">
+                    <DockPanel Height="70">
+                        <Border Margin="15" Background="#000" Height="50" Width="50" CornerRadius="15">
+                            <Image Height="30" Width="30" DockPanel.Dock="Left"
+                                   Source="avares://AvaloniaApp/Assets/money_bag_fill.png" />
+                        </Border>
+                        <Image Margin="0 0 10 0" DockPanel.Dock="Right" Stretch="UniformToFill" Width="40" Height="40"
+                               Source="avares://AvaloniaApp/Assets/round_right_fill.png" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Money Bag" FontWeight="Bold" />
+                            <TextBlock Margin="0 5 0 0" FontSize="12" Text="Your money will be here" />
 
-							</Image>
-						</Border>
-						<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaApp/Assets/round_right_fill.png"></Image>
-						<StackPanel VerticalAlignment="Center">
-							<TextBlock Text="Money Bag" FontWeight="Bold"></TextBlock>
-							<TextBlock Margin="0 5 0 0" FontSize="12" Text="Your money will be here" ></TextBlock>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border Margin="20 20 20 0" CornerRadius="20" BoxShadow="0 0 30 #CCC" Background="White">
+                    <DockPanel Height="70">
+                        <Border Margin="15" Background="#000" Height="50" Width="50" CornerRadius="15">
+                            <Image Height="30" Width="30" DockPanel.Dock="Left"
+                                   Source="avares://AvaloniaApp/Assets/money_bag_fill.png" />
+                        </Border>
+                        <Image Margin="0 0 10 0" DockPanel.Dock="Right" Stretch="UniformToFill" Width="40" Height="40"
+                               Source="avares://AvaloniaApp/Assets/round_right_fill.png" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Money Bag" FontWeight="Bold" />
+                            <TextBlock Margin="0 5 0 0" FontSize="12" Text="Your money will be here" />
 
-						</StackPanel>
-					</DockPanel>
-				</Border>
-				<Border Margin="20 20 20 0" CornerRadius="20"  BoxShadow="0 0 30 #CCC"  Background="White">
-					<DockPanel Height="70">
-						<Border Margin="15" Background="#000" Height="50" Width="50" CornerRadius="15" >
-							<Image Height="30" Width="30" DockPanel.Dock="Left" Source="avares://AvaloniaApp/Assets/money_bag_fill.png">
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border Margin="20 20 20 0" CornerRadius="20" BoxShadow="0 0 30 #CCC" Background="White">
+                    <DockPanel Height="70">
+                        <Border Margin="15" Background="#000" Height="50" Width="50" CornerRadius="15">
+                            <Image Height="30" Width="30" DockPanel.Dock="Left"
+                                   Source="avares://AvaloniaApp/Assets/money_bag_fill.png" />
+                        </Border>
+                        <Image Margin="0 0 10 0" DockPanel.Dock="Right" Stretch="UniformToFill" Width="40" Height="40"
+                               Source="avares://AvaloniaApp/Assets/round_right_fill.png" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Money Bag" FontWeight="Bold" />
+                            <TextBlock Margin="0 5 0 0" FontSize="12" Text="Your money will be here" />
 
-							</Image>
-						</Border>
-						<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaApp/Assets/round_right_fill.png"></Image>
-						<StackPanel VerticalAlignment="Center">
-							<TextBlock Text="Money Bag" FontWeight="Bold"></TextBlock>
-							<TextBlock Margin="0 5 0 0" FontSize="12" Text="Your money will be here" ></TextBlock>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+                <Border Margin="20 20 20 0" CornerRadius="20" BoxShadow="0 0 30 #CCC" Background="White">
+                    <DockPanel Height="70">
+                        <Border Margin="15" Background="#000" Height="50" Width="50" CornerRadius="15">
+                            <Image Height="30" Width="30" DockPanel.Dock="Left"
+                                   Source="avares://AvaloniaApp/Assets/money_bag_fill.png" />
+                        </Border>
+                        <Image Margin="0 0 10 0" DockPanel.Dock="Right" Stretch="UniformToFill" Width="40" Height="40"
+                               Source="avares://AvaloniaApp/Assets/round_right_fill.png" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Money Bag" FontWeight="Bold" />
+                            <TextBlock Margin="0 5 0 0" FontSize="12" Text="Your money will be here" />
 
-						</StackPanel>
-					</DockPanel>
-				</Border>
-				<Border Margin="20 20 20 0" CornerRadius="20"  BoxShadow="0 0 30 #CCC"  Background="White">
-					<DockPanel Height="70">
-						<Border Margin="15" Background="#000" Height="50" Width="50" CornerRadius="15" >
-							<Image Height="30" Width="30" DockPanel.Dock="Left" Source="avares://AvaloniaApp/Assets/money_bag_fill.png">
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
 
-							</Image>
-						</Border>
-						<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaApp/Assets/round_right_fill.png"></Image>
-						<StackPanel VerticalAlignment="Center">
-							<TextBlock Text="Money Bag" FontWeight="Bold"></TextBlock>
-							<TextBlock Margin="0 5 0 0" FontSize="12" Text="Your money will be here" ></TextBlock>
-
-						</StackPanel>
-					</DockPanel>
-				</Border>
-				<Border Margin="20 20 20 0" CornerRadius="20"  BoxShadow="0 0 30 #CCC"  Background="White">
-					<DockPanel Height="70">
-						<Border Margin="15" Background="#000" Height="50" Width="50" CornerRadius="15" >
-							<Image Height="30" Width="30" DockPanel.Dock="Left" Source="avares://AvaloniaApp/Assets/money_bag_fill.png">
-
-							</Image>
-						</Border>
-						<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaApp/Assets/round_right_fill.png"></Image>
-						<StackPanel VerticalAlignment="Center">
-							<TextBlock Text="Money Bag" FontWeight="Bold"></TextBlock>
-							<TextBlock Margin="0 5 0 0" FontSize="12" Text="Your money will be here" ></TextBlock>
-
-						</StackPanel>
-					</DockPanel>
-				</Border>
-				<Border Margin="20 20 20 0" CornerRadius="20"  BoxShadow="0 0 30 #CCC"  Background="White">
-					<DockPanel Height="70">
-						<Border Margin="15" Background="#000" Height="50" Width="50" CornerRadius="15" >
-							<Image Height="30" Width="30" DockPanel.Dock="Left" Source="avares://AvaloniaApp/Assets/money_bag_fill.png">
-
-							</Image>
-						</Border>
-						<Image Margin="0 0 10 0" DockPanel.Dock="Right"  Stretch="UniformToFill" Width="40" Height="40" Source="avares://AvaloniaApp/Assets/round_right_fill.png"></Image>
-						<StackPanel VerticalAlignment="Center">
-							<TextBlock Text="Money Bag" FontWeight="Bold"></TextBlock>
-							<TextBlock Margin="0 5 0 0" FontSize="12" Text="Your money will be here" ></TextBlock>
-
-						</StackPanel>
-					</DockPanel>
-				</Border>
-				
-			</StackPanel>
-		</ScrollViewer>
-	</DockPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
 </UserControl>
