@@ -11,10 +11,12 @@
         <StackPanel
             Grid.Row="0"
             Spacing="5">
-            <TextBox />
-            <TextBox
-                Name="TextBox"
-                IsReadOnly="True" />
+            <!-- <TextBox /> -->
+            <!-- <TextBox -->
+            <!--     Name="TextBox" -->
+            <!--     IsReadOnly="True" /> -->
+            <Button Content="Test" Click="Button_OnClick"></Button>
+            <Image Name="Image" Height="100"></Image>
         </StackPanel>
 
         <ListBox

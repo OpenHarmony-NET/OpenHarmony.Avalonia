@@ -10,6 +10,7 @@ using Avalonia.Input.TextInput;
 using Avalonia.OpenGL.Egl;
 using Avalonia.OpenGL.Surfaces;
 using Avalonia.Platform;
+using Avalonia.Platform.Storage;
 using Avalonia.Rendering;
 using Avalonia.Rendering.Composition;
 using OpenHarmony.NDK.Bindings.Native;
@@ -41,6 +42,7 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
 
     public uint vao;
     public uint vbo;
+    private readonly OpenHarmonyStorageProvider _openHarmonyStorageProvider;
 
     public unsafe TopLevelImpl(IntPtr xcomponent, IntPtr window)
     {
@@ -70,6 +72,7 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
 
         _textInputMethod.InputPanelHeightChanged += TextInputMethodOnInputPanelHeightChanged;
         _textInputMethod.PositionYChanged += TextInputMethodOnInputPanelHeightChanged;
+        _openHarmonyStorageProvider = new();
     }
 
     public IntPtr Window { get; }
@@ -169,6 +172,8 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         if (featureType == typeof(IClipboard)) return _clipboard;
 
         if (featureType == typeof(IInputPane)) return _openHarmonyInputPane;
+        
+        if (featureType == typeof(IStorageProvider)) return _openHarmonyStorageProvider;
 
         // todo
         return null;

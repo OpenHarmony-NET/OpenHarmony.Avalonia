@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
+using Avalonia.OpenHarmony;
 using OpenHarmony.NDK.Bindings.Native;
 
 namespace Entry;
@@ -11,7 +13,7 @@ public class napi_init
     {
         try
         {
-            var moduleName = "avalonianative";
+            var moduleName = "entry";
             var moduleNamePtr = Marshal.StringToHGlobalAnsi(moduleName);
             var demoModule = new napi_module
             {
@@ -59,6 +61,38 @@ public class napi_init
             }
 
         Marshal.FreeHGlobal(xcomponentNamePtr);
+        try
+        {
+            sbyte* methodName = (sbyte*)Marshal.StringToHGlobalAnsi("setStartDocumentViewPicker");
+            sbyte* methodName2 = (sbyte*)Marshal.StringToHGlobalAnsi("setPickerResult");
+            napi_property_descriptor[] desc =
+            [
+                new()
+                {
+                    utf8name = methodName, name = default,
+                    method = &OpenHarmonyStorageProvider.SetStartDocumentViewPicker, getter = null, setter = null,
+                    value = default, attributes = napi_property_attributes.napi_default, data = null
+                },
+                new()
+                {
+                    utf8name = methodName2, name = default,
+                    method = &OpenHarmonyStorageProvider.SetPickerResult, getter = null, setter = null,
+                    value = default, attributes = napi_property_attributes.napi_default, data = null
+                }
+            ];
+            fixed (napi_property_descriptor* p = desc)
+            {
+                node_api.napi_define_properties(env, exports, 2, p);
+            }
+
+            Marshal.FreeHGlobal((IntPtr)methodName);
+            Marshal.FreeHGlobal((IntPtr)methodName2);
+        }
+        catch (Exception e)
+        {
+            Hilog.OH_LOG_ERROR(LogType.LOG_APP, "testTag", $"{e}");
+        }
+
         return exports;
     }
 }
