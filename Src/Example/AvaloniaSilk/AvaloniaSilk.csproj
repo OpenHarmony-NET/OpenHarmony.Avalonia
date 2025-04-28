@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="11.2.8" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.8" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.8" />
+		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.8" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="Irihi.Ursa" Version="1.10.0" />
+		<PackageReference Include="Irihi.Ursa.Themes.Semi" Version="1.10.0" />
+		<PackageReference Include="Semi.Avalonia" Version="11.2.1.6" />
+		<PackageReference Include="Semi.Avalonia.ColorPicker" Version="11.2.1.6" />
+		<PackageReference Include="Semi.Avalonia.DataGrid" Version="11.2.1.6" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.8" />
+	</ItemGroup>
+	<ItemGroup>
+		<AvaloniaResource Include="Assets\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Avalonia.OpenHarmony\Avalonia.OpenHarmony.csproj" />
+	</ItemGroup>
+</Project>

@@ -2,10 +2,9 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using AvaloniaApp.ViewModels;
-using AvaloniaApp.Views;
+using AvaloniaSilk.Views;
 
-namespace AvaloniaApp;
+namespace AvaloniaSilk;
 
 public class App : Application
 {
@@ -23,17 +22,17 @@ public class App : Application
             BindingPlugins.DataValidators.RemoveAt(0);
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = null
             };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            singleViewPlatform.MainView = new HomePageView
+            singleViewPlatform.MainView = new SilkNetExample
             {
-                DataContext = new HomePageViewModel()
+                DataContext = null
             };
         }
-
+        
         base.OnFrameworkInitializationCompleted();
     }
 }
