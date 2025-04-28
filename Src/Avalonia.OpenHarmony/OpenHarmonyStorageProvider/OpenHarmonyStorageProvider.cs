@@ -2,22 +2,21 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using Avalonia.Platform.Storage;
-using OpenHarmony.NDK.Bindings.Core_File_Kit;
 using OpenHarmony.NDK.Bindings.Native;
-using Environment = OpenHarmony.NDK.Bindings.Core_File_Kit.Environment;
 
 namespace Avalonia.OpenHarmony;
 
-public unsafe partial class OpenHarmonyStorageProvider : IStorageProvider
+public class OpenHarmonyStorageProvider : IStorageProvider
 {
-    internal static TaskCompletionSource<IReadOnlyList<IStorageFile>>? _result;
-
     public Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(FilePickerOpenOptions options)
     {
         StartDocumentViewPicker?.Invoke(new DocumentSelectOptions(options));
         if (_result is not null) return Task.FromResult<IReadOnlyList<IStorageFile>>([]);
-        _result ??= new TaskCompletionSource<IReadOnlyList<IStorageFile>>();
-        return _result.Task;
+        _result ??= new TaskCompletionSource<IReadOnlyList<string>>();
+        return Task.Run<IReadOnlyList<IStorageFile>>(async () =>
+        {
+            return (await _result.Task).Select(x => new OpenHarmonyStorageBookmarkFile(x)).ToList();
+        });
     }
 
     public Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
@@ -27,7 +26,13 @@ public unsafe partial class OpenHarmonyStorageProvider : IStorageProvider
 
     public Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options)
     {
-        throw new NotImplementedException();
+        StartDocumentViewPicker?.Invoke(new DocumentSelectOptions(options));
+        if (_result is not null) return Task.FromResult<IReadOnlyList<IStorageFolder>>([]);
+        _result ??= new TaskCompletionSource<IReadOnlyList<string>>();
+        return Task.Run<IReadOnlyList<IStorageFolder>>(async () =>
+        {
+            return (await _result.Task).Select(x => new OpenHarmonyStorageBookmarkFolder(x)).ToList();
+        });
     }
 
     public Task<IStorageBookmarkFile?> OpenFileBookmarkAsync(string bookmark)
@@ -59,7 +64,7 @@ public unsafe partial class OpenHarmonyStorageProvider : IStorageProvider
     public bool CanSave { get; }
     public bool CanPickFolder { get; }
 
-    #region StartDocumentViewPicker
+    #region ArkTS
 
     private static napi_env _env_StartDocumentViewPicker;
     private static napi_ref _callbackRef_StartDocumentViewPicker;
@@ -69,23 +74,30 @@ public unsafe partial class OpenHarmonyStorageProvider : IStorageProvider
 
     internal record DocumentSelectOptions
     {
-        public int? maxSelectNumber { get; set; }
-        public string? defaultFilePathUri { get; set; }
-        public string[]? fileSuffixFilters { get; set; }
-        public DocumentSelectMode? selectMode { get; set; }
-        public bool? authMode { get; set; }
-
         internal DocumentSelectOptions(PickerOptions options)
         {
             defaultFilePathUri = options.SuggestedStartLocation?.Path.ToString();
             if (options is FilePickerOpenOptions openOptions)
             {
                 fileSuffixFilters = openOptions.FileTypeFilter?.Where(x => x.Patterns is not null)
-                    .Select(x => $"{x.Name}|{x.Patterns!.Select(y => y.Remove(0, 1))}").ToArray();
+                    .Select(x => $"{x.Name}|{string.Join(",", x.Patterns!.Select(y => y.Remove(0, 1)))}").ToArray();
+                if (fileSuffixFilters is not null)
+                    foreach (var fileSuffixFilter in fileSuffixFilters)
+                        OHDebugHelper.Info("in .NET fileSuffixFilters:" + fileSuffixFilter);
+                maxSelectNumber = openOptions.AllowMultiple ? 500 : 1;
             }
+
+            if (options is FolderPickerOpenOptions folderPickerOpenOptions)
+                maxSelectNumber = folderPickerOpenOptions.AllowMultiple ? 500 : 1;
 
             selectMode = options is FilePickerOpenOptions ? DocumentSelectMode.FILE : DocumentSelectMode.FOLDER;
         }
+
+        public int? maxSelectNumber { get; set; }
+        public string? defaultFilePathUri { get; set; }
+        public string[]? fileSuffixFilters { get; set; }
+        public DocumentSelectMode? selectMode { get; set; }
+        public bool? authMode { get; set; }
     }
 
     internal enum DocumentSelectMode
@@ -95,17 +107,17 @@ public unsafe partial class OpenHarmonyStorageProvider : IStorageProvider
         MIXED = 2 //文件和文件夹混合类型。
     }
 
-    #endregion
+    internal static TaskCompletionSource<IReadOnlyList<string>>? _result;
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)], EntryPoint = "setPickerResult")]
-    public static napi_value SetPickerResult(napi_env env, napi_callback_info info)
+    public static unsafe napi_value SetPickerResult(napi_env env, napi_callback_info info)
     {
         try
         {
             ulong argc = 1;
             var args = stackalloc napi_value[1];
             node_api.napi_get_cb_info(env, info, &argc, args, null, null);
-            napi_value result = args[0];
+            var result = args[0];
             bool isArray;
             node_api.napi_is_array(_env_StartDocumentViewPicker, result, &isArray);
             if (isArray)
@@ -113,8 +125,8 @@ public unsafe partial class OpenHarmonyStorageProvider : IStorageProvider
                 uint arrayLength;
                 node_api.napi_get_array_length(_env_StartDocumentViewPicker, result, &arrayLength);
                 List<string> resultList = new();
-                sbyte* buf = stackalloc sbyte[2048];
-                for (int i = 0; i < arrayLength; i++)
+                var buf = stackalloc sbyte[2048];
+                for (var i = 0; i < arrayLength; i++)
                 {
                     napi_value element;
                     ulong resultLength;
@@ -126,7 +138,7 @@ public unsafe partial class OpenHarmonyStorageProvider : IStorageProvider
                     //todo 这里在将来需要更新一下值的获取，否则当返回的路径长度大于2048时将无法完整的获得路径。
                 }
 
-                _result?.TrySetResult(resultList.Select(x => new OpenHarmonyStorageFile(x)).ToList<IStorageFile>());
+                _result?.TrySetResult(resultList);
                 _result = null;
             }
 
@@ -141,7 +153,7 @@ public unsafe partial class OpenHarmonyStorageProvider : IStorageProvider
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)], EntryPoint = "setStartDocumentViewPicker")]
-    public static napi_value SetStartDocumentViewPicker(napi_env env, napi_callback_info info)
+    public static unsafe napi_value SetStartDocumentViewPicker(napi_env env, napi_callback_info info)
     {
         ulong argc = 1;
         var args = stackalloc napi_value[1];
@@ -150,9 +162,9 @@ public unsafe partial class OpenHarmonyStorageProvider : IStorageProvider
         node_api.napi_create_reference(env, args[0], 1, &ptr);
         _env_StartDocumentViewPicker = env;
         _callbackRef_StartDocumentViewPicker = ptr;
-        StartDocumentViewPicker = (options) =>
+        StartDocumentViewPicker = options =>
         {
-            napi_value* args = stackalloc napi_value[5];
+            var args = stackalloc napi_value[5];
             napi_value arkTSFunc;
             node_api.napi_get_reference_value(env, _callbackRef_StartDocumentViewPicker, &arkTSFunc);
             if (options.maxSelectNumber.HasValue)
@@ -173,10 +185,11 @@ public unsafe partial class OpenHarmonyStorageProvider : IStorageProvider
                 for (var i = 0; i < options.fileSuffixFilters.Length; i++)
                 {
                     napi_value str;
-                    var ptr = Marshal.StringToCoTaskMemUTF8(options.defaultFilePathUri);
-                    node_api.napi_create_string_utf8(_env_StartDocumentViewPicker, (sbyte*)ptr,
-                        (ulong)Encoding.UTF8.GetBytes(options.fileSuffixFilters[i]).Length, &str);
-                    node_api.napi_set_element(_env_StartDocumentViewPicker, array, (uint)i, str);
+                    var ptr = Marshal.StringToCoTaskMemUTF8(options.fileSuffixFilters[i]);
+                    var code = node_api.napi_create_string_utf8(_env_StartDocumentViewPicker, (sbyte*)ptr, (ulong)Encoding.UTF8.GetBytes(options.fileSuffixFilters[i]).Length, &str);
+                    OHDebugHelper.Info("node_api.napi_create_string_utf8:" + code);
+                    code = node_api.napi_set_element(_env_StartDocumentViewPicker, array, (uint)i, str);
+                    OHDebugHelper.Info("node_api.napi_set_element:" + code);
                     Marshal.ZeroFreeCoTaskMemUTF8(ptr);
                 }
 
@@ -193,64 +206,6 @@ public unsafe partial class OpenHarmonyStorageProvider : IStorageProvider
         };
         return default;
     }
-}
 
-internal unsafe class OpenHarmonyStorageFile : IStorageFile
-{
-    public void Dispose()
-    {
-    }
-
-    internal OpenHarmonyStorageFile(string uri)
-    {
-        var ptr = (char*)Marshal.StringToHGlobalAnsi(uri);
-        char* result = null;
-        var code = FileUri.OH_FileUri_GetPathFromUri(ptr, (uint)Encoding.ASCII.GetBytes(uri).Length, &result);
-        OHDebugHelper.Debug($"沙箱路径转换结果：{code}");
-        string? path = Marshal.PtrToStringAnsi((IntPtr)(result));
-        path ??= "沙箱路径转换失败";
-        Name = System.IO.Path.GetFileName(path);
-        Path = new Uri(path);
-        CanBookmark = false;
-        Marshal.FreeHGlobal((nint)ptr);
-    }
-
-    public Task<StorageItemProperties> GetBasicPropertiesAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<string?> SaveBookmarkAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IStorageFolder?> GetParentAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IStorageItem?> MoveAsync(IStorageFolder destination)
-    {
-        throw new NotImplementedException();
-    }
-
-    public string Name { get; }
-    public Uri Path { get; }
-    public bool CanBookmark { get; }
-
-    public Task<Stream> OpenReadAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Stream> OpenWriteAsync()
-    {
-        throw new NotImplementedException();
-    }
+    #endregion
 }

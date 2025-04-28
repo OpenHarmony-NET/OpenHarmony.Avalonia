@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
@@ -15,6 +18,23 @@ namespace SandBox.Views;
 
 public partial class MainView : UserControl
 {
+    static unsafe MainView()
+    {
+        string str = "tessldkfjslkdfjslkdfjsld";
+        var ptr = Marshal.StringToCoTaskMemUTF8(str);
+        var l = str.Length;
+        var b = Encoding.UTF8.GetBytes(str);
+        var length = b.Length;
+        List<sbyte> sbytes = new List<sbyte>();
+        for (int i = 0; i < length; i++)
+        {
+            sbytes.Add(((sbyte*)ptr)[i]);
+        }
+
+        var buf = Marshal.PtrToStringUTF8(ptr);
+        Marshal.ZeroFreeCoTaskMemUTF8(ptr);
+    }
+
     public MainView()
     {
         InitializeComponent();
@@ -47,8 +67,10 @@ public partial class MainView : UserControl
         try
         {
             var result = await TopLevel.GetTopLevel(this)?.StorageProvider.OpenFilePickerAsync(
-                new FilePickerOpenOptions()
+                new()
                 {
+                    AllowMultiple = true,
+                    FileTypeFilter = [FilePickerFileTypes.ImageAll, FilePickerFileTypes.All]
                 })!;
             string path = result.FirstOrDefault()?.TryGetLocalPath() ?? "没有任何内容被选取";
             (sender as Button)!.Content = path;
@@ -58,9 +80,22 @@ public partial class MainView : UserControl
                 return;
             }
 
-            await using var fileStream = File.OpenRead(path);
-            var imageSource = Bitmap.DecodeToHeight(fileStream, 100);
-            Image.Source = imageSource;
+            FileInfo di = new(path);
+            if (di.Exists)
+                (sender as Button)!.Content =
+                    $"""
+                     {di.Name}
+                     {di.FullName}
+                     {di.CreationTime}
+                     {di.LastAccessTime}
+                     {di.LastWriteTime}
+                     {di.Attributes}
+                     """;
+            // var fileStream = File.OpenRead(path);
+            // var imageSource = Bitmap.DecodeToHeight(fileStream, 100);
+            // Image.Source = imageSource;
+            // fileStream.Dispose();
+            // File.Delete(path);
         }
         catch (Exception exception)
         {
