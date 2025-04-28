@@ -1,19 +1,16 @@
 using System;
-using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
 using Avalonia.OpenHarmony;
-using Avalonia.Platform;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using AvaloniaSilk.Gl;
+using AvaloniaGame.Gl;
 using Silk.NET.OpenGLES;
-using Tutorial;
-using Shader = Tutorial.Shader;
+using Shader = AvaloniaGame.Gl.Shader;
 
-namespace AvaloniaSilk.Views
+namespace AvaloniaGame.Views
 {
     public class SilkNetExample : OpenGlControlBase
     {

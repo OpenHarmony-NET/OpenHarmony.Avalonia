@@ -19,9 +19,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SandBox", "Src\Example\Sand
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SandBox.Desktop", "Src\Example\SandBox.Desktop\SandBox.Desktop.csproj", "{A43F296F-D6DD-4F64-8F35-2622AF619254}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaSilk", "Src\Example\AvaloniaSilk\AvaloniaSilk.csproj", "{2B7FE5C9-06D5-4061-A9B4-411B007AAC00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaGame", "Src\Example\AvaloniaGame\AvaloniaGame.csproj", "{2B7FE5C9-06D5-4061-A9B4-411B007AAC00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaSilk.Desktop", "Src\Example\AvaloniaSilk.Desktop\AvaloniaSilk.Desktop.csproj", "{109103D6-D483-4616-879E-27CE4468DCB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaGame.Desktop", "Src\Example\AvaloniaGame.Desktop\AvaloniaGame.Desktop.csproj", "{109103D6-D483-4616-879E-27CE4468DCB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

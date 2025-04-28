@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AvaloniaSilkExample.Gl {
+namespace AvaloniaGame.Gl {
     public class GlErrorException : Exception {
         public GlErrorException(string message) : base (message){ }
 

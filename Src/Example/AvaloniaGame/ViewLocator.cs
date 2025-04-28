@@ -1,8 +1,8 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using AvaloniaSilk.ViewModels;
+using AvaloniaGame.ViewModels;
 
-namespace AvaloniaSilk;
+namespace AvaloniaGame;
 
 public class ViewLocator : IDataTemplate
 {

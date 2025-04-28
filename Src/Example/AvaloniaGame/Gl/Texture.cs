@@ -3,7 +3,7 @@ using System;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace Tutorial
+namespace AvaloniaGame.Gl
 {
     public class Texture : IDisposable
     {

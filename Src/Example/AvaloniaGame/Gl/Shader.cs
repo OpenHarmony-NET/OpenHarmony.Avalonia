@@ -2,11 +2,11 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using Avalonia.Platform;
-using AvaloniaSilk.Gl;
+using AvaloniaGame.Gl;
 using OpenHarmony.NDK.Bindings.Native;
 using Silk.NET.OpenGLES;
 
-namespace Tutorial
+namespace AvaloniaGame.Gl
 {
     public class Shader : IDisposable
     {
@@ -72,7 +72,7 @@ namespace Tutorial
             {
                 path = Path.Combine("osx", path);
             }
-            using var fs = new StreamReader(AssetLoader.Open(new Uri($"avares://AvaloniaSilk/Assets/{path}")));
+            using var fs = new StreamReader(AssetLoader.Open(new Uri($"avares://AvaloniaGame/Assets/{path}")));
             var src = fs.ReadToEnd();
             uint handle = _gl.CreateShader(type);
             _gl.ShaderSource(handle, src);

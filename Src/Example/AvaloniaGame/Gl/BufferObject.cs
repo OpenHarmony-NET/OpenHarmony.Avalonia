@@ -1,8 +1,7 @@
-using AvaloniaSilkExample.Gl;
 using Silk.NET.OpenGLES;
 using System;
 
-namespace Tutorial
+namespace AvaloniaGame.Gl
 {
     public class BufferObject<TDataType> : IDisposable
         where TDataType : unmanaged

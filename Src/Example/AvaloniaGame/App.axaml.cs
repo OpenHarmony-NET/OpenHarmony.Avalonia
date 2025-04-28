@@ -2,9 +2,9 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using AvaloniaSilk.Views;
+using AvaloniaGame.Views;
 
-namespace AvaloniaSilk;
+namespace AvaloniaGame;
 
 public class App : Application
 {

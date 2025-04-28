@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace AvaloniaSilk.Gl
+namespace AvaloniaGame.Gl
 {
     public class Logger
     {

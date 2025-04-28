@@ -1,7 +1,7 @@
 using Silk.NET.OpenGLES;
 using System;
 
-namespace Tutorial
+namespace AvaloniaGame.Gl
 {
     public class VertexArrayObject<TVertexType, TIndexType> : IDisposable
         where TVertexType : unmanaged

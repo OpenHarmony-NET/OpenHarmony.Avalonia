@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace AvaloniaSilk.ViewModels;
+namespace AvaloniaGame.ViewModels;
 
 public abstract class ViewModelBase : ObservableObject
 {

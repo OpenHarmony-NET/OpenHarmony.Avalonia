@@ -1,6 +1,6 @@
 ﻿using Avalonia;
 
-namespace AvaloniaSilk;
+namespace AvaloniaGame.Desktop;
 
 internal sealed class Program
 {
