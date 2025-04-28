@@ -5,7 +5,9 @@ using Avalonia.Controls;
 using Avalonia.OpenGL;
 using Avalonia.OpenGL.Controls;
 using Avalonia.OpenHarmony;
+using Avalonia.Platform;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using AvaloniaSilk.Gl;
 using Silk.NET.OpenGLES;
 using Tutorial;
@@ -64,8 +66,7 @@ namespace AvaloniaSilk.Views
         private void SitSize()
         {
             var topLevel = TopLevel.GetTopLevel(this)!;
-            var platform = topLevel.PlatformImpl! as TopLevelImpl;
-            if (platform != null)
+            if ( topLevel.PlatformImpl! is TopLevelImpl platform)
             {
                 var size = platform!.Size;
                 if (_pixelSize == size)
@@ -79,10 +80,12 @@ namespace AvaloniaSilk.Views
             }
             else
             {
+                var window = this.GetVisualRoot() as Window;
                 var bounds = new PixelSize((int)Bounds.Width, (int)Bounds.Height);
                 if (_pixelSize == bounds) return;
                 _pixelSize = bounds;
-                Gl.Viewport(0, 0, (uint)Bounds.Width, (uint)Bounds.Height);
+                Gl.Viewport(0, 0, (uint)(Bounds.Width * window!.RenderScaling),
+                    (uint)(Bounds.Height * window!.RenderScaling));
             }
         }
 
