@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using Avalonia.Platform;
 using AvaloniaSilk.Gl;
 using OpenHarmony.NDK.Bindings.Native;
@@ -67,7 +68,10 @@ namespace Tutorial
 
         private uint LoadShader(ShaderType type, string path)
         {
-            
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                path = Path.Combine("osx", path);
+            }
             using var fs = new StreamReader(AssetLoader.Open(new Uri($"avares://AvaloniaSilk/Assets/{path}")));
             var src = fs.ReadToEnd();
             uint handle = _gl.CreateShader(type);
