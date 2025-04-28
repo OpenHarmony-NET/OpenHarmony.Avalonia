@@ -63,30 +63,31 @@ public class napi_init
         Marshal.FreeHGlobal(xcomponentNamePtr);
         try
         {
-            sbyte* methodName = (sbyte*)Marshal.StringToHGlobalAnsi("setStartDocumentViewPicker");
-            sbyte* methodName2 = (sbyte*)Marshal.StringToHGlobalAnsi("setPickerResult");
-            napi_property_descriptor[] desc =
-            [
-                new()
+            const int methodNamesLength = 3;
+            var desc = stackalloc napi_property_descriptor[methodNamesLength]
+            {
+                Create((sbyte*)Marshal.StringToHGlobalAnsi("setStartDocumentViewPicker"),
+                    &OpenHarmonyStorageProvider.SetStartDocumentViewPicker),
+                Create((sbyte*)Marshal.StringToHGlobalAnsi("setStartDocumentViewPickerSaveMode"),
+                    &OpenHarmonyStorageProvider.SetStartDocumentViewPickerSaveMode),
+                Create((sbyte*)Marshal.StringToHGlobalAnsi("setPickerResult"),
+                    &OpenHarmonyStorageProvider.SetPickerResult),
+            };
+
+            napi_property_descriptor Create(sbyte* methodName,
+                delegate*unmanaged[Cdecl]<napi_env, napi_callback_info, napi_value> method)
+            {
+                return new()
                 {
                     utf8name = methodName, name = default,
-                    method = &OpenHarmonyStorageProvider.SetStartDocumentViewPicker, getter = null, setter = null,
+                    method = method, getter = null, setter = null,
                     value = default, attributes = napi_property_attributes.napi_default, data = null
-                },
-                new()
-                {
-                    utf8name = methodName2, name = default,
-                    method = &OpenHarmonyStorageProvider.SetPickerResult, getter = null, setter = null,
-                    value = default, attributes = napi_property_attributes.napi_default, data = null
-                }
-            ];
-            fixed (napi_property_descriptor* p = desc)
-            {
-                node_api.napi_define_properties(env, exports, 2, p);
+                };
             }
 
-            Marshal.FreeHGlobal((IntPtr)methodName);
-            Marshal.FreeHGlobal((IntPtr)methodName2);
+            node_api.napi_define_properties(env, exports, methodNamesLength, desc);
+            for (int i = 0; i < methodNamesLength; i++)
+                Marshal.FreeHGlobal((IntPtr)desc[i].utf8name);
         }
         catch (Exception e)
         {

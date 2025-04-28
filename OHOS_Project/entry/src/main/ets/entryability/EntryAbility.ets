@@ -29,9 +29,6 @@ export default class EntryAbility extends UIAbility {
       documentSelectOptions.defaultFilePathUri = defaultFilePathUri;
       // 选择文件的后缀类型['后缀类型描述|后缀类型']（可选，不传该参数，默认不过滤，即显示所有文件），若选择项存在多个后缀名，则每一个后缀名之间用英文逗号进行分隔（可选），后缀类型名不能超过100。此外2in1设备支持通过通配符方式['所有文件(*.*)|.*']，表示为显示所有文件，手机暂不支持该配置。
       documentSelectOptions.fileSuffixFilters = fileSuffixFilters
-      for (let fileSuffixFiltersElement of fileSuffixFilters) {
-        hilog.info(DOMAIN, 'testTag', 'fileSuffixFilters:' + fileSuffixFiltersElement);
-      }
       //选择是否对指定文件或目录授权，true为授权，当为true时，defaultFilePathUri为必选参数，拉起文管授权界面；false为非授权（默认为false），拉起常规文管界面（可选），仅支持2in1设备。
       documentSelectOptions.authMode = authMod;
       documentSelectOptions.selectMode = selectMode;
@@ -60,8 +57,11 @@ export default class EntryAbility extends UIAbility {
       fileSuffixChoices: Array<string>, pickerMode: number) => {
       let result: Array<string> = [];
       let documentSaveOptions = new picker.DocumentSaveOptions();
-      documentSaveOptions.newFileNames = ['DocumentViewPicker01.txt'];
-      let documentPicker = new picker.DocumentViewPicker(getContext(this) as common.Context);
+      documentSaveOptions.newFileNames = newFileNames;
+      documentSaveOptions.defaultFilePathUri = defaultFilePathUri;
+      documentSaveOptions.fileSuffixChoices = fileSuffixChoices;
+      documentSaveOptions.pickerMode = pickerMode;
+      const documentPicker = new picker.DocumentViewPicker(getContext(this) as common.Context);
       documentPicker.save(documentSaveOptions).then((documentSaveResult: Array<string>) => {
         console.info('DocumentViewPicker.save successfully, documentSaveResult uri: ' +
         JSON.stringify(documentSaveResult));

@@ -10,8 +10,8 @@ public class OpenHarmonyStorageProvider : IStorageProvider
 {
     public Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(FilePickerOpenOptions options)
     {
-        StartDocumentViewPicker?.Invoke(new DocumentSelectOptions(options));
         if (_result is not null) return Task.FromResult<IReadOnlyList<IStorageFile>>([]);
+        StartDocumentViewPicker?.Invoke(new DocumentSelectOptions(options));
         _result ??= new TaskCompletionSource<IReadOnlyList<string>>();
         return Task.Run<IReadOnlyList<IStorageFile>>(async () =>
         {
@@ -21,8 +21,8 @@ public class OpenHarmonyStorageProvider : IStorageProvider
 
     public Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
     {
-        StartDocumentViewPickerSaveMode?.Invoke(new DocumentSaveOptions(options));
         if (_result is not null) return Task.FromResult<IStorageFile?>(null);
+        StartDocumentViewPickerSaveMode?.Invoke(new DocumentSaveOptions(options));
         _result ??= new TaskCompletionSource<IReadOnlyList<string>>();
         return Task.Run<IStorageFile?>(async () =>
         {
@@ -34,8 +34,8 @@ public class OpenHarmonyStorageProvider : IStorageProvider
 
     public Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options)
     {
-        StartDocumentViewPicker?.Invoke(new DocumentSelectOptions(options));
         if (_result is not null) return Task.FromResult<IReadOnlyList<IStorageFolder>>([]);
+        StartDocumentViewPicker?.Invoke(new DocumentSelectOptions(options));
         _result ??= new TaskCompletionSource<IReadOnlyList<string>>();
         return Task.Run<IReadOnlyList<IStorageFolder>>(async () =>
         {
@@ -114,7 +114,9 @@ public class OpenHarmonyStorageProvider : IStorageProvider
     {
         internal DocumentSaveOptions(FilePickerSaveOptions options)
         {
-            newFileNames = string.IsNullOrWhiteSpace(options.SuggestedFileName) ? null : [options.SuggestedFileName];
+            newFileNames = string.IsNullOrWhiteSpace(options.SuggestedFileName)
+                ? null
+                : [options.SuggestedFileName + options.DefaultExtension];
             defaultFilePathUri = options.SuggestedStartLocation?.Path.ToString();
             fileSuffixChoices = options.FileTypeChoices?.Where(x => x.Patterns is not null)
                 .Select(x => $"{x.Name}|{string.Join(",", x.Patterns!.FirstOrDefault()?.Remove(0, 1))}").ToArray();
@@ -218,12 +220,10 @@ public class OpenHarmonyStorageProvider : IStorageProvider
                 {
                     napi_value str;
                     var fileSuffixFilterPtr = Marshal.StringToCoTaskMemUTF8(options.fileSuffixFilters[i]);
-                    var code = node_api.napi_create_string_utf8(_env_StartDocumentViewPicker,
+                    node_api.napi_create_string_utf8(_env_StartDocumentViewPicker,
                         (sbyte*)fileSuffixFilterPtr,
                         (ulong)Encoding.UTF8.GetBytes(options.fileSuffixFilters[i]).Length, &str);
-                    OHDebugHelper.Info("node_api.napi_create_string_utf8:" + code);
-                    code = node_api.napi_set_element(_env_StartDocumentViewPicker, array, (uint)i, str);
-                    OHDebugHelper.Info("node_api.napi_set_element:" + code);
+                    node_api.napi_set_element(_env_StartDocumentViewPicker, array, (uint)i, str);
                     Marshal.ZeroFreeCoTaskMemUTF8(fileSuffixFilterPtr);
                 }
 

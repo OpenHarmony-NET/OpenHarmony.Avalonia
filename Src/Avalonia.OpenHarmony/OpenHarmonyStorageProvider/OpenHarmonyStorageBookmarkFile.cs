@@ -12,7 +12,7 @@ internal unsafe class OpenHarmonyStorageBookmarkFile : IStorageBookmarkFile
         var ptr = (char*)Marshal.StringToHGlobalAnsi(uri);
         char* result = null;
         var code = FileUri.OH_FileUri_GetPathFromUri(ptr, (uint)Encoding.ASCII.GetBytes(uri).Length, &result);
-        OHDebugHelper.Debug($"沙箱路径转换结果：{code}");
+        // OHDebugHelper.Debug($"沙箱路径转换结果：{code}");
         var path = Marshal.PtrToStringAnsi((IntPtr)result);
         path ??= "沙箱路径转换失败";
         Name = System.IO.Path.GetFileName(path);

@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SandBox.Views.StorgePage">
+    <DockPanel>
+        <ScrollViewer
+            DockPanel.Dock="Top">
+            <StackPanel Spacing="5">
+                <CheckBox
+                    Name="CheckBox"
+                    Content="多选吗？虽然文件夹多选可能在部分设备中无法使用。">
+                </CheckBox>
+                <TextBox
+                    Name="TextBox_Name"
+                    Watermark="输入期望的保存的文件名称">
+                </TextBox>
+                <Button
+                    Content="打开文件选取器"
+                    Click="Button_OnClick">
+                </Button>
+                <Button
+                    Content="打开文件保存器"
+                    Click="Button_OnClick2">
+                </Button>
+                <Button
+                    Content="打开文件夹选取器"
+                    Click="Button_OnClick3">
+                </Button>
+            </StackPanel>
+        </ScrollViewer>
+        <TextBox
+            Name="TextBox"
+            DockPanel.Dock="Bottom"
+            AcceptsReturn="True"
+            VerticalContentAlignment="Top"
+            IsReadOnly="True">
+        </TextBox>
+    </DockPanel>
+</UserControl>
