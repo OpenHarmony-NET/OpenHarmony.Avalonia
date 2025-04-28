@@ -21,7 +21,15 @@ public class OpenHarmonyStorageProvider : IStorageProvider
 
     public Task<IStorageFile?> SaveFilePickerAsync(FilePickerSaveOptions options)
     {
-        throw new NotImplementedException();
+        StartDocumentViewPickerSaveMode?.Invoke(new DocumentSaveOptions(options));
+        if (_result is not null) return Task.FromResult<IStorageFile?>(null);
+        _result ??= new TaskCompletionSource<IReadOnlyList<string>>();
+        return Task.Run<IStorageFile?>(async () =>
+        {
+            var result = (await _result.Task).FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(result)) return null;
+            return new OpenHarmonyStorageBookmarkFile(result);
+        });
     }
 
     public Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options)
@@ -67,7 +75,9 @@ public class OpenHarmonyStorageProvider : IStorageProvider
     #region ArkTS
 
     private static napi_env _env_StartDocumentViewPicker;
+    private static napi_env _env_StartDocumentViewPickerSaveMode;
     private static napi_ref _callbackRef_StartDocumentViewPicker;
+    private static napi_ref _callbackRef_StartDocumentViewPickerSaveMode;
 
 
     internal static Action<DocumentSelectOptions>? StartDocumentViewPicker;
@@ -100,11 +110,33 @@ public class OpenHarmonyStorageProvider : IStorageProvider
         public bool? authMode { get; set; }
     }
 
+    internal record DocumentSaveOptions
+    {
+        internal DocumentSaveOptions(FilePickerSaveOptions options)
+        {
+            newFileNames = string.IsNullOrWhiteSpace(options.SuggestedFileName) ? null : [options.SuggestedFileName];
+            defaultFilePathUri = options.SuggestedStartLocation?.Path.ToString();
+            fileSuffixChoices = options.FileTypeChoices?.Where(x => x.Patterns is not null)
+                .Select(x => $"{x.Name}|{string.Join(",", x.Patterns!.FirstOrDefault()?.Remove(0, 1))}").ToArray();
+        }
+
+        public string[]? newFileNames { get; set; }
+        public string? defaultFilePathUri { get; set; }
+        public string[]? fileSuffixChoices { get; set; }
+        public DocumentPickerMode? pickerMode { get; set; }
+    }
+
     internal enum DocumentSelectMode
     {
         FILE = 0, //文件类型。
         FOLDER = 1, //文件夹类型。
         MIXED = 2 //文件和文件夹混合类型。
+    }
+
+    internal enum DocumentPickerMode
+    {
+        DEFAULT = 0, //标准模式
+        DOWNLOAD = 1 //下载模式
     }
 
     internal static TaskCompletionSource<IReadOnlyList<string>>? _result;
@@ -164,17 +196,17 @@ public class OpenHarmonyStorageProvider : IStorageProvider
         _callbackRef_StartDocumentViewPicker = ptr;
         StartDocumentViewPicker = options =>
         {
-            var args = stackalloc napi_value[5];
+            var argsForATF = stackalloc napi_value[5];
             napi_value arkTSFunc;
             node_api.napi_get_reference_value(env, _callbackRef_StartDocumentViewPicker, &arkTSFunc);
             if (options.maxSelectNumber.HasValue)
-                node_api.napi_create_int32(_env_StartDocumentViewPicker, options.maxSelectNumber.Value, args);
+                node_api.napi_create_int32(_env_StartDocumentViewPicker, options.maxSelectNumber.Value, argsForATF);
             if (options.defaultFilePathUri is not null)
             {
-                var ptr = Marshal.StringToCoTaskMemUTF8(options.defaultFilePathUri);
-                node_api.napi_create_string_utf8(_env_StartDocumentViewPicker, (sbyte*)ptr,
-                    (ulong)Encoding.UTF8.GetBytes(options.defaultFilePathUri).Length, &args[1]);
-                Marshal.ZeroFreeCoTaskMemUTF8(ptr);
+                var defaultFilePathUriPtr = Marshal.StringToCoTaskMemUTF8(options.defaultFilePathUri);
+                node_api.napi_create_string_utf8(_env_StartDocumentViewPicker, (sbyte*)defaultFilePathUriPtr,
+                    (ulong)Encoding.UTF8.GetBytes(options.defaultFilePathUri).Length, &argsForATF[1]);
+                Marshal.ZeroFreeCoTaskMemUTF8(defaultFilePathUriPtr);
             }
 
             if (options.fileSuffixFilters is not null)
@@ -185,27 +217,101 @@ public class OpenHarmonyStorageProvider : IStorageProvider
                 for (var i = 0; i < options.fileSuffixFilters.Length; i++)
                 {
                     napi_value str;
-                    var ptr = Marshal.StringToCoTaskMemUTF8(options.fileSuffixFilters[i]);
-                    var code = node_api.napi_create_string_utf8(_env_StartDocumentViewPicker, (sbyte*)ptr, (ulong)Encoding.UTF8.GetBytes(options.fileSuffixFilters[i]).Length, &str);
+                    var fileSuffixFilterPtr = Marshal.StringToCoTaskMemUTF8(options.fileSuffixFilters[i]);
+                    var code = node_api.napi_create_string_utf8(_env_StartDocumentViewPicker,
+                        (sbyte*)fileSuffixFilterPtr,
+                        (ulong)Encoding.UTF8.GetBytes(options.fileSuffixFilters[i]).Length, &str);
                     OHDebugHelper.Info("node_api.napi_create_string_utf8:" + code);
                     code = node_api.napi_set_element(_env_StartDocumentViewPicker, array, (uint)i, str);
                     OHDebugHelper.Info("node_api.napi_set_element:" + code);
-                    Marshal.ZeroFreeCoTaskMemUTF8(ptr);
+                    Marshal.ZeroFreeCoTaskMemUTF8(fileSuffixFilterPtr);
                 }
 
-                args[2] = array;
+                argsForATF[2] = array;
             }
 
             if (options.selectMode.HasValue)
-                node_api.napi_create_int32(_env_StartDocumentViewPicker, (int)options.selectMode.Value, &args[3]);
+                node_api.napi_create_int32(_env_StartDocumentViewPicker, (int)options.selectMode.Value, &argsForATF[3]);
             if (options.authMode.HasValue)
                 node_api.napi_create_int32(_env_StartDocumentViewPicker, Convert.ToInt32(options.authMode.Value),
-                    &args[4]);
+                    &argsForATF[4]);
 
-            node_api.napi_call_function(_env_StartDocumentViewPicker, default, arkTSFunc, 5, args, null);
+            node_api.napi_call_function(_env_StartDocumentViewPicker, default, arkTSFunc, 5, argsForATF, null);
         };
         return default;
     }
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)], EntryPoint = "setStartDocumentViewPickerSaveMode")]
+    public static unsafe napi_value SetStartDocumentViewPickerSaveMode(napi_env env, napi_callback_info info)
+    {
+        ulong argc = 1;
+        var args = stackalloc napi_value[1];
+        node_api.napi_get_cb_info(env, info, &argc, args, null, null);
+        napi_ref ptr;
+        node_api.napi_create_reference(env, args[0], 1, &ptr);
+        _env_StartDocumentViewPickerSaveMode = env;
+        _callbackRef_StartDocumentViewPickerSaveMode = ptr;
+        StartDocumentViewPickerSaveMode = options =>
+        {
+            var argsForATF = stackalloc napi_value[4];
+            napi_value arkTSFunc;
+            node_api.napi_get_reference_value(env, _callbackRef_StartDocumentViewPickerSaveMode, &arkTSFunc);
+            if (options.newFileNames is not null)
+            {
+                napi_value array;
+                node_api.napi_create_array_with_length(_env_StartDocumentViewPickerSaveMode,
+                    (ulong)options.newFileNames.Length, &array);
+                for (var i = 0; i < options.newFileNames.Length; i++)
+                {
+                    napi_value str;
+                    var fileSuffixFilterPtr = Marshal.StringToCoTaskMemUTF8(options.newFileNames[i]);
+                    node_api.napi_create_string_utf8(_env_StartDocumentViewPickerSaveMode,
+                        (sbyte*)fileSuffixFilterPtr,
+                        (ulong)Encoding.UTF8.GetBytes(options.newFileNames[i]).Length, &str);
+                    node_api.napi_set_element(_env_StartDocumentViewPicker, array, (uint)i, str);
+                    Marshal.ZeroFreeCoTaskMemUTF8(fileSuffixFilterPtr);
+                }
+
+                argsForATF[0] = array;
+            }
+
+            if (options.defaultFilePathUri is not null)
+            {
+                var defaultFilePathUriPtr = Marshal.StringToCoTaskMemUTF8(options.defaultFilePathUri);
+                node_api.napi_create_string_utf8(_env_StartDocumentViewPickerSaveMode, (sbyte*)defaultFilePathUriPtr,
+                    (ulong)Encoding.UTF8.GetBytes(options.defaultFilePathUri).Length, &argsForATF[1]);
+                Marshal.ZeroFreeCoTaskMemUTF8(defaultFilePathUriPtr);
+            }
+
+            if (options.fileSuffixChoices is not null)
+            {
+                napi_value array;
+                node_api.napi_create_array_with_length(_env_StartDocumentViewPickerSaveMode,
+                    (ulong)options.fileSuffixChoices.Length, &array);
+                for (var i = 0; i < options.fileSuffixChoices.Length; i++)
+                {
+                    napi_value str;
+                    var fileSuffixFilterPtr = Marshal.StringToCoTaskMemUTF8(options.fileSuffixChoices[i]);
+                    node_api.napi_create_string_utf8(_env_StartDocumentViewPickerSaveMode,
+                        (sbyte*)fileSuffixFilterPtr,
+                        (ulong)Encoding.UTF8.GetBytes(options.fileSuffixChoices[i]).Length, &str);
+                    node_api.napi_set_element(_env_StartDocumentViewPicker, array, (uint)i, str);
+                    Marshal.ZeroFreeCoTaskMemUTF8(fileSuffixFilterPtr);
+                }
+
+                argsForATF[2] = array;
+            }
+
+            if (options.pickerMode.HasValue)
+                node_api.napi_create_int32(_env_StartDocumentViewPickerSaveMode, (int)options.pickerMode.Value,
+                    &argsForATF[3]);
+
+            node_api.napi_call_function(_env_StartDocumentViewPickerSaveMode, default, arkTSFunc, 4, argsForATF, null);
+        };
+        return default;
+    }
+
+    internal static Action<DocumentSaveOptions>? StartDocumentViewPickerSaveMode { get; set; }
 
     #endregion
 }
