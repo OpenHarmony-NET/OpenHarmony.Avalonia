@@ -26,7 +26,6 @@ namespace AvaloniaGame.Gl
             _gl.GetProgram(_handle, GLEnum.LinkStatus, out var status);
             if (status == 0)
             {
-                Logger.LogError("Shader",$"Program failed to link with error: {_gl.GetProgramInfoLog(_handle)}");
                 throw new Exception($"Program failed to link with error: {_gl.GetProgramInfoLog(_handle)}");
             }
             _gl.DetachShader(_handle, vertex);
