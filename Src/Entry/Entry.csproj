@@ -19,7 +19,7 @@
         <RdXmlFile Include="rd.xml"/>
     </ItemGroup>
 
-    <Import Project="../../ThirdParty/PublishAotCross/src/PublishAotCross.targets"/>
+    <Import Project="../../ThirdParty/PublishAotCross/src/OpenHarmony.NET.PublishAotCross.targets"/>
     <Import Project="../../ThirdParty/OpenHarmony.NET.Runtime/runtime.targets"/>
 
     <ItemGroup>

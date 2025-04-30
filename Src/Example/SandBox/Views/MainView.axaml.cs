@@ -1,9 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
+using System.Linq;
 using System.Reactive.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Media.Imaging;
 using Avalonia.OpenHarmony;
+using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using ReactiveMarbles.ObservableEvents;
 
@@ -17,24 +24,5 @@ public partial class MainView : UserControl
         (OHDebugHelper.Logs as INotifyCollectionChanged).Events().CollectionChanged
             .Do(_ => Dispatcher.UIThread.Post(() => ListBox.ScrollIntoView(OHDebugHelper.Logs.Count - 1)))
             .Subscribe();
-    }
-
-    protected override void OnLoaded(RoutedEventArgs e)
-    {
-        base.OnLoaded(e);
-        try
-        {
-            var inputPane = TopLevel.GetTopLevel(this)?.InputPane;
-            inputPane.Events().StateChanged.Do(_ =>
-                {
-                    Dispatcher.UIThread.Post(() =>
-                        TextBox.Text = $"输入法面板状态：{inputPane?.State}\n输入法面板的的位置与宽高{inputPane?.OccludedRect}");
-                })
-                .Subscribe();
-        }
-        catch (Exception exception)
-        {
-            OHDebugHelper.Error("获取输入法面板信息失败", exception);
-        }
     }
 }

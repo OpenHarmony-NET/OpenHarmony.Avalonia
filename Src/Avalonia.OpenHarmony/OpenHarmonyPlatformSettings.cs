@@ -4,4 +4,5 @@ namespace Avalonia.OpenHarmony;
 
 public class OpenHarmonyPlatformSettings : DefaultPlatformSettings
 {
+    
 }
