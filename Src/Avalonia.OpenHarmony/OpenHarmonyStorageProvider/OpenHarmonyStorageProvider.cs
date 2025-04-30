@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using Avalonia.Platform.Storage;
+using OpenHarmony.NDK.Bindings.Core_File_Kit;
 using OpenHarmony.NDK.Bindings.Native;
 
 namespace Avalonia.OpenHarmony;
@@ -68,9 +69,9 @@ public class OpenHarmonyStorageProvider : IStorageProvider
         throw new NotImplementedException();
     }
 
-    public bool CanOpen { get; }
-    public bool CanSave { get; }
-    public bool CanPickFolder { get; }
+    public bool CanOpen { get; } = true;
+    public bool CanSave { get; } = true;
+    public bool CanPickFolder { get; } = true;
 
     #region ArkTS
 
@@ -81,6 +82,16 @@ public class OpenHarmonyStorageProvider : IStorageProvider
 
 
     internal static Action<DocumentSelectOptions>? StartDocumentViewPicker;
+
+    internal static unsafe string? GetPathByOpenHarmonyUri(string uri)
+    {
+        var ptr = (char*)Marshal.StringToHGlobalAnsi(uri);
+        char* result = null;
+        FileUri.OH_FileUri_GetPathFromUri(ptr, (uint)Encoding.ASCII.GetBytes(uri).Length, &result);
+        var path = Marshal.PtrToStringAnsi((IntPtr)result);
+        Marshal.FreeHGlobal((nint)ptr);
+        return path;
+    }
 
     internal record DocumentSelectOptions
     {

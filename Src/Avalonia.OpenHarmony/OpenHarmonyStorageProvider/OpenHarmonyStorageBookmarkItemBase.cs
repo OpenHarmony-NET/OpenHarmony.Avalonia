@@ -7,20 +7,17 @@ namespace Avalonia.OpenHarmony;
 
 public abstract class OpenHarmonyStorageBookmarkItemBase : IStorageBookmarkItem
 {
-    private readonly string sourceUri;
+    protected readonly string _sourceUri;
+    protected FileSystemInfo _base;
 
-    internal unsafe OpenHarmonyStorageBookmarkItemBase(string uri)
+    protected unsafe OpenHarmonyStorageBookmarkItemBase(string uri)
     {
-        sourceUri = uri;
-        var ptr = (char*)Marshal.StringToHGlobalAnsi(uri);
-        char* result = null;
-        FileUri.OH_FileUri_GetPathFromUri(ptr, (uint)Encoding.ASCII.GetBytes(uri).Length, &result);
-        var path = Marshal.PtrToStringAnsi((IntPtr)result);
+        _sourceUri = uri;
+        var path = OpenHarmonyStorageProvider.GetPathByOpenHarmonyUri(uri);
         path ??= "沙箱路径转换失败";
         Name = System.IO.Path.GetFileName(path);
         Path = new Uri(path);
-        CanBookmark = false;
-        Marshal.FreeHGlobal((nint)ptr);
+        CanBookmark = true;
     }
 
     public void Dispose()
@@ -30,27 +27,30 @@ public abstract class OpenHarmonyStorageBookmarkItemBase : IStorageBookmarkItem
 
     public Task<StorageItemProperties> GetBasicPropertiesAsync()
     {
-        throw new NotImplementedException();
+        return Task.FromResult(new StorageItemProperties(null, _base.CreationTime, _base.LastWriteTime));
     }
 
-    public Task<string?> SaveBookmarkAsync()
+#pragma warning disable CS8619 // 值中的引用类型的为 Null 性与目标类型不匹配。
+    public Task<string?> SaveBookmarkAsync() => Task.FromResult(_sourceUri);
+#pragma warning restore CS8619 // 值中的引用类型的为 Null 性与目标类型不匹配。
+
+    [Obsolete("你无权对用户文件执行此操作。")]
+    public virtual Task<IStorageFolder?> GetParentAsync()
     {
-        throw new NotImplementedException();
+        // return Task.FromResult<IStorageFolder?>(_base.);
+        throw new NotSupportedException("你无权对用户文件执行此操作。");
     }
 
-    public Task<IStorageFolder?> GetParentAsync()
-    {
-        throw new NotImplementedException();
-    }
-
+    [Obsolete("你无权对用户文件执行此操作。")]
     public Task DeleteAsync()
     {
-        throw new NotImplementedException();
+        throw new NotSupportedException("你无权对用户文件执行此操作。");
     }
 
+    [Obsolete("你无权对用户文件执行此操作。")]
     public Task<IStorageItem?> MoveAsync(IStorageFolder destination)
     {
-        throw new NotImplementedException();
+        throw new NotSupportedException("你无权对用户文件执行此操作。");
     }
 
     public string Name { get; }
@@ -59,6 +59,6 @@ public abstract class OpenHarmonyStorageBookmarkItemBase : IStorageBookmarkItem
 
     public Task ReleaseBookmarkAsync()
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 }
