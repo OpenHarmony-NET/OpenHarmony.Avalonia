@@ -17,9 +17,16 @@ public class OpenHarmonyPlatform
     {
         var options = AvaloniaLocator.Current.GetService<OpenHarmonyPlatformOptions>() ??
                       new OpenHarmonyPlatformOptions();
+        var fontManagerOptions = new FontManagerOptions()
+        {
+            DefaultFamilyName = "HarmonyOS Sans SC",
+        };
+
         AvaloniaLocator.CurrentMutable
             .Bind<PlatformHotkeyConfiguration>().ToSingleton<PlatformHotkeyConfiguration>()
-            .Bind<FontManager>().ToConstant(new FontManager(new CustomFontManagerImpl()))
+            .Bind<FontManagerOptions>().ToConstant(fontManagerOptions)
+            // .Bind<FontManager>().ToConstant(new FontManager(new OpenHarmonyFontManagerImpl()))
+            .Bind<FontManager>().ToConstant(new FontManager(new OpenHarmonyFontManagerImpl()))
             .Bind<IRuntimePlatform>().ToSingleton<OpenHarmonyRuntimePlatform>()
             .Bind<IRenderTimer>().ToSingleton<OpenHarmonyRenderTimer>()
             .Bind<ICursorFactory>().ToSingleton<CursorFactory>()
@@ -33,6 +40,10 @@ public class OpenHarmonyPlatform
 
         var compositor = new Compositor(platformGraphics);
         AvaloniaLocator.CurrentMutable.Bind<Compositor>().ToConstant(compositor);
+
+        // FontManager.Current.AddFontCollection(new TestE(
+        //     new Uri("fonts:AvaloniaSystemFonts"),
+        //     new Uri("resm:Avalonia.OpenHarmony.Assets?assembly=Avalonia.OpenHarmony")));
     }
 
     private static IPlatformGraphics? InitializeGraphics(OpenHarmonyPlatformOptions options)

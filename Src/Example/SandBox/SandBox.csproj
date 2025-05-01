@@ -37,4 +37,10 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Avalonia.OpenHarmony\Avalonia.OpenHarmony.csproj"/>
     </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="SkiaSharp">
+        <HintPath>..\..\Avalonia.OpenHarmony\libs\SkiaSharp\SkiaSharp.dll</HintPath>
+      </Reference>
+    </ItemGroup>
 </Project>
