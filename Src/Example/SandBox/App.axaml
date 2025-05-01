@@ -8,7 +8,8 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <FontFamily x:Key="DefaultFontFamily">avares://SandBox/Assets/Fonts/HarmonyOS_Sans_SC/#HarmonyOS Sans SC</FontFamily>
+            <FontFamily x:Key="DefaultFontFamily">HarmonyOS Sans SC</FontFamily>
+            <!-- <FontFamily x:Key="DefaultFontFamily">avares://SandBox/Assets/Fonts/HarmonyOS_Sans_SC/#HarmonyOS Sans SC</FontFamily> -->
         </ResourceDictionary>
         <!-- <x:Double x:Key="ControlContentThemeFontSize">12</x:Double> -->
         <!-- <FontFamily x:Key="ContentControlThemeFontFamily">avares://WCKYWCKF.Model2ViewModel.Editor/Assets/Fonts/HarmonyOS_Sans_SC/#HarmonyOS Sans SC</FontFamily> -->

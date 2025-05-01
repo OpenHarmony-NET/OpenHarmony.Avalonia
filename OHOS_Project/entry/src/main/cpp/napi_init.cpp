@@ -123,9 +123,37 @@ static napi_module testModule = {
     .nm_priv = ((void *)0),
     .reserved = {0},
 };
-
+#include <hilog/log.h>
+#include <native_drawing/drawing_font_collection.h>
+#include <native_drawing/drawing_register_font.h>
+#include <native_drawing/drawing_text_typography.h>
 extern "C" __attribute__((constructor)) void RegisterEntryModule(void) {
-    // napi_module_register(&testModule);
+    OH_Drawing_FontConfigInfoErrorCode fontConfigInfoErrorCode; // 用于接收错误代码
+    OH_Drawing_FontConfigInfo *fontConfigInfo = OH_Drawing_GetSystemFontConfigInfo(&fontConfigInfoErrorCode);
+    if (fontConfigInfoErrorCode != SUCCESS_FONT_CONFIG_INFO) {
+        OH_LOG_Print(LOG_APP, LOG_ERROR, LOG_DOMAIN, "DrawingSample", "获取系统信息失败，错误代码为： %{public}d",
+                     fontConfigInfoErrorCode);
+    } // 获取系统字体配置信息示例
+    if (fontConfigInfo != nullptr) {
+        // 获取字体文件路径数量，打印日志
+        size_t fontDirCount = fontConfigInfo->fontDirSize;
+        OH_LOG_Print(LOG_APP, LOG_INFO, LOG_DOMAIN, "DrawingSample", "字体文件路径数量为: %{public}zu\n", fontDirCount);
+        // 遍历字体文件路径列表，打印日志
+        for (size_t i = 0; i < fontDirCount; ++i) {
+            OH_LOG_Print(LOG_APP, LOG_INFO, LOG_DOMAIN, "DrawingSample", "字体文件路径为: %{public}s\n",
+                         fontConfigInfo->fontDirSet[i]);
+        }
+        // 获取通用字体集数量，打印日志
+        size_t genericCount = fontConfigInfo->fontGenericInfoSize;
+        OH_LOG_Print(LOG_APP, LOG_INFO, LOG_DOMAIN, "DrawingSample", "通用字体集数量为: %{public}zu\n", genericCount);
+        // 遍历获取每个通用字体集中的字体家族名（例如 HarmonyOS Sans），打印日志
+        for (size_t i = 0; i < genericCount; ++i) {
+            OH_Drawing_FontGenericInfo &genericInfo = fontConfigInfo->fontGenericInfoSet[i];
+            OH_LOG_Print(LOG_APP, LOG_INFO, LOG_DOMAIN, "DrawingSample",
+                         "获取第%{public}zu个通用字体集中的字体家族名为: %{public}s", i, genericInfo.familyName);
+        }
+    }
+    
     auto handle = dlopen("libavalonia.so", RTLD_NOW);
     assert(handle != nullptr);
     auto func = (void (*)())dlsym(handle, "RegisterEntryModule");
