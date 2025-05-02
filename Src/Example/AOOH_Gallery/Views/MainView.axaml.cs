@@ -11,6 +11,8 @@ namespace AOOH_Gallery.Views;
 
 public partial class MainView : UserControl
 {
+    public static FuncValueConverter<double, double> GetPaneHeightConverter = new(input => input / 3 * 2);
+
     public MainView()
     {
         InitializeComponent();

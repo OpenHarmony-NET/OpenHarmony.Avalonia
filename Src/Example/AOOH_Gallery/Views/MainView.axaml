@@ -9,11 +9,12 @@
              xmlns:viewModels="clr-namespace:Ursa.Demo.ViewModels;assembly=Ursa.Demo"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AOOH_Gallery.Views.MainView"
-             Margin="10">
+             Margin="0,50,0,10">
     <SplitView
         Theme="{DynamicResource VerticalSplitView}"
         PanePlacement="Right"
         DisplayMode="Overlay"
+        OpenPaneLength="{Binding $parent[UserControl].Bounds.Height,Converter={x:Static views:MainView.GetPaneHeightConverter}}"
         UseLightDismissOverlayMode="True">
         <SplitView.Pane>
             <ListBox
