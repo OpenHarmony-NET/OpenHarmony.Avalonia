@@ -7,3 +7,4 @@ export const setStartDocumentViewPickerSaveMode: (cbFn: (newFileNames: Array<str
 export const setPickerResult: (result: Array<string>) => void;
 
 export const setColor: (colorMode: number) => void;
+export const setInputPaneHeight: (keyboardHeightChange: number) => void;

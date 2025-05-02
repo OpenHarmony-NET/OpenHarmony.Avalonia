@@ -89,6 +89,9 @@ export default class EntryAbility extends UIAbility {
       windowStage.getMainWindow().then(w => {
         w.setWindowLayoutFullScreen(true)
         w.setPreferredOrientation(window.Orientation.AUTO_ROTATION)
+        w.on('keyboardHeightChange', (data: number) => {
+          avalonia.setInputPaneHeight(px2vp(data));
+        })
       })
       hilog.info(DOMAIN, 'testTag', 'Succeeded in loading the content.');
     });

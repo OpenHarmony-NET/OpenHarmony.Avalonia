@@ -31,5 +31,11 @@ public partial class IMEPage : UserControl
         //
 
         ListBox.ItemsSource = FontManager.Current.SystemFonts.Select(x => x.Name);
+        var inputPane = TopLevel.GetTopLevel(this)!.InputPane!;
+        inputPane.StateChanged += (sender, args) =>
+        {
+            ListBox.ItemsSource = new List<string>()
+                { inputPane.OccludedRect.ToString(), inputPane.State.ToString() };
+        };
     }
 }
