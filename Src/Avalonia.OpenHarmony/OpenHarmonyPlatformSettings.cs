@@ -51,11 +51,15 @@ public class OpenHarmonyPlatformSettings : DefaultPlatformSettings
         {
             if (result is >= -1 and <= 1)
             {
-                ColorModeChanged?.Invoke(_colorMode = (ColorMode)result);
+                // .Net9 AOT的BUG，我在此处永远留下这一行注释。告诉所有人，AOT里不要玩太抽象的东西。
+                // ColorModeChanged?.Invoke(_colorMode = (ColorMode)result);
+                _colorMode = (ColorMode)result;
+                ColorModeChanged?.Invoke(_colorMode);
             }
             else
             {
-                ColorModeChanged?.Invoke(_colorMode = ColorMode.COLOR_MODE_NOT_SET);
+                _colorMode = ColorMode.COLOR_MODE_NOT_SET;
+                ColorModeChanged?.Invoke(_colorMode);
             }
         }
 
