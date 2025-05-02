@@ -9,7 +9,7 @@
 	url = https://github.com/OpenHarmony-NET/OpenHarmony.NDK.Bindings
 [submodule "ThirdParty/Ursa.Avalonia"]
 	path = ThirdParty/Ursa.Avalonia
-	url = https://github.com/irihitech/Ursa.Avalonia
+	url = https://github.com/WCKYWCKF/Ursa.Avalonia/tree/oh
 [submodule "ThirdParty/Semi.Avalonia"]
 	path = ThirdParty/Semi.Avalonia
-	url = https://github.com/irihitech/Semi.Avalonia
+	url = https://github.com/WCKYWCKF/Semi.Avalonia/tree/oh
