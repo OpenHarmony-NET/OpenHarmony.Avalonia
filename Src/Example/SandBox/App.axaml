@@ -3,7 +3,7 @@
              x:Class="SandBox.App"
              xmlns:semi="https://irihi.tech/semi"
              xmlns:semi-ursa="https://irihi.tech/ursa/themes/semi"
-             RequestedThemeVariant="Dark">
+             RequestedThemeVariant="Default">
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.Resources>

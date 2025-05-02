@@ -26,7 +26,6 @@ public class TestE : EmbeddedFontCollection
 
                 if (fontManager.TryCreateGlyphTypeface(stream, FontSimulations.None, out var glyphTypeface))
                 {
-                    OHDebugHelper.Debug(glyphTypeface.FamilyName);
                     Call(glyphTypeface);
                 }
             }
@@ -98,7 +97,6 @@ internal class OpenHarmonyFontManagerImpl : IFontManagerImpl
     public bool TryCreateGlyphTypeface(string familyName, FontStyle style, FontWeight weight,
         FontStretch stretch, [NotNullWhen(true)] out IGlyphTypeface? glyphTypeface)
     {
-        OHDebugHelper.Debug("TryCreateGlyphTypeface被调用了：" + familyName);
         return _testE.TryGetGlyphTypeface(familyName, style, weight, stretch, out glyphTypeface);
     }
 
