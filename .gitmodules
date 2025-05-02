@@ -7,3 +7,9 @@
 [submodule "ThirdParty/OpenHarmony.NDK.Bindings"]
 	path = ThirdParty/OpenHarmony.NDK.Bindings
 	url = https://github.com/OpenHarmony-NET/OpenHarmony.NDK.Bindings
+[submodule "ThirdParty/Ursa.Avalonia"]
+	path = ThirdParty/Ursa.Avalonia
+	url = https://github.com/irihitech/Ursa.Avalonia
+[submodule "ThirdParty/Semi.Avalonia"]
+	path = ThirdParty/Semi.Avalonia
+	url = https://github.com/irihitech/Semi.Avalonia
