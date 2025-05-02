@@ -11,7 +11,6 @@ public class OpenHarmonyPlatformSettings : DefaultPlatformSettings
 {
     public OpenHarmonyPlatformSettings()
     {
-        OHDebugHelper.Debug("OpenHarmonyPlatformSettings 被创建了");
         ColorModeChanged += mode =>
         {
             OHDebugHelper.Debug("OpenHarmonyPlatformSettings" + $"ColorModeChanged: {mode}");
@@ -24,14 +23,18 @@ public class OpenHarmonyPlatformSettings : DefaultPlatformSettings
                 }
             });
         };
-        OnColorValuesChanged(new PlatformColorValues()
+    }
+
+    public override PlatformColorValues GetColorValues()
+    {
+        return new PlatformColorValues()
         {
             ThemeVariant = _colorMode switch
             {
                 ColorMode.COLOR_MODE_DARK => PlatformThemeVariant.Dark,
                 _ => PlatformThemeVariant.Light
             }
-        });
+        };
     }
 
     private static event Action<ColorMode>? ColorModeChanged;
