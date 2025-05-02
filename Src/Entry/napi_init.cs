@@ -63,7 +63,7 @@ public class napi_init
         Marshal.FreeHGlobal(xcomponentNamePtr);
         try
         {
-            const int methodNamesLength = 4;
+            const int methodNamesLength = 5;
             var desc = stackalloc napi_property_descriptor[methodNamesLength]
             {
                 Create((sbyte*)Marshal.StringToHGlobalAnsi("setStartDocumentViewPicker"),
@@ -74,6 +74,8 @@ public class napi_init
                     &OpenHarmonyStorageProvider.SetPickerResult),
                 Create((sbyte*)Marshal.StringToHGlobalAnsi("setColor"),
                     &OpenHarmonyPlatformSettings.SetColor),
+                Create((sbyte*)Marshal.StringToHGlobalAnsi("setInputPaneHeight"),
+                    &OpenHarmonyInputPane.SetInputPaneHeight),
             };
 
             napi_property_descriptor Create(sbyte* methodName,
