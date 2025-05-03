@@ -1,15 +1,20 @@
 [submodule "ThirdParty/PublishAotCross"]
 	path = ThirdParty/PublishAotCross
 	url = https://github.com/OpenHarmony-NET/PublishAotCross
+	branch = main
 [submodule "ThirdParty/OpenHarmony.NET.Runtime"]
 	path = ThirdParty/OpenHarmony.NET.Runtime
 	url = https://github.com/OpenHarmony-NET/OpenHarmony.NET.Runtime
+	branch = main
 [submodule "ThirdParty/OpenHarmony.NDK.Bindings"]
 	path = ThirdParty/OpenHarmony.NDK.Bindings
 	url = https://github.com/OpenHarmony-NET/OpenHarmony.NDK.Bindings
+	branch = main
 [submodule "ThirdParty/Ursa.Avalonia"]
 	path = ThirdParty/Ursa.Avalonia
-	url = https://github.com/WCKYWCKF/Ursa.Avalonia/tree/oh
+	url = https://github.com/WCKYWCKF/Ursa.Avalonia
+	branch = oh
 [submodule "ThirdParty/Semi.Avalonia"]
 	path = ThirdParty/Semi.Avalonia
-	url = https://github.com/WCKYWCKF/Semi.Avalonia/tree/oh
+	url = https://github.com/WCKYWCKF/Semi.Avalonia
+	branch = oh
