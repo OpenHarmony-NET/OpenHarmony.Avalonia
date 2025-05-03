@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:AOOH_Gallery.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AOOH_Gallery.Views.FQA">
+    <ScrollViewer>
+        <StackPanel Spacing="10">
+            <Border Theme="{DynamicResource CardBorder}">
+                <HeaderedContentControl
+                    Header="关于为什么将Semi与Ursa加入到Avalonia On OpenHarmony Gallery中"
+                    Content="{x:Static views:FQA.FQA_1}"
+                    Theme="{DynamicResource GroupBox}">
+                </HeaderedContentControl>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

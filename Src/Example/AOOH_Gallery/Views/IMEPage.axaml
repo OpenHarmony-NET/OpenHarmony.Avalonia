@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AOOH_Gallery.Views.IMEPage">
+    <HeaderedContentControl
+        Header="简单的演示输入框避让输入法"
+        Theme="{DynamicResource GroupBox}">
+        <Grid RowDefinitions="*,Auto,Auto">
+            <TextBox
+                Grid.Row="1"
+                Watermark="此输入框将避让输入法">
+            </TextBox>
+            <Rectangle
+                Grid.Row="2"
+                Name="Rectangle"
+                Height="0">
+                <Rectangle.Transitions>
+                    <Transitions>
+                        <DoubleTransition Property="Height" Duration="0:0:0.2"></DoubleTransition>
+                    </Transitions>
+                </Rectangle.Transitions>
+            </Rectangle>
+        </Grid>
+    </HeaderedContentControl>
+</UserControl>
