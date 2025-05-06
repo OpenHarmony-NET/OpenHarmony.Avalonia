@@ -1,0 +1,36 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="AOOH_Gallery.App"
+             xmlns:semi="https://irihi.tech/semi"
+             xmlns:semi-ursa="https://irihi.tech/ursa/themes/semi"
+             xmlns:helpers="clr-namespace:Irihi.Avalonia.Shared.Helpers;assembly=Irihi.Avalonia.Shared"
+             xmlns:u="https://irihi.tech/ursa"
+             RequestedThemeVariant="Default">
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <FontFamily x:Key="DefaultFontFamily">HarmonyOS Sans SC</FontFamily>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://Semi.Avalonia.Demo/Themes/_index.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        <!-- <x:Double x:Key="ControlContentThemeFontSize">12</x:Double> -->
+        <!-- <FontFamily x:Key="ContentControlThemeFontFamily">avares://WCKYWCKF.Model2ViewModel.Editor/Assets/Fonts/HarmonyOS_Sans_SC/#HarmonyOS Sans SC</FontFamily> -->
+    </Application.Resources>
+    <Application.Styles>
+        <semi:SemiTheme Locale="zh-CN" />
+        <semi-ursa:SemiTheme Locale="zh-CN" />
+        <semi:SemiPopupAnimations />
+        
+        <Style Selector="u|DefaultDialogWindow.Custom">
+            <Style Selector="^ /template/ Button#PART_OKButton">
+                <Setter Property="Content" Value="CUSTOM"/>
+                <Setter Property="helpers:ClassHelper.Classes" Value="Warning"></Setter>
+            </Style>
+        </Style>
+        <semi:ColorPickerSemiTheme />
+        <semi:DataGridSemiTheme />
+        <semi:TreeDataGridSemiTheme />
+    </Application.Styles>
+</Application>

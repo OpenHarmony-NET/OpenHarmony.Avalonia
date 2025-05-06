@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using Avalonia.OpenHarmony;
 using OpenHarmony.NDK.Bindings.Native;
-using SandBox;
+using AOOH_Gallery;
 
 namespace Entry;
 

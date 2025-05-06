@@ -10,6 +10,7 @@ using Avalonia.Input.TextInput;
 using Avalonia.OpenGL.Egl;
 using Avalonia.OpenGL.Surfaces;
 using Avalonia.Platform;
+using Avalonia.Platform.Storage;
 using Avalonia.Rendering;
 using Avalonia.Rendering.Composition;
 using OpenHarmony.NDK.Bindings.Native;
@@ -41,6 +42,7 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
 
     public uint vao;
     public uint vbo;
+    private readonly OpenHarmonyStorageProvider _openHarmonyStorageProvider;
 
     public unsafe TopLevelImpl(IntPtr xcomponent, IntPtr window)
     {
@@ -67,9 +69,7 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
             AvaloniaLocator.Current.GetService<IPlatformThreadingInterface>() as OpenHarmonyPlatformThreading;
         _textInputMethod = new OpenHarmonyInputMethod(this);
         _openHarmonyInputPane = new OpenHarmonyInputPane(this);
-
-        _textInputMethod.InputPanelHeightChanged += TextInputMethodOnInputPanelHeightChanged;
-        _textInputMethod.PositionYChanged += TextInputMethodOnInputPanelHeightChanged;
+        _openHarmonyStorageProvider = new OpenHarmonyStorageProvider();
     }
 
     public IntPtr Window { get; }
@@ -169,6 +169,8 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         if (featureType == typeof(IClipboard)) return _clipboard;
 
         if (featureType == typeof(IInputPane)) return _openHarmonyInputPane;
+        
+        if (featureType == typeof(IStorageProvider)) return _openHarmonyStorageProvider;
 
         // todo
         return null;
@@ -216,18 +218,6 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
             gl.BindTexture(GLEnum.Texture2D, textureId);
             gl.BindVertexArray(vao);
             gl.DrawElements(GLEnum.Triangles, 6, GLEnum.UnsignedInt, (void*)0);
-        }
-    }
-
-    private void TextInputMethodOnInputPanelHeightChanged(object? sender, EventArgs e)
-    {
-        try
-        {
-            _openHarmonyInputPane.OnGeometryChange(_textInputMethod.PositionY, _textInputMethod.InputPanelHeight);
-        }
-        catch (Exception exception)
-        {
-            OHDebugHelper.Error("TextInputMethodOnInputPanelHeightChanged", exception);
         }
     }
 

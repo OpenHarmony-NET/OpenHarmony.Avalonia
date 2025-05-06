@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AOOH_Gallery.Views.StorgePage">
+    <HeaderedContentControl
+        Header="关于存储服务迁移的一些说明"
+        Theme="{DynamicResource GroupBox}">
+        <ScrollViewer>
+            <StackPanel Spacing="10">
+                <Border Theme="{DynamicResource CardBorder}">
+                    <HeaderedContentControl Header="已知限制">
+                        <TextBlock>
+                            <Run>文件夹多选问题</Run>
+                            <LineBreak></LineBreak>
+                            <Run>当前文件夹不支持多选。原因如下：当前只有ArkTS的documentSelectOptions.selectMode=MIXED文件夹才能多选。而Avalonia的存储服务接口并未要求实现混合选择模式。</Run>
+                            <LineBreak></LineBreak>
+                            <Run>文件操作权限</Run>
+                            <LineBreak></LineBreak>
+                            <Run>你只能对用户文件进行读写，你无权执行移动、删除或创建。</Run>
+                            <LineBreak></LineBreak>
+                            <Run>综上所述，不实现如下接口的方法：</Run>
+                            <LineBreak></LineBreak>
+                            <Run>- IStorageBookmarkItem的DeleteAsync、MoveAsync、GetParentAsync方法。</Run>
+                            <LineBreak></LineBreak>
+                            <Run>- IStorageBookmarkFolder的CreateFileAsync、CreateFolderAsync方法。</Run>
+                        </TextBlock>
+                    </HeaderedContentControl>
+                </Border>
+                <Border Theme="{DynamicResource CardBorder}">
+                    <HeaderedContentControl Header="可用功能">
+                        <TextBlock>
+                            <Run>[x] 调用系统提供的文件选取。</Run>
+                            <LineBreak></LineBreak>
+                            <Run>[x] 文件与文件夹的选取。</Run>
+                            <LineBreak></LineBreak>
+                            <Run>[x] 文件的保存。</Run>
+                            <LineBreak></LineBreak>
+                            <Run>[] 书签能力。</Run>
+                        </TextBlock>
+                    </HeaderedContentControl>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </HeaderedContentControl>
+</UserControl>

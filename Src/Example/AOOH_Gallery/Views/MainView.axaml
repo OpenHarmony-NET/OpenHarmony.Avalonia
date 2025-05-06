@@ -1,0 +1,80 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:openHarmony="clr-namespace:Avalonia.OpenHarmony;assembly=Avalonia.OpenHarmony"
+             xmlns:views="clr-namespace:AOOH_Gallery.Views"
+             xmlns:views1="clr-namespace:Semi.Avalonia.Demo.Views;assembly=Semi.Avalonia.Demo"
+             xmlns:views2="clr-namespace:Ursa.Demo.Views;assembly=Ursa.Demo"
+             xmlns:viewModels="clr-namespace:Ursa.Demo.ViewModels;assembly=Ursa.Demo"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AOOH_Gallery.Views.MainView"
+             Margin="0,50,0,10">
+    <SplitView
+        Theme="{DynamicResource VerticalSplitView}"
+        PanePlacement="Right"
+        DisplayMode="Overlay"
+        OpenPaneLength="{Binding $parent[UserControl].Bounds.Height,Converter={x:Static views:MainView.GetPaneHeightConverter}}"
+        UseLightDismissOverlayMode="True">
+        <SplitView.Pane>
+            <ListBox
+                Name="ListBox"
+                ItemsSource="{x:Static openHarmony:OHDebugHelper.Logs}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Theme="{DynamicResource CardBorder}">
+                            <TextBlock Text="{Binding Message}" />
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </SplitView.Pane>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TabControl TabStripPlacement="Left">
+
+                <TabItem Header="画廊主页">
+                    <Image
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Source="../Assets/Gallery Home 背景图片.png">
+                    </Image>
+                </TabItem>
+                <TabItem Header="输入法适配">
+                    <views:IMEPage />
+                </TabItem>
+                <TabItem Header="系统字体访问">
+                    <views:SystemFonts />
+                </TabItem>
+                <TabItem Header="用户存储访问">
+                    <views:StorgePage />
+                </TabItem>
+                <TabItem Header="关于Semi与Ursa">
+                    <views:FQA />
+                </TabItem>
+                <TabItem Header="社区项目Semi">
+                    <views1:MainView>
+                        <Control.DataContext>
+                            <views1:MainViewModel></views1:MainViewModel>
+                        </Control.DataContext>
+                    </views1:MainView>
+                </TabItem>
+                <TabItem Header="社区项目Ursa">
+                    <views2:MainView>
+                        <Control.DataContext>
+                            <viewModels:MainViewViewModel></viewModels:MainViewViewModel>
+                        </Control.DataContext>
+                    </views2:MainView>
+                </TabItem>
+            </TabControl>
+            <ToggleButton
+                Grid.Row="1"
+                Content="拉起调试日志面板"
+                HorizontalAlignment="Stretch"
+                IsChecked="{Binding $parent[SplitView].IsPaneOpen,Mode=TwoWay}" />
+        </Grid>
+    </SplitView>
+</UserControl>

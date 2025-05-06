@@ -13,13 +13,13 @@
         <ProjectReference Include="..\..\ThirdParty\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings.csproj"/>
         <ProjectReference Include="..\Avalonia.OpenHarmony\Avalonia.OpenHarmony.csproj"/>
         <ProjectReference Include="..\Example\AvaloniaApp\AvaloniaApp.csproj"/>
-        <ProjectReference Include="..\Example\SandBox\SandBox.csproj"/>
+        <ProjectReference Include="..\Example\AOOH_Gallery\AOOH_Gallery.csproj" />
     </ItemGroup>
     <ItemGroup>
         <RdXmlFile Include="rd.xml"/>
     </ItemGroup>
 
-    <Import Project="../../ThirdParty/PublishAotCross/src/PublishAotCross.targets"/>
+    <Import Project="../../ThirdParty/PublishAotCross/src/OpenHarmony.NET.PublishAotCross.targets"/>
     <Import Project="../../ThirdParty/OpenHarmony.NET.Runtime/runtime.targets"/>
 
     <ItemGroup>
