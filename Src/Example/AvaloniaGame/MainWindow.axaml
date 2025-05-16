@@ -6,6 +6,8 @@
 		mc:Ignorable="d" 
 		d:DesignWidth="800" 
 		d:DesignHeight="450" 
+	    Width="1024"
+	    Height="768"
 		x:Class="AvaloniaGame.MainWindow" 
 		Title="AvaloniaGame">
 	<views:TextureExample/>
