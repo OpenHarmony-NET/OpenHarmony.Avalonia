@@ -8,5 +8,5 @@
 		d:DesignHeight="450" 
 		x:Class="AvaloniaGame.MainWindow" 
 		Title="AvaloniaGame">
-	<views:SilkNetExample/>
+	<views:TextureExample/>
 </Window>

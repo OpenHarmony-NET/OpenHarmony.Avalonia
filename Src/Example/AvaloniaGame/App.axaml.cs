@@ -27,7 +27,7 @@ public class App : Application
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            singleViewPlatform.MainView = new SilkNetExample
+            singleViewPlatform.MainView = new TextureExample
             {
                 DataContext = null
             };

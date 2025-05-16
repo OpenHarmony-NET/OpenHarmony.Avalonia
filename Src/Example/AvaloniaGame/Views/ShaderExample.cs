@@ -12,7 +12,7 @@ using Shader = AvaloniaGame.Gl.Shader;
 
 namespace AvaloniaGame.Views
 {
-    public class SilkNetExample : OpenGlControlBase
+    public class ShaderExample : OpenGlControlBase
     {
         private GL Gl;
         private BufferObject<float> Vbo;
@@ -62,8 +62,9 @@ namespace AvaloniaGame.Views
         }
         private void SitSize()
         {
+            if (Gl == null) return;
             var topLevel = TopLevel.GetTopLevel(this)!;
-            if ( topLevel.PlatformImpl! is TopLevelImpl platform)
+            if ( topLevel.PlatformImpl is TopLevelImpl platform)
             {
                 var size = platform!.Size;
                 if (_pixelSize == size)
@@ -104,7 +105,7 @@ namespace AvaloniaGame.Views
                 Gl.ClearColor(System.Drawing.Color.Firebrick);
                 Gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
                 Gl.Enable(EnableCap.DepthTest);
-                SitSize();
+                
 
                 Ebo.Bind();
                 Vbo.Bind();
@@ -122,7 +123,11 @@ namespace AvaloniaGame.Views
                 Logger.LogError("render", $"{ex.Message}");
             }
         }
-
+        protected override void OnSizeChanged(SizeChangedEventArgs e)
+        {
+            base.OnSizeChanged(e);
+            SitSize();
+        }
 
     }
 }

@@ -175,6 +175,6 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
 
     private AppBuilder CreateAppBuilder()
     {
-        return AppBuilder.Configure<TApp>().UseOpenHarmony();
+        return AppBuilder.Configure<TApp>().UseOpenHarmony().LogToMySink();
     }
 }

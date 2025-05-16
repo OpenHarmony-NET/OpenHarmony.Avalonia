@@ -9,26 +9,26 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PrivateSdkAssemblies Include="$(IlcSdkPath)*.dll"/>
-        <ProjectReference Include="..\..\ThirdParty\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings\OpenHarmony.NDK.Bindings.csproj"/>
-        <ProjectReference Include="..\Avalonia.OpenHarmony\Avalonia.OpenHarmony.csproj"/>
-        <ProjectReference Include="..\Example\AvaloniaApp\AvaloniaApp.csproj"/>
-        <ProjectReference Include="..\Example\AOOH_Gallery\AOOH_Gallery.csproj" />
+        <PrivateSdkAssemblies Include="$(IlcSdkPath)*.dll" />
     </ItemGroup>
     <ItemGroup>
-        <RdXmlFile Include="rd.xml"/>
+        <RdXmlFile Include="rd.xml" />
     </ItemGroup>
 
-    <Import Project="../../ThirdParty/PublishAotCross/src/OpenHarmony.NET.PublishAotCross.targets"/>
-    <Import Project="../../ThirdParty/OpenHarmony.NET.Runtime/runtime.targets"/>
+    <Import Project="../../ThirdParty/PublishAotCross/src/OpenHarmony.NET.PublishAotCross.targets" />
+    <Import Project="../../ThirdParty/OpenHarmony.NET.Runtime/runtime.targets" />
 
     <ItemGroup>
-        <NativeSharedLibrary Include="runtimes/x86_64/*" Condition="'$(RuntimeIdentifier)' == 'linux-musl-x64'"/>
-        <NativeSharedLibrary Include="runtimes/arm64-v8a/*" Condition="'$(RuntimeIdentifier)' == 'linux-musl-arm64'"/>
+        <NativeSharedLibrary Include="runtimes/x86_64/*" Condition="'$(RuntimeIdentifier)' == 'linux-musl-x64'" />
+        <NativeSharedLibrary Include="runtimes/arm64-v8a/*" Condition="'$(RuntimeIdentifier)' == 'linux-musl-arm64'" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Example\AvaloniaGame\AvaloniaGame.csproj" />
     </ItemGroup>
 
     <Target Name="CopyNativeLibs" BeforeTargets="Publish">
-        <Copy SourceFiles="@(NativeSharedLibrary)" DestinationFolder="$(PublishDir)"/>
+        <Copy SourceFiles="@(NativeSharedLibrary)" DestinationFolder="$(PublishDir)" />
     </Target>
 
 </Project>

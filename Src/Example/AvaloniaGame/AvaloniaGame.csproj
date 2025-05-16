@@ -19,6 +19,7 @@
 		<PackageReference Include="Semi.Avalonia.ColorPicker" Version="11.2.1.6" />
 		<PackageReference Include="Semi.Avalonia.DataGrid" Version="11.2.1.6" />
 		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.8" />
+		<PackageReference Include="StbImageSharp" Version="2.30.15" />
 	</ItemGroup>
 	<ItemGroup>
 		<AvaloniaResource Include="Assets\**" />
