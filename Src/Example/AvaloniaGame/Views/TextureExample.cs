@@ -9,7 +9,7 @@ using Avalonia.VisualTree;
 using Silk.NET.OpenGLES;
 using Logger = AvaloniaGame.Gl.Logger;
 using Texture = AvaloniaGame.Gl.Texture;
-
+using Shader = AvaloniaGame.Gl.Shader;
 namespace AvaloniaGame.Views
 {
     public class TextureExample : OpenGlControlBase
@@ -28,7 +28,7 @@ namespace AvaloniaGame.Views
         private DateTime _gameTime = DateTime.Now;
         private DateTime _animation = DateTime.Now;
         private int _current = 0;
-
+        private Shader _shader;
         protected unsafe override void OnOpenGlInit(GlInterface gl)
         {
             base.OnOpenGlInit(gl);
@@ -76,96 +76,7 @@ namespace AvaloniaGame.Views
             fixed (uint* buf = indices)
                 _gl.BufferData(BufferTargetARB.ElementArrayBuffer, (nuint)(indices.Length * sizeof(uint)), buf, BufferUsageARB.StaticDraw);
 
-            // The vertex shader code.
-            const string vertexCode = @"#version 300 es
-        
-        layout (location = 0) in vec3 aPosition;
-
-        // On top of our aPosition attribute, we now create an aTexCoords attribute for our texture coordinates.
-        layout (location = 1) in vec2 aTexCoords;
-
-        // Likewise, we also assign an out attribute to go into the fragment shader.
-        out vec2 frag_texCoords;
-        
-        void main()
-        {
-            gl_Position = vec4(aPosition, 1.0);
-
-            // This basic vertex shader does no additional processing of texture coordinates, so we can pass them
-            // straight to the fragment shader.
-            frag_texCoords = aTexCoords;
-        }";
-
-            // The fragment shader code.
-            const string fragmentCode = @"#version 300 es
-        #ifdef GL_ES
-        precision mediump float;
-        #endif
-        // This in attribute corresponds to the out attribute we defined in the vertex shader.
-        in vec2 frag_texCoords;
-        
-        out vec4 out_color;
-
-        // Now we define a uniform value!
-        // A uniform in OpenGL is a value that can be changed outside of the shader by modifying its value.
-        // A sampler2D contains both a texture and information on how to sample it.
-        // Sampling a texture is basically calculating the color of a pixel on a texture at any given point.
-        uniform sampler2D uTexture;
-        
-        void main()
-        {
-            // We use GLSL's texture function to sample from the texture at the given input texture coordinates.
-            out_color = texture(uTexture, frag_texCoords);
-        }";
-
-            // Create our vertex shader, and give it our vertex shader source code.
-            uint vertexShader = _gl.CreateShader(ShaderType.VertexShader);
-            _gl.ShaderSource(vertexShader, vertexCode);
-
-            // Attempt to compile the shader.
-            _gl.CompileShader(vertexShader);
-
-            // Check to make sure that the shader has successfully compiled.
-            _gl.GetShader(vertexShader, ShaderParameterName.CompileStatus, out int vStatus);
-            if (vStatus != (int)GLEnum.True)
-            {
-                var log = _gl.GetShaderInfoLog(vertexShader);
-                throw new Exception("Vertex shader failed to compile: " + log);
-
-            }
-
-            // Repeat this process for the fragment shader.
-            uint fragmentShader = _gl.CreateShader(ShaderType.FragmentShader);
-            _gl.ShaderSource(fragmentShader, fragmentCode);
-
-            _gl.CompileShader(fragmentShader);
-
-            _gl.GetShader(fragmentShader, ShaderParameterName.CompileStatus, out int fStatus);
-            if (fStatus != (int)GLEnum.True)
-            {
-                var log = _gl.GetShaderInfoLog(fragmentShader);
-                throw new Exception("Fragment shader failed to compile: " + log);
-            }
-
-            // Create our shader program, and attach the vertex & fragment shaders.
-            _program = _gl.CreateProgram();
-
-            _gl.AttachShader(_program, vertexShader);
-            _gl.AttachShader(_program, fragmentShader);
-
-            // Attempt to "link" the program together.
-            _gl.LinkProgram(_program);
-
-            // Similar to shader compilation, check to make sure that the shader program has linked properly.
-            _gl.GetProgram(_program, ProgramPropertyARB.LinkStatus, out int lStatus);
-            if (lStatus != (int)GLEnum.True)
-                throw new Exception("Program failed to link: " + _gl.GetProgramInfoLog(_program));
-
-            // Detach and delete our shaders. Once a program is linked, we no longer need the individual shader objects.
-            _gl.DetachShader(_program, vertexShader);
-            _gl.DetachShader(_program, fragmentShader);
-            _gl.DeleteShader(vertexShader);
-            _gl.DeleteShader(fragmentShader);
+            _shader = new Shader(_gl, "shaders/shader.vert", "shaders/shader.frag");
 
             // Set up our vertex attributes! These tell the vertex array (VAO) how to process the vertex data we defined
             // earlier. Each vertex array contains attributes. 
@@ -228,6 +139,12 @@ namespace AvaloniaGame.Views
         protected override void OnOpenGlDeinit(GlInterface gl)
         {
             base.OnOpenGlDeinit(gl);
+            _shader.Dispose();
+            foreach (var texture in _textures)
+            {
+                texture.Dispose();
+            }
+            _textures = [];
         }
 
         protected override unsafe void OnOpenGlRender(GlInterface gl, int fb)
@@ -240,7 +157,8 @@ namespace AvaloniaGame.Views
 
                 // Bind our VAO, then the program.
                 _gl.BindVertexArray(_vao);
-                _gl.UseProgram(_program);
+                // _gl.UseProgram(_program);
+                _shader.Use();
 
                 _texture.Bind();
                 // Much like our texture creation earlier, we must first set our active texture unit, and then bind the

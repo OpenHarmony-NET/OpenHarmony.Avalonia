@@ -68,12 +68,12 @@ namespace AvaloniaGame.Gl
 
         private uint LoadShader(ShaderType type, string path)
         {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                path = Path.Combine("osx", path);
-            }
             using var fs = new StreamReader(AssetLoader.Open(new Uri($"avares://AvaloniaGame/Assets/{path}")));
             var src = fs.ReadToEnd();
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                src = src.Replace("300 es", "330");
+            }
             uint handle = _gl.CreateShader(type);
             _gl.ShaderSource(handle, src);
             _gl.CompileShader(handle);

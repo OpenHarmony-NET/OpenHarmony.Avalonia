@@ -27,4 +27,8 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Avalonia.OpenHarmony\Avalonia.OpenHarmony.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Assets\osx\shader.frag" />
+	  <UpToDateCheckInput Remove="Assets\osx\shader.vert" />
+	</ItemGroup>
 </Project>
