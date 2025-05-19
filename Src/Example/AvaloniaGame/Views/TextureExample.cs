@@ -45,12 +45,12 @@ namespace AvaloniaGame.Views
             // Texture coordinates are a value between 0-1 (see more later about this) which tell the GPU which part
             // of the texture to use for each vertex.
             float[] vertices =
-            {
-              // aPosition--------   aTexCoords
-                 0.5f,  0.5f, 0.0f,  1.0f, 1-1.0f,
-                 0.5f, -0.5f, 0.0f,  1.0f, 1-0.0f,
-                -0.5f, -0.5f, 0.0f,  0.0f, 1-0.0f,
-                -0.5f,  0.5f, 0.0f,  0.0f, 1-1.0f
+         {
+               // positions         // texture coords
+                1f,  -1f, 0.0f,     1.0f, 1.0f, // top right
+                1f,  1f, 0.0f,      1.0f, 0.0f, // bottom right
+                -1f, 1f, 0.0f,      0.0f, 0.0f, // bottom left
+                -1f, -1f, 0.0f,     0.0f, 1.0f  // top left 
             };
 
             // Create the VBO.
