@@ -29,11 +29,11 @@ namespace AvaloniaGame.Views
         private DateTime _animation = DateTime.Now;
         private int _current = 0;
         private Shader _shader;
-        private GlInterface _glInterface;
+        private double _scale = 1;
+        private PixelSize _windowSize = new PixelSize();
         protected unsafe override void OnOpenGlInit(GlInterface gl)
         {
             base.OnOpenGlInit(gl);
-            _glInterface = gl;
             _gl = GL.GetApi(gl.GetProcAddress);
             Logger.Log("Device", gl.Renderer ?? string.Empty);
             _gl.ClearColor(System.Drawing.Color.CornflowerBlue);
@@ -134,7 +134,7 @@ namespace AvaloniaGame.Views
             _gl.Enable(EnableCap.Blend);
             _gl.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-            SitSize();
+            SetSize();
             _gameTime = DateTime.Now;
         }
 
@@ -161,7 +161,7 @@ namespace AvaloniaGame.Views
                 _gl.BindVertexArray(_vao);
                 // _gl.UseProgram(_program);
                 _shader.Use();
-                _gl.Viewport(0,(int)(Bounds.Height - _texture.Height) / 2,(uint)_texture.Width,(uint)_texture.Height);
+                Viewport(0, (int)(_windowSize.Height - _texture.Height * _scale) / 2, (uint)_texture.Width, (uint)_texture.Height);
                 _texture.Bind();
                 // Much like our texture creation earlier, we must first set our active texture unit, and then bind the
                 // texture to use it during draw!
@@ -186,31 +186,37 @@ namespace AvaloniaGame.Views
                 Logger.LogError("render", $"{ex.Message}");
             }
         }
+
         protected override void OnSizeChanged(SizeChangedEventArgs e)
         {
             base.OnSizeChanged(e);
-            SitSize();
+            SetSize();
         }
-        
-        private void SitSize()
+
+        private void SetSize()
         {
             if (_gl == null) return;
             var topLevel = TopLevel.GetTopLevel(this)!;
             if (topLevel.PlatformImpl is TopLevelImpl platform)
             {
-                var size = platform!.Size;
-                var scale = platform!.Scaling;
-                Logger.Log("resize", $"{size.Width},{size.Height} scaling: ${scale}");
-                _gl.Viewport(0, 0, (uint)(_texture.Width * scale), (uint)(_texture.Height * scale));
+                _windowSize = platform.Size;
+                _scale = platform.Scaling;
+                Logger.Log("resize", $"{_windowSize.Width},{_windowSize.Height} scaling: ${_scale}");
+                _gl.Viewport(0, 0, (uint)_windowSize.Width, (uint)_windowSize.Height);
             }
             else
             {
                 var window = this.GetVisualRoot() as Window;
-                var bounds = new PixelSize((int)Bounds.Width, (int)Bounds.Height);
-                Logger.Log("resize", $"{Bounds.Width},{Bounds.Height}");
-                _gl.Viewport(0, 0, (uint)(Bounds.Width * window!.RenderScaling),
-                    (uint)(Bounds.Height * window!.RenderScaling));
+                _scale = window!.RenderScaling;
+                _windowSize = new PixelSize((int)Bounds.Width, (int)Bounds.Height);
+                Logger.Log("resize", $"{Bounds.Width},{Bounds.Height}  scaling: ${_scale}");
+                _gl.Viewport(0, 0, (uint)Bounds.Width, (uint)Bounds.Height);
             }
+        }
+        
+        private void Viewport(int x, int y,uint width,uint height)
+        {
+            _gl.Viewport(x, y, (uint)(width * _scale), (uint)(height * _scale));
         }
 
     }
