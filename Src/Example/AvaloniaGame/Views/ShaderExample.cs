@@ -42,7 +42,7 @@ namespace AvaloniaGame.Views
             base.OnOpenGlInit(gl);
 
             Gl = GL.GetApi(gl.GetProcAddress);
-            SitSize();
+            SetSize();
             //Instantiating our new abstractions
             Ebo = new BufferObject<uint>(Gl, Indices, BufferTargetARB.ElementArrayBuffer);
             Logger.Log("Ebo", "loaded");
@@ -60,7 +60,7 @@ namespace AvaloniaGame.Views
             Shader = new Shader(Gl, "shader.vert", "shader.frag");
             Logger.Log("shader", "loaded");
         }
-        private void SitSize()
+        private void SetSize()
         {
             if (Gl == null) return;
             var topLevel = TopLevel.GetTopLevel(this)!;
@@ -82,8 +82,7 @@ namespace AvaloniaGame.Views
                 var bounds = new PixelSize((int)Bounds.Width, (int)Bounds.Height);
                 if (_pixelSize == bounds) return;
                 _pixelSize = bounds;
-                Gl.Viewport(0, 0, (uint)(Bounds.Width * window!.RenderScaling),
-                    (uint)(Bounds.Height * window!.RenderScaling));
+                Gl.Viewport(0, 0, (uint)Bounds.Width,(uint)Bounds.Height);
             }
         }
 
@@ -112,7 +111,7 @@ namespace AvaloniaGame.Views
                 Vao.Bind();
                 Shader.Use();
                 Shader.SetUniform("uBlue", (float)Math.Sin(DateTime.Now.Millisecond / 1000f * Math.PI));
-
+                Gl.Viewport(0, 0, (uint)_pixelSize.Width,(uint)_pixelSize.Height);
                 Gl.DrawElements(PrimitiveType.Triangles, (uint)Indices.Length, DrawElementsType.UnsignedInt, null);
                 Logger.Log("render", $"draw {Indices.Length}");
                 Dispatcher.UIThread.Post(RequestNextFrameRendering, DispatcherPriority.Background);
@@ -126,7 +125,7 @@ namespace AvaloniaGame.Views
         protected override void OnSizeChanged(SizeChangedEventArgs e)
         {
             base.OnSizeChanged(e);
-            SitSize();
+            SetSize();
         }
 
     }
