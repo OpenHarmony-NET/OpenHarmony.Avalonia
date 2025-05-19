@@ -12,26 +12,24 @@ using Texture = AvaloniaGame.Gl.Texture;
 using Shader = AvaloniaGame.Gl.Shader;
 namespace AvaloniaGame.Views
 {
-    public class TextureExample : OpenGlControlBase
+    public unsafe class TextureExample : OpenGlControlBase
     {
-        private static GL _gl;
+        private static GL? _gl = null;
 
         private static uint _vao;
         private static uint _vbo;
         private static uint _ebo;
 
-        private static uint _program;
-
-        private Texture _texture;
+        private Texture _texture = null!;
 
         private Texture[] _textures = new Texture[14];
         private DateTime _gameTime = DateTime.Now;
         private DateTime _animation = DateTime.Now;
         private int _current = 0;
-        private Shader _shader;
+        private Shader _shader = null!;
         private double _scale = 1;
         private PixelSize _windowSize = new PixelSize();
-        protected unsafe override void OnOpenGlInit(GlInterface gl)
+        protected override void OnOpenGlInit(GlInterface gl)
         {
             base.OnOpenGlInit(gl);
             _gl = GL.GetApi(gl.GetProcAddress);
@@ -47,13 +45,13 @@ namespace AvaloniaGame.Views
             // Texture coordinates are a value between 0-1 (see more later about this) which tell the GPU which part
             // of the texture to use for each vertex.
             float[] vertices =
-         {
-               // positions         // texture coords
+            [
+                // positions         // texture coords
                 1f,  -1f, 0.0f,     1.0f, 1.0f, // top right
                 1f,  1f, 0.0f,      1.0f, 0.0f, // bottom right
                 -1f, 1f, 0.0f,      0.0f, 0.0f, // bottom left
                 -1f, -1f, 0.0f,     0.0f, 1.0f  // top left 
-            };
+            ];
 
             // Create the VBO.
             _vbo = _gl.GenBuffer();
@@ -65,10 +63,10 @@ namespace AvaloniaGame.Views
 
             // The quad indices data.
             uint[] indices =
-            {
+            [
                 0u, 1u, 3u,
                 1u, 2u, 3u
-            };
+            ];
 
             // Create the EBO.
             _ebo = _gl.GenBuffer();
@@ -121,7 +119,7 @@ namespace AvaloniaGame.Views
             // Generally, OpenGL should automatically initialize all uniform values to their default value (which is
             // almost always 0), however you should get into the practice of initializing all uniform values to a known
             // value, before you use them in your shader.
-            int location = _gl.GetUniformLocation(_program, "uTexture");
+            int location = _gl.GetUniformLocation(_shader.Handle, "uTexture");
             _gl.Uniform1(location, 0);
 
             // Finally a bit of blending!
@@ -155,7 +153,7 @@ namespace AvaloniaGame.Views
             try
             {
                 // Clear the window to the color we set earlier.
-                _gl.Clear(ClearBufferMask.ColorBufferBit);
+                _gl!.Clear(ClearBufferMask.ColorBufferBit);
 
                 // Bind our VAO, then the program.
                 _gl.BindVertexArray(_vao);
@@ -201,7 +199,7 @@ namespace AvaloniaGame.Views
             {
                 _windowSize = platform.Size;
                 _scale = platform.Scaling;
-                Logger.Log("resize", $"{_windowSize.Width},{_windowSize.Height} scaling: ${_scale}");
+                Logger.Log("resize", $"{_windowSize.Width},{_windowSize.Height} scaling:{_scale}");
                 _gl.Viewport(0, 0, (uint)_windowSize.Width, (uint)_windowSize.Height);
             }
             else
@@ -209,14 +207,14 @@ namespace AvaloniaGame.Views
                 var window = this.GetVisualRoot() as Window;
                 _scale = window!.RenderScaling;
                 _windowSize = new PixelSize((int)Bounds.Width, (int)Bounds.Height);
-                Logger.Log("resize", $"{Bounds.Width},{Bounds.Height}  scaling: ${_scale}");
+                Logger.Log("resize", $"{Bounds.Width},{Bounds.Height}  scaling:{_scale}");
                 _gl.Viewport(0, 0, (uint)Bounds.Width, (uint)Bounds.Height);
             }
         }
         
         private void Viewport(int x, int y,uint width,uint height)
         {
-            _gl.Viewport(x, y, (uint)(width * _scale), (uint)(height * _scale));
+            _gl!.Viewport(x, y, (uint)(width * _scale), (uint)(height * _scale));
         }
 
     }
