@@ -1,4 +1,5 @@
-﻿using Avalonia.Platform;
+using Avalonia.Platform;
+
 using PixelFormat = Avalonia.Platform.PixelFormat;
 
 namespace Avalonia.OpenHarmony;

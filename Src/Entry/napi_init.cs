@@ -1,7 +1,8 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
+
 using Avalonia.OpenHarmony;
+
 using OpenHarmony.NDK.Bindings.Native;
 
 namespace Entry;
@@ -13,7 +14,7 @@ public class napi_init
     {
         try
         {
-            var moduleName = "entry";
+            const string moduleName = "entry";
             var moduleNamePtr = Marshal.StringToHGlobalAnsi(moduleName);
             var demoModule = new napi_module
             {
@@ -38,7 +39,6 @@ public class napi_init
         }
     }
 
-
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     public static unsafe napi_value Init(napi_env env, napi_value exports)
     {
@@ -49,6 +49,7 @@ public class napi_init
         var xcomponentNamePtr = Marshal.StringToHGlobalAnsi(xcomponentName);
         if (node_api.napi_get_named_property(env, exports, (sbyte*)xcomponentNamePtr, &exportInstance) ==
             napi_status.napi_ok)
+        {
             if (node_api.napi_unwrap(env, exportInstance, (void**)&nativeXComponent) == napi_status.napi_ok)
             {
                 var p = Marshal.AllocHGlobal(sizeof(OH_NativeXComponent_Callback));
@@ -59,6 +60,7 @@ public class napi_init
                 g_ComponentCallback.DispatchTouchEvent = &XComponentEntry.DispatchTouchEvent;
                 Ace.OH_NativeXComponent_RegisterCallback(nativeXComponent, (OH_NativeXComponent_Callback*)p);
             }
+        }
 
         Marshal.FreeHGlobal(xcomponentNamePtr);
         try
@@ -79,13 +81,18 @@ public class napi_init
             };
 
             napi_property_descriptor Create(sbyte* methodName,
-                delegate*unmanaged[Cdecl]<napi_env, napi_callback_info, napi_value> method)
+                delegate* unmanaged[Cdecl]<napi_env, napi_callback_info, napi_value> method)
             {
                 return new()
                 {
-                    utf8name = methodName, name = default,
-                    method = method, getter = null, setter = null,
-                    value = default, attributes = napi_property_attributes.napi_default, data = null
+                    utf8name = methodName,
+                    name = default,
+                    method = method,
+                    getter = null,
+                    setter = null,
+                    value = default,
+                    attributes = napi_property_attributes.napi_default,
+                    data = null
                 };
             }
 

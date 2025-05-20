@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
+
 using OpenHarmony.NDK.Bindings.Native;
 
 namespace Avalonia.OpenHarmony;

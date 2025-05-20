@@ -1,4 +1,4 @@
-﻿using Avalonia.Input;
+using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Media;
 using Avalonia.OpenGL.Egl;
@@ -11,7 +11,7 @@ namespace Avalonia.OpenHarmony;
 public class OpenHarmonyPlatform
 {
     public static OpenHarmonyPlatformOptions Options = new()
-        { RenderingMode = [OpenHarmonyPlatformRenderingMode.Software] };
+    { RenderingMode = [OpenHarmonyPlatformRenderingMode.Software] };
 
     public static void Initialize()
     {

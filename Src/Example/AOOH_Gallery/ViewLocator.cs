@@ -1,5 +1,7 @@
 using System;
+
 using AOOH_Gallery.ViewModels;
+
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 

@@ -1,8 +1,7 @@
 using System.Linq;
-using Avalonia;
+
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 
 namespace AOOH_Gallery.Views;

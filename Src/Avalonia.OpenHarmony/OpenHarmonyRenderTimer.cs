@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
+
 using Avalonia.Rendering;
 
 namespace Avalonia.OpenHarmony;

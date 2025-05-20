@@ -1,10 +1,9 @@
 using System;
-using System.Linq;
 using System.Reactive.Linq;
+
 using Avalonia.Controls;
-using Avalonia.Controls.Platform;
 using Avalonia.Interactivity;
-using Avalonia.Media;
+
 using ReactiveMarbles.ObservableEvents;
 
 namespace AOOH_Gallery.Views;
