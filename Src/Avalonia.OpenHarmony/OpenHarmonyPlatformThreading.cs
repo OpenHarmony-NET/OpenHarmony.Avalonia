@@ -1,5 +1,6 @@
-﻿using Avalonia.Platform;
+using Avalonia.Platform;
 using Avalonia.Threading;
+
 using OpenHarmony.NDK.Bindings.Native;
 
 namespace Avalonia.OpenHarmony;

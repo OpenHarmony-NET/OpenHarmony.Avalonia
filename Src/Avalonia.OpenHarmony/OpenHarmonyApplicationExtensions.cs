@@ -1,4 +1,4 @@
-﻿namespace Avalonia.OpenHarmony;
+namespace Avalonia.OpenHarmony;
 
 public static class OpenHarmonyApplicationExtensions
 {
@@ -13,7 +13,7 @@ public static class OpenHarmonyApplicationExtensions
     public static AppBuilder UseSoftwareRenderer(this AppBuilder builder)
     {
         AvaloniaLocator.CurrentMutable.Bind<OpenHarmonyPlatformOptions>().ToConstant(new OpenHarmonyPlatformOptions
-            { RenderingMode = [OpenHarmonyPlatformRenderingMode.Software] });
+        { RenderingMode = [OpenHarmonyPlatformRenderingMode.Software] });
         return builder;
     }
 }

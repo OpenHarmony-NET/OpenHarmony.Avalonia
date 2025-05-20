@@ -1,6 +1,7 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Numerics;
 using System.Runtime.InteropServices;
+
 using Avalonia.Controls;
 using Avalonia.Controls.Platform;
 using Avalonia.Input;
@@ -13,7 +14,9 @@ using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using Avalonia.Rendering;
 using Avalonia.Rendering.Composition;
+
 using OpenHarmony.NDK.Bindings.Native;
+
 using Silk.NET.OpenGLES;
 
 namespace Avalonia.OpenHarmony;
@@ -169,7 +172,7 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         if (featureType == typeof(IClipboard)) return _clipboard;
 
         if (featureType == typeof(IInputPane)) return _openHarmonyInputPane;
-        
+
         if (featureType == typeof(IStorageProvider)) return _openHarmonyStorageProvider;
 
         // todo
@@ -272,8 +275,8 @@ out vec2 texCoord;
 
 void main()
 {
-	texCoord = TexCoord;
-	gl_Position = vec4(Position, 1.0f);
+    texCoord = TexCoord;
+    gl_Position = vec4(Position, 1.0f);
 }
 ";
         var FragShaderSource = @"#version 300 es
