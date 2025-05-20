@@ -1,11 +1,8 @@
 ﻿using Silk.NET.OpenGLES;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AvaloniaGame.Gl {
+namespace AvaloniaGame.Gl
+{
     public class GlErrorException : Exception {
         public GlErrorException(string message) : base (message){ }
 

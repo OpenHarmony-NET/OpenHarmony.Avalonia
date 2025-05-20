@@ -1,10 +1,8 @@
+using Avalonia.Platform;
+using Silk.NET.OpenGLES;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using Avalonia.Platform;
-using AvaloniaGame.Gl;
-using OpenHarmony.NDK.Bindings.Native;
-using Silk.NET.OpenGLES;
 
 namespace AvaloniaGame.Gl
 {

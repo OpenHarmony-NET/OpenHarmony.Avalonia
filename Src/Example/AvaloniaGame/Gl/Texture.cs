@@ -1,9 +1,7 @@
-using Silk.NET.OpenGLES;
-using System;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using Avalonia.Platform;
+using Silk.NET.OpenGLES;
 using StbImageSharp;
+using System;
 using PixelFormat = Silk.NET.OpenGLES.PixelFormat;
 
 namespace AvaloniaGame.Gl
