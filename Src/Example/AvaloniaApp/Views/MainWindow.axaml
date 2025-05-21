@@ -9,5 +9,5 @@
         Height="760"
         Width="380"
         Title="AvaloniaApp">
-    <views:MainView />
+    <views:HomePageView />
 </Window>

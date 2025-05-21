@@ -2,11 +2,9 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using AvaloniaGame.Views;
 
-using AvaloniaApp.ViewModels;
-using AvaloniaApp.Views;
-
-namespace AvaloniaApp;
+namespace AvaloniaGame;
 
 public class App : Application
 {
@@ -24,17 +22,17 @@ public class App : Application
             BindingPlugins.DataValidators.RemoveAt(0);
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = null
             };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            singleViewPlatform.MainView = new MainView()
+            singleViewPlatform.MainView = new TextureExample
             {
-                DataContext = new MainViewModel()
+                DataContext = null
             };
         }
-
+        
         base.OnFrameworkInitializationCompleted();
     }
 }
