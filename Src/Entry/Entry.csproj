@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Example\AvaloniaGame\AvaloniaGame.csproj" />
+      <ProjectReference Include="..\Example\AOOH_Gallery\AOOH_Gallery.csproj" />
     </ItemGroup>
 
     <Target Name="CopyNativeLibs" BeforeTargets="Publish">

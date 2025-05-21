@@ -17,7 +17,7 @@ public static unsafe class XComponentEntry
             Ace.OH_NativeXComponent_RegisterOnFrameCallback(component, &OnSurfaceRendered);
             if (XComponents.TryGetValue((nint)component, out var xComponent))
                 return;
-            xComponent = new AvaloniaXComponent<AvaloniaGame.App>((nint)component, (nint)window);
+            xComponent = new AvaloniaXComponent<AOOH_Gallery.App>((nint)component, (nint)window);
             XComponents.Add((nint)component, xComponent);
             xComponent.OnSurfaceCreated();
         }
