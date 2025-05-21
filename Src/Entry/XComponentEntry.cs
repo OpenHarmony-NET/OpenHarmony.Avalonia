@@ -1,6 +1,10 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+
 using Avalonia.OpenHarmony;
+
+using AvaloniaApp;
+
 using OpenHarmony.NDK.Bindings.Native;
 
 namespace Entry;

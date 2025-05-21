@@ -1,4 +1,3 @@
-﻿using AOOH_Gallery;
 using Avalonia;
 using Avalonia.ReactiveUI;
 

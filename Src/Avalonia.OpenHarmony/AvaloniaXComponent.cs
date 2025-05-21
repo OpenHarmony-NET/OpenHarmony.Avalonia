@@ -1,9 +1,12 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
+
 using Avalonia.Controls.Embedding;
 using Avalonia.Input;
 using Avalonia.Input.Raw;
 using Avalonia.OpenGL.Egl;
+
 using OpenHarmony.NDK.Bindings.Native;
+
 using Silk.NET.OpenGLES;
 
 namespace Avalonia.OpenHarmony;

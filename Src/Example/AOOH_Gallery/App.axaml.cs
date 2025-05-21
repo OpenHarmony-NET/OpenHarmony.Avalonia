@@ -1,5 +1,6 @@
 using AOOH_Gallery.ViewModels;
 using AOOH_Gallery.Views;
+
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;

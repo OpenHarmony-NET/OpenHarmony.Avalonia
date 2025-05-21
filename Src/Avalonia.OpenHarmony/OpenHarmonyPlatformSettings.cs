@@ -1,8 +1,8 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
+
 using Avalonia.Platform;
-using Avalonia.Threading;
+
 using OpenHarmony.NDK.Bindings.Native;
 
 namespace Avalonia.OpenHarmony;

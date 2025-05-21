@@ -1,12 +1,14 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
+
 using Avalonia.Media;
 using Avalonia.Media.Fonts;
 using Avalonia.Platform;
 using Avalonia.Skia;
+
 using SkiaSharp;
 
 namespace Avalonia.OpenHarmony;
