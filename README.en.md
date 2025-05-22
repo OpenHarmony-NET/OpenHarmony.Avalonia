@@ -24,7 +24,7 @@ Folder structure:
 
 ## Contributing
 
-We encourage you to participate in the development of OpenHarmony.Avalonia! Please see [contributing guide](CONTRIBUTING.md) for how to proceed.
+We encourage you to participate in the development of OpenHarmony.Avalonia! Please see [contributing guide](CONTRIBUTING.en.md) for how to proceed.
 
 ## Status
 

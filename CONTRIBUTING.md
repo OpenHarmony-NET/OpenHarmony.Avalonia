@@ -1,59 +1,56 @@
-# Contributing Guidelines
+# 贡献指南
 
-The key words "**must**", "**must not**", "**should**", "**should not**" and "**may**" in this document are to be interpreted as described in [RFC 2119](http://www.ietf.org/rfc/rfc2119.txt).
+本文档中的关键词"**必须**"、"**禁止**"、"**应该**"、"**不应该**"和"**可以**"应按照[RFC 2119](http://www.ietf.org/rfc/rfc2119.txt)中的描述进行解释。
 
-## Code of Conduct
+## 行为准则
 
-This project is adopting the [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/) as its Code of Conduct.
+本项目采用[贡献者公约](https://www.contributor-covenant.org/version/2/1/code_of_conduct/)作为行为准则。
 
+## 提交问题
 
-## Opening Issues
+当您发现错误或想到新功能时，**可以**在[问题跟踪器](https://github.com/OpenHarmony-NET/OpenHarmony.Avalonia)上提交问题，**前提是这些问题尚未被报告**。
 
-Whenever you find a bug or think of a new feature, you **may** open an issue on the [issue tracker](https://github.com/OpenHarmony-NET/OpenHarmony.Avalonia) **if they are not already reported**.
+### 报告错误
 
-### Reporting Bugs
+报告错误时，您**应该**包含以下信息：
+- 库的版本或提交哈希
+- 最小(非)工作示例
+- 重现错误的步骤
+- 预期行为
+- 实际行为
+- 截图或日志(如适用)
 
-When reporting a bug, you **should** include the following information:
+您还**必须**提供描述性标题，并**应该**尽可能提供相关信息。
 
-- Version or commit hash of the library
-- A minimum (non) working example
-- Steps to reproduce the bug
-- Expected behavior
-- Actual behavior
-- Screenshots or logs (if applicable)
+### 请求功能
 
-And you **must** also provide a descriptive title and you **should** provide the relevant informations as possible.
+您**应该**确保您请求的功能尚未实现或未被请求过。
 
-### Requesting Features
+您**必须**提供该功能的使用场景和清晰描述。
 
-You **should** ensure that the feature you are requesting is not already implemented or requested.
+您**应该**提供代码片段或截图来说明您的请求。
 
-You **must** provide its use case and a clear description of the feature.
+## 提交拉取请求
 
-You **should** provide code snippets or screenshots to illustrate your request.
+要被接受，您的代码贡献**必须**遵循当前的`editorconfig`规则和项目代码风格。
 
-## Sending Pull Requests
+如果适用，您**应该**为代码编写单元测试。如果您在编写单元测试时遇到困难，我们**可以**提供帮助。
 
-To be accepted, your code contribution **must** following the current `editorconfig` rules and the code style of the project.
+您**应该**从`main`分支创建新分支，并根据您正在处理的功能或错误命名分支。
 
-You **should** writting unit tests for your code, if applicable. If you are meeting difficulties on writing unit tests, we **may** help you.
+您的提交历史**应该**保持整洁和良好格式：
 
-You **should** create a new branch from the `main` branch and name it according to the feature or bug you are working on.
-
-And your commit history **should** be clean and well formatted:
-
-- We are using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) to structure our commit messages.
-    Template:
+- 我们使用[约定式提交](https://www.conventionalcommits.org/en/v1.0.0/)来结构化提交消息
+    模板：
     ```
-    <type>[optional scope]: <description>
-
-    [optional body]
-
-    [optional footer(s)]
+    <类型>[可选范围]: <描述>
+    
+    [可选正文]
+    
+    [可选页脚]
     ```
-    [For more information](https://www.conventionalcommits.org/en/v1.0.0/#specification)
+    [更多信息](https://www.conventionalcommits.org/en/v1.0.0/#specification)
 
+## 版本控制
 
-## Conversions
-
-- We are usiing [Semantic Versioning 2.0](https://semver.org/spec/v2.0.0.html) to version our library.
+- 我们使用[语义化版本2.0](https://semver.org/spec/v2.0.0.html)来为库进行版本控制
