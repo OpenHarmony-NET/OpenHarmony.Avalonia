@@ -10,14 +10,18 @@ import { uri } from '@kit.ArkTS';
 
 const DOMAIN = 0x0000;
 
-function returnNumber() {
-  return 10;
+export async function importNet(moduleName:string) {
+  return await import(moduleName);
 }
+
+avalonia.setRootArkTSEnv();
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
+    avalonia.setUIContext(this.context);
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
+    getContext()
     //将文件选择器的触发器注册到.Net中
     avalonia.setStartDocumentViewPicker((maxSelectNumber: number, defaultFilePathUri: string,
       fileSuffixFilters: Array<string>, selectMode: number, authMod: boolean) => {

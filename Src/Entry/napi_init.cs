@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using AOOH_Gallery;
 using Avalonia.OpenHarmony;
 using OpenHarmony.NDK.Bindings.Native;
 
@@ -63,7 +64,7 @@ public class napi_init
         Marshal.FreeHGlobal(xcomponentNamePtr);
         try
         {
-            const int methodNamesLength = 5;
+            const int methodNamesLength = 7;
             var desc = stackalloc napi_property_descriptor[methodNamesLength]
             {
                 Create((sbyte*)Marshal.StringToHGlobalAnsi("setStartDocumentViewPicker"),
@@ -76,6 +77,10 @@ public class napi_init
                     &OpenHarmonyPlatformSettings.SetColor),
                 Create((sbyte*)Marshal.StringToHGlobalAnsi("setInputPaneHeight"),
                     &OpenHarmonyInputPane.SetInputPaneHeight),
+                Create((sbyte*)Marshal.StringToHGlobalAnsi("setRootArkTSEnv"),
+                    &App.SetRootArkTSEnv),
+                Create((sbyte*)Marshal.StringToHGlobalAnsi("setUIContext"),
+                    &App.SetUIContext),
             };
 
             napi_property_descriptor Create(sbyte* methodName,
@@ -98,6 +103,18 @@ public class napi_init
             Hilog.OH_LOG_ERROR(LogType.LOG_APP, "testTag", $"{e}");
         }
 
+        // try
+        // {
+        //     var runtime = new NodejsRuntime(NativeLibrary.Load("libace_napi.z.so"));
+        //     App.ArkTSRootScope = new JSValueScope(JSValueScopeType.Root, new JSRuntime.napi_env(env.Pointer), runtime);
+        //     OHDebugHelper.Debug(JSValue.Global["importNet"].TypeOf().ToString());
+        //     App.ArkTSRootScope.RuntimeContext.ImportFunction = JSValue.Global["importNet"].CastTo<JSFunction>();
+        // }
+        // catch (Exception e)
+        // {
+        //     OHDebugHelper.Error("链接本App的ArkTS运行时失败。", e);
+        // }
+        
         return exports;
     }
 }

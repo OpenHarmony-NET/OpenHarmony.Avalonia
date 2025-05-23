@@ -43,32 +43,38 @@
                         Source="../Assets/Gallery Home 背景图片.png">
                     </Image>
                 </TabItem>
-                <TabItem Header="输入法适配">
-                    <views:IMEPage />
+                <TabItem Header="沙盒">
+                    <StackPanel>
+                        <TextBox></TextBox>
+                        <Button Content="Test" Click="Button_OnClick"></Button>
+                    </StackPanel>
                 </TabItem>
-                <TabItem Header="系统字体访问">
-                    <views:SystemFonts />
-                </TabItem>
-                <TabItem Header="用户存储访问">
-                    <views:StorgePage />
-                </TabItem>
-                <TabItem Header="关于Semi与Ursa">
-                    <views:FQA />
-                </TabItem>
-                <TabItem Header="社区项目Semi">
-                    <views1:MainView>
-                        <Control.DataContext>
-                            <views1:MainViewModel></views1:MainViewModel>
-                        </Control.DataContext>
-                    </views1:MainView>
-                </TabItem>
-                <TabItem Header="社区项目Ursa">
-                    <views2:MainView>
-                        <Control.DataContext>
-                            <viewModels:MainViewViewModel></viewModels:MainViewViewModel>
-                        </Control.DataContext>
-                    </views2:MainView>
-                </TabItem>
+                <!-- <TabItem Header="输入法适配"> -->
+                <!--     <views:IMEPage /> -->
+                <!-- </TabItem> -->
+                <!-- <TabItem Header="系统字体访问"> -->
+                <!--     <views:SystemFonts /> -->
+                <!-- </TabItem> -->
+                <!-- <TabItem Header="用户存储访问"> -->
+                <!--     <views:StorgePage /> -->
+                <!-- </TabItem> -->
+                <!-- <TabItem Header="关于Semi与Ursa"> -->
+                <!--     <views:FQA /> -->
+                <!-- </TabItem> -->
+                <!-- <TabItem Header="社区项目Semi"> -->
+                <!--     <views1:MainView> -->
+                <!--         <Control.DataContext> -->
+                <!--             <views1:MainViewModel></views1:MainViewModel> -->
+                <!--         </Control.DataContext> -->
+                <!--     </views1:MainView> -->
+                <!-- </TabItem> -->
+                <!-- <TabItem Header="社区项目Ursa"> -->
+                <!--     <views2:MainView> -->
+                <!--         <Control.DataContext> -->
+                <!--             <viewModels:MainViewViewModel></viewModels:MainViewViewModel> -->
+                <!--         </Control.DataContext> -->
+                <!--     </views2:MainView> -->
+                <!-- </TabItem> -->
             </TabControl>
             <ToggleButton
                 Grid.Row="1"
