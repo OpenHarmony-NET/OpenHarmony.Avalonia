@@ -16,6 +16,7 @@
         <PackageReference Include="Avalonia" Version="11.2.8"/>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="all"/>
         <PackageReference Include="Silk.NET.OpenGLES" Version="2.22.0"/>
+        <PackageReference Include="SkiaSharp" Version="2.88.9" />
         <PackageReference Include="StbImageWriteSharp" Version="1.16.7"/>
     </ItemGroup>
 
@@ -27,12 +28,12 @@
         <Reference Include="Avalonia.Skia">
             <HintPath>libs\Avalonia.Skia\Avalonia.Skia.dll</HintPath>
         </Reference>
-        <Reference Include="HarfBuzzSharp">
-            <HintPath>libs\HarfBuzzSharp\HarfBuzzSharp.dll</HintPath>
-        </Reference>
-        <Reference Include="SkiaSharp">
-            <HintPath>libs\SkiaSharp\SkiaSharp.dll</HintPath>
-        </Reference>
+<!--        <Reference Include="HarfBuzzSharp">-->
+<!--            <HintPath>libs\HarfBuzzSharp\HarfBuzzSharp.dll</HintPath>-->
+<!--        </Reference>-->
+<!--        <Reference Include="SkiaSharp">-->
+<!--            <HintPath>libs\SkiaSharp\SkiaSharp.dll</HintPath>-->
+<!--        </Reference>-->
     </ItemGroup>
 
 

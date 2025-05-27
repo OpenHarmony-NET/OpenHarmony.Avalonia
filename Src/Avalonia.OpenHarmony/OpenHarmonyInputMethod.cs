@@ -123,7 +123,7 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
 
     public void SetCursorRect(Rect rect)
     {
-        Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "CSharp", "OpenHarmonyInputMethod.SetCursorRect");
+        OHDebugHelper.Debug($"OpenHarmonyInputMethod.SetCursorRect: {rect}");
     }
 
     public void SetOptions(TextInputOptions options)
