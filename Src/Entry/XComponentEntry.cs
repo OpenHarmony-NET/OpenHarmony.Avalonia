@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 using Avalonia.OpenHarmony;
 
-using AvaloniaApp;
+using AOOH_Gallery;
 
 using OpenHarmony.NDK.Bindings.Native;
 
