@@ -45,8 +45,25 @@ public unsafe class OpenHarmonyInputMethod : ITextInputMethodImpl
         textEditorProxy = input_method.OH_TextEditorProxy_Create();
         input_method.OH_TextEditorProxy_SetGetTextConfigFunc(textEditorProxy,
             &input_method_harmony_get_text_config);
-        input_method.OH_TextEditorProxy_SetInsertTextFunc(textEditorProxy,
-            &input_method_harmony_insert_text);
+        // input_method.OH_TextEditorProxy_SetInsertTextFunc(textEditorProxy,
+        //     &input_method_harmony_insert_text);
+        InsertTextFunc insertTextFunc = (proxy, text, length) =>
+        {
+            if (_client is null) return;
+            try
+            {
+                var insetText = Marshal.PtrToStringUni((IntPtr)text, (int)length);
+                _instance?._topLevelImpl.TextInput(insetText);
+                OHDebugHelper.Debug($"输入法应用插入文本时触发的函数。\n插入文本：{insetText}");
+            }
+            catch (Exception e)
+            {
+                OHDebugHelper.Error("输入法应用插入文本时触发的函数。", e);
+            }
+        };
+        var ptrFunc = Marshal.GetFunctionPointerForDelegate(insertTextFunc);
+        if (ptrFunc == IntPtr.Zero) OHDebugHelper.Debug("Marshal.GetFunctionPointerForDelegate获得的函数指针为零。");
+        input_method.OH_TextEditorProxy_SetInsertTextFuncTest(textEditorProxy, ptrFunc);
         input_method.OH_TextEditorProxy_SetDeleteBackwardFunc(textEditorProxy,
             &input_method_harmony_delete_backward);
         input_method.OH_TextEditorProxy_SetDeleteForwardFunc(textEditorProxy,

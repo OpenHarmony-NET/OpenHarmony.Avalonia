@@ -11,10 +11,14 @@ using OpenHarmony.NDK.Bindings.Native;
 
 namespace AOOH_Gallery;
 
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 public delegate int TestDelegate(int a, sbyte b);
 
-public class App : Application
+public unsafe partial class App : Application
 {
+    [DllImport("libSystem.Native", EntryPoint = "SystemNative_Calloc", ExactSpelling = true)]
+    internal static extern void* Calloc(nuint num, nuint size);
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -37,7 +41,14 @@ public class App : Application
 
         try
         {
-            TestDelegate testDelegate = (i, s) => 1;
+            TestDelegate testDelegate = Test;
+
+            static int Test(int a, sbyte b)
+            {
+                return 0;
+            }
+
+            var ptr = Calloc(16, 1);
             var p = Marshal.GetFunctionPointerForDelegate(testDelegate);
         }
         catch (Exception e)
