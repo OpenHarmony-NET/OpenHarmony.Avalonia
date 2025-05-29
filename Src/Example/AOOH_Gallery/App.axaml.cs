@@ -50,6 +50,8 @@ public unsafe partial class App : Application
 
             var ptr = Calloc(16, 1);
             var p = Marshal.GetFunctionPointerForDelegate(testDelegate);
+            testDelegate = (i, b) => 1;
+            p = Marshal.GetFunctionPointerForDelegate(testDelegate);
         }
         catch (Exception e)
         {
