@@ -8,10 +8,11 @@ using Avalonia.OpenHarmony;
 using Avalonia.Threading;
 
 using ReactiveMarbles.ObservableEvents;
+using Ursa.Controls;
 
 namespace AOOH_Gallery.Views;
 
-public partial class MainView : UserControl
+public partial class MainView : UrsaView
 {
     public static FuncValueConverter<double, double> GetPaneHeightConverter = new(input => input / 3 * 2);
 
