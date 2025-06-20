@@ -4,7 +4,7 @@
 
 ## 使用
 
-请参考[文档](https://openharmony-net.github.io/docs/docs/avalonia/introduction.html)
+请参考[文档](https://openharmony-net.github.io/docs/zh-cn/articles/avalonia/introduction.html)
 
 ## 开发
 
