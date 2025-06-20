@@ -4,7 +4,7 @@ English | [简体中文](README.md)
 
 ## Usage
 
-See [guide](https://openharmony-net.github.io/docs/docs/avalonia/introduction.html)
+See [guide](https://openharmony-net.github.io/docs/en-us/articles/avalonia/introduction.html)
 
 ## Development
 
