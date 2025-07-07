@@ -250,6 +250,11 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
 
         if (result == (int)OH_NATIVEXCOMPONENT_RESULT.SUCCESS)
         {
+            if (mouseEvent.action == OH_NativeXComponent_MouseEventAction.OH_NATIVEXCOMPONENT_MOUSE_NONE)
+            {
+                return; // 如果没有鼠标事件，直接返回
+            }
+
             var type = mouseEvent.action switch
             {
                 OH_NativeXComponent_MouseEventAction.OH_NATIVEXCOMPONENT_MOUSE_MOVE => RawPointerEventType.Move,
