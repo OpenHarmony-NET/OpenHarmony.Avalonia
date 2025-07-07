@@ -87,4 +87,25 @@ public static unsafe class XComponentEntry
             return;
         xComponent.DispatchTouchEvent();
     }
+
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    public static void DispatchMouseEvent(OH_NativeXComponent* component, void* window)
+    {
+        if (XComponents.TryGetValue((nint)component, out var xComponent) == false)
+        {
+            return;
+        }
+        xComponent.DispatchMouseEvent();
+    }
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    public static void DispatchHoverEvent(OH_NativeXComponent* component, bool isHover)
+    {
+        if (XComponents.TryGetValue((nint)component, out var xComponent) == false)
+        {
+            return;
+        }
+        xComponent.DispatchHoverEvent(isHover);
+    }
 }

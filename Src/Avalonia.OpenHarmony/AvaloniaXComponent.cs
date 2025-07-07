@@ -277,6 +277,7 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
     /// <param name="isHover">指示是否处于悬停状态。</param>
     public override unsafe void DispatchHoverEvent(bool isHover)
     {
+        // TODO 
         // Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", $"DispatchHoverEvent isHover:{isHover}");
     }
 
