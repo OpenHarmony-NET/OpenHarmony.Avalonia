@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             xmlns:openHarmony="clr-namespace:Avalonia.OpenHarmony;assembly=Avalonia.OpenHarmony"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AOOH_Gallery.Views.TouchAndMousePage">
+  <HeaderedContentControl
+      Header="触摸和鼠标测试"
+      Theme="{DynamicResource GroupBox}">
+    <Grid RowDefinitions="*, 400">
+      <ScrollViewer>
+        <StackPanel Spacing="10">
+          <Border Theme="{DynamicResource CardBorder}">
+            <Button x:Name="TestButton" Content="TOUCH OR CLICK ME" Width="300" Height="60"/>
+          </Border>
+        </StackPanel>
+      </ScrollViewer>
+
+      
+      <ListBox Grid.Row="1" x:Name="MessageListBox"
+               ItemsSource="{x:Static openHarmony:OHDebugHelper.Logs}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Message}" />
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+      
+    </Grid>
+  </HeaderedContentControl>
+</UserControl>

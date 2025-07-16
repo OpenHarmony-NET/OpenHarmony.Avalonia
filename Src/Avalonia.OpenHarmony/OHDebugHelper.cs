@@ -16,6 +16,11 @@ public static class OHDebugHelper
         AddLog(LogLevel.LOG_DEBUG, log);
     }
 
+    public static void Error(string log)
+    {
+        AddLog(LogLevel.LOG_ERROR, log);
+    }
+
     public static void Error(string title, Exception exception)
     {
         AddLog(LogLevel.LOG_ERROR, $"{title}\n{exception}");

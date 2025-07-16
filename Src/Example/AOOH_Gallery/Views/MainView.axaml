@@ -51,6 +51,9 @@
                 <TabItem Header="系统字体访问">
                     <views:SystemFonts />
                 </TabItem>
+        <TabItem Header="触摸板和鼠标事件">
+          <views:TouchAndMousePage />
+        </TabItem>
                 <TabItem Header="用户存储访问">
                     <views:StorgePage />
                 </TabItem>
