@@ -15,21 +15,26 @@ public partial class TouchAndMousePage : UserControl
         InitializeComponent();
         (OHDebugHelper.Logs as INotifyCollectionChanged).CollectionChanged += PreferencesPage_CollectionChanged;
 
-        TestButton.PointerEntered += TestButton_PointerEntered;
-        TestButton.PointerExited += TestButton_PointerExited;
-        TestButton.PointerMoved += TestButton_PointerMoved;
-        TestButton.PointerPressed += TestButton_PointerPressed;
-        TestButton.PointerReleased += TestButton_PointerReleased;
-        TestButton.Click += TestButton_Click;
+        TestButton.PointerEntered += OnPointerEntered;
+        TestButton.PointerExited += OnPointerExited;
+        TestButton.PointerMoved += OnPointerMoved;
+        TestButton.PointerPressed += OnPointerPressed;
+        TestButton.PointerReleased += OnPointerReleased;
+        TestButton.Click += OnClick;
+
+        TestTextBlock.PointerEntered += OnPointerEntered;
+        TestTextBlock.PointerExited += OnPointerExited;
+        TestTextBlock.PointerMoved += OnPointerMoved;
+        TestTextBlock.PointerPressed += OnPointerPressed;
+        TestTextBlock.PointerReleased += OnPointerReleased;
     }
 
-    private void TestButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void OnClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-
         OHDebugHelper.Info($"Button Clicked");
     }
 
-    private void TestButton_PointerExited(object? sender, PointerEventArgs e)
+    private void OnPointerExited(object? sender, PointerEventArgs e)
     {
         var position = e.GetPosition(this);
         var pointerId = e.Pointer.Id;
@@ -42,7 +47,7 @@ public partial class TouchAndMousePage : UserControl
                            $"LeftButton:{isLeftButtonPressed} Timestamp:{timestamp}");
 
     }
-    private void TestButton_PointerMoved(object? sender, PointerEventArgs e)
+    private void OnPointerMoved(object? sender, PointerEventArgs e)
     {
         var position = e.GetPosition(this);
         var pointerId = e.Pointer.Id;
@@ -55,7 +60,7 @@ public partial class TouchAndMousePage : UserControl
                            $"LeftButton:{isLeftButtonPressed} Timestamp:{timestamp}");
 
     }
-    private void TestButton_PointerPressed(object? sender, PointerPressedEventArgs e)
+    private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
 
         var position = e.GetPosition(this);
@@ -69,7 +74,7 @@ public partial class TouchAndMousePage : UserControl
                            $"LeftButton:{isLeftButtonPressed} Timestamp:{timestamp}");
     }
 
-    private void TestButton_PointerReleased(object? sender, PointerReleasedEventArgs e)
+    private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
         var position = e.GetPosition(this);
         var pointerId = e.Pointer.Id;
@@ -84,7 +89,7 @@ public partial class TouchAndMousePage : UserControl
 
 
 
-    private void TestButton_PointerEntered(object? sender, Avalonia.Input.PointerEventArgs e)
+    private void OnPointerEntered(object? sender, Avalonia.Input.PointerEventArgs e)
     {
         var position = e.GetPosition(this);
         var pointerId = e.Pointer.Id;

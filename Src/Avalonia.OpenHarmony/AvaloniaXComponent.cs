@@ -193,8 +193,18 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
         OH_NativeXComponent_TouchEvent touchEvent = default;
         var result = Ace.OH_NativeXComponent_GetTouchEvent((OH_NativeXComponent*)XComponentHandle, (void*)WindowHandle,
             &touchEvent);
+
         if (result == (int)OH_NATIVEXCOMPONENT_RESULT.SUCCESS)
         {
+            var toolType = OH_NativeXComponent_TouchPointToolType.OH_NATIVEXCOMPONENT_TOOL_TYPE_UNKNOWN;
+            result = Ace.OH_NativeXComponent_GetTouchPointToolType((OH_NativeXComponent*)XComponentHandle, 0, &toolType);
+
+            // 触摸事件目前支持手指触摸
+            if (result != (int)OH_NATIVEXCOMPONENT_RESULT.SUCCESS || toolType != OH_NativeXComponent_TouchPointToolType.OH_NATIVEXCOMPONENT_TOOL_TYPE_FINGER)
+            {
+                return;
+            }
+
             for (uint i = 0; i < touchEvent.numPoints; i++)
             {
                 // 注意：toolType, tiltX, tiltY 当前未被使用。如果将来需要，可以取消注释或实现相关逻辑。
