@@ -1,3 +1,4 @@
+**The project has been archived. For reasons, please refer to: https://github.com/OpenHarmony-NET/.github/blob/main/profile/README_EN.md**
 # OpenHarmony.Avalonia
 
 English | [简体中文](README.md)
