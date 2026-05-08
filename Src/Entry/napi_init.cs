@@ -59,6 +59,14 @@ public class napi_init
                 g_ComponentCallback.OnSurfaceDestroyed = &XComponentEntry.OnSurfaceDestroyed;
                 g_ComponentCallback.DispatchTouchEvent = &XComponentEntry.DispatchTouchEvent;
                 Ace.OH_NativeXComponent_RegisterCallback(nativeXComponent, (OH_NativeXComponent_Callback*)p);
+
+
+                // 注册键盘事件回调
+                var mouseEventCallbackPointer = Marshal.AllocHGlobal(sizeof(OH_NativeXComponent_MouseEvent_Callback));
+                ref var g_ComponentMouseEventCallback = ref Unsafe.AsRef<OH_NativeXComponent_MouseEvent_Callback>((void*)mouseEventCallbackPointer);
+                g_ComponentMouseEventCallback.DispatchMouseEvent = &XComponentEntry.DispatchMouseEvent;
+                g_ComponentMouseEventCallback.DispatchHoverEvent = &XComponentEntry.DispatchHoverEvent;
+                _ = Ace.OH_NativeXComponent_RegisterMouseEventCallback(nativeXComponent, (OH_NativeXComponent_MouseEvent_Callback*)mouseEventCallbackPointer);
             }
         }
 
