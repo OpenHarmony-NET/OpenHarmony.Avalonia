@@ -1,3 +1,5 @@
+**项目已归档，原因参考：https://github.com/OpenHarmony-NET/.github/blob/main/profile/README.md**
+
 # OpenHarmony.Avalonia
 
 简体中文 | [English](README.en.md)
